@@ -3,6 +3,7 @@ from gensim.models.doc2vec import Doc2Vec, TaggedDocument
 import numpy as np
 from typing import Dict, List, Any
 import spacy
+from .dimension_reducer import DimensionReducer
 
 class DocEmbeddingsAnalyzer:
     def __init__(self, vector_size=150, window=12, min_count=2, epochs=35):
@@ -14,15 +15,7 @@ class DocEmbeddingsAnalyzer:
         self.embeddings = {}
         
     def create_embeddings(self, texts: Dict[str, spacy.tokens.Doc]) -> Dict[str, np.ndarray]:
-        """
-        Create document embeddings from preprocessed texts
-        
-        Args:
-            texts: Dictionary of filename -> spaCy Doc
-            
-        Returns:
-            Dictionary of filename -> embedding vector
-        """
+        """Create document embeddings from preprocessed texts"""
         # Prepare documents for Doc2Vec
         documents = [
             TaggedDocument(
@@ -42,7 +35,7 @@ class DocEmbeddingsAnalyzer:
             epochs=self.epochs
         )
         
-        # Generate and store embeddings
+        # Generate embeddings
         self.embeddings = {
             filename: self.model.dv[filename]
             for filename in texts.keys()
@@ -64,28 +57,14 @@ class DocEmbeddingsAnalyzer:
         
         return float(similarity)
     
-    def get_all_similarities(self) -> Dict[str, Dict[str, float]]:
-        """Calculate similarities between all document pairs"""
-        similarities = {}
-        documents = list(self.embeddings.keys())
-        
-        for i, doc1 in enumerate(documents):
-            similarities[doc1] = {}
-            for doc2 in documents[i+1:]:
-                similarity = self.get_document_similarity(doc1, doc2)
-                similarities[doc1][doc2] = similarity
-        
-        return similarities
-    
-    def find_most_similar(self, document: str, n: int = 3) -> List[tuple]:
-        """Find n most similar documents to the given document"""
-        if document not in self.embeddings:
-            raise KeyError(f"Document '{document}' not found in embeddings")
+    def visualize_embeddings(self, method: str = 'both') -> Dict[str, Any]:
+        """Visualize document embeddings using PCA and/or t-SNE"""
+        if not self.embeddings:
+            raise ValueError("No embeddings available. Run create_embeddings first.")
             
-        similarities = []
-        for other_doc in self.embeddings.keys():
-            if other_doc != document:
-                sim = self.get_document_similarity(document, other_doc)
-                similarities.append((other_doc, sim))
+        reducer = DimensionReducer(n_components=2)
         
-        return sorted(similarities, key=lambda x: x[1], reverse=True)[:n]
+        if method.lower() == 'both':
+            return reducer.analyze_both_methods(self.embeddings)
+        else:
+            return reducer.reduce_embeddings(self.embeddings, method)
