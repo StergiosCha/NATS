@@ -1,4 +1,4 @@
-# app/models/word_embeddings.py
+cat > app/models/word_embeddings.py << 'EOL'
 from gensim.models import Word2Vec
 import numpy as np
 from typing import Dict, List, Any
@@ -58,3 +58,8 @@ class WordEmbeddingsAnalyzer:
             return self.model.wv[word]
         except KeyError:
             raise KeyError(f"Word '{word}' not in vocabulary")
+EOL
+
+git add app/models/word_embeddings.py
+git commit -m "feat: implement word embeddings analyzer"
+git push origin main
