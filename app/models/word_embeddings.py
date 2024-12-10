@@ -1,8 +1,9 @@
-cat > app/models/word_embeddings.py << 'EOL'
+# app/models/word_embeddings.py
 from gensim.models import Word2Vec
 import numpy as np
 from typing import Dict, List, Any
 import spacy
+from .dimension_reducer import DimensionReducer
 
 class WordEmbeddingsAnalyzer:
     def __init__(self, vector_size=150, window=12, min_count=2, epochs=35):
@@ -58,8 +59,15 @@ class WordEmbeddingsAnalyzer:
             return self.model.wv[word]
         except KeyError:
             raise KeyError(f"Word '{word}' not in vocabulary")
-EOL
-
-git add app/models/word_embeddings.py
-git commit -m "feat: implement word embeddings analyzer"
-git push origin main
+            
+    def visualize_embeddings(self, method: str = 'both') -> Dict[str, Any]:
+        """Visualize word embeddings using PCA and/or t-SNE"""
+        if not self.embeddings:
+            raise ValueError("No embeddings available. Run create_embeddings first.")
+            
+        reducer = DimensionReducer(n_components=2)
+        
+        if method.lower() == 'both':
+            return reducer.analyze_both_methods(self.embeddings)
+        else:
+            return reducer.reduce_embeddings(self.embeddings, method)
