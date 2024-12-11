@@ -1,7 +1,9 @@
 from flask import Flask, render_template, request, jsonify
 import os
+import spacy
 
 app = Flask(__name__, template_folder='app/templates')
+nlp = spacy.load('el_core_news_md')
 
 @app.route('/')
 def home():
@@ -13,7 +15,11 @@ def upload_files():
         return jsonify({'error': 'No files provided'}), 400
     
     files = request.files.getlist('files')
-    if not files:
-        return jsonify({'error': 'No files selected'}), 400
-        
-    return jsonify({'message': 'Files received successfully'})
+    texts = {}
+    
+    for file in files:
+        if file.filename:
+            text = file.read().decode('utf-8')
+            texts[file.filename] = text
+            
+    return render_template('results.html', files=texts)
