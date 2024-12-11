@@ -1,118 +1,28 @@
-<!-- app/templates/results.html -->
 {% extends "base.html" %}
-
 {% block title %}Analysis Results - NATS{% endblock %}
 
 {% block content %}
 <div class="space-y-8">
-    <!-- Document Embeddings -->
     <div class="bg-white rounded-lg shadow-md p-6">
-        <h2 class="text-xl font-bold mb-4">Document Embeddings</h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-                <h3 class="text-lg font-semibold mb-2">PCA Visualization</h3>
-                <div id="docPcaPlot" class="w-full h-[400px]"></div>
-            </div>
-            <div>
-                <h3 class="text-lg font-semibold mb-2">t-SNE Visualization</h3>
-                <div id="docTsnePlot" class="w-full h-[400px]"></div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Word Embeddings -->
-    <div class="bg-white rounded-lg shadow-md p-6">
-        <h2 class="text-xl font-bold mb-4">Word Embeddings</h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-                <h3 class="text-lg font-semibold mb-2">PCA Visualization</h3>
-                <div id="wordPcaPlot" class="w-full h-[400px]"></div>
-            </div>
-            <div>
-                <h3 class="text-lg font-semibold mb-2">t-SNE Visualization</h3>
-                <div id="wordTsnePlot" class="w-full h-[400px]"></div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Network Analysis -->
-    <div class="bg-white rounded-lg shadow-md p-6">
-        <h2 class="text-xl font-bold mb-4">Network Analysis</h2>
-        <div id="networkPlot" class="w-full h-[600px]"></div>
-    </div>
-
-    <!-- Named Entities -->
-    <div class="bg-white rounded-lg shadow-md p-6">
-        <h2 class="text-xl font-bold mb-4">Named Entities</h2>
+        <h2 class="text-xl font-bold mb-4">Uploaded Files</h2>
         <div class="overflow-x-auto">
             <table class="min-w-full divide-y divide-gray-200">
                 <thead>
                     <tr>
-                        <th class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase">Entity</th>
-                        <th class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase">Type</th>
-                        <th class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase">Context</th>
+                        <th class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase">Filename</th>
+                        <th class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase">Content Preview</th>
                     </tr>
                 </thead>
-                <tbody class="bg-white divide-y divide-gray-200" id="nerResults">
-                    <!-- Results will be populated via JavaScript -->
+                <tbody class="bg-white divide-y divide-gray-200">
+                    {% for filename, content in files.items() %}
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap">{{ filename }}</td>
+                        <td class="px-6 py-4">{{ content[:100] }}...</td>
+                    </tr>
+                    {% endfor %}
                 </tbody>
             </table>
         </div>
     </div>
-
-    <!-- Download Results -->
-    <div class="flex justify-center gap-4">
-        <a href="{{ url_for('text.download_results', result_type='embeddings') }}" 
-           class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700">
-            Download Embeddings
-        </a>
-        <a href="{{ url_for('text.download_results', result_type='network') }}"
-           class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700">
-            Download Network Analysis
-        </a>
-        <a href="{{ url_for('text.download_results', result_type='ner') }}"
-           class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700">
-            Download Named Entities
-        </a>
-    </div>
 </div>
-
-<script>
-// Function to render plots
-function renderPlots(results) {
-    Plotly.newPlot('docPcaPlot', JSON.parse(results.document_embeddings.pca.plot));
-    Plotly.newPlot('docTsnePlot', JSON.parse(results.document_embeddings.tsne.plot));
-    Plotly.newPlot('wordPcaPlot', JSON.parse(results.word_embeddings.pca.plot));
-    Plotly.newPlot('wordTsnePlot', JSON.parse(results.word_embeddings.tsne.plot));
-}
-
-// Function to populate NER results
-function populateNerResults(results) {
-    const tbody = document.getElementById('nerResults');
-    tbody.innerHTML = '';
-    
-    for (const [filename, entities] of Object.entries(results.named_entities)) {
-        for (const entity of entities) {
-            const row = document.createElement('tr');
-            row.innerHTML = `
-                <td class="px-6 py-4 whitespace-nowrap text-sm">${entity.text}</td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm">${entity.label}</td>
-                <td class="px-6 py-4 text-sm">${filename}</td>
-            `;
-            tbody.appendChild(row);
-        }
-    }
-}
-
-// Load and render results
-document.addEventListener('DOMContentLoaded', function() {
-    fetch('/api/text/analyze')
-        .then(response => response.json())
-        .then(results => {
-            renderPlots(results);
-            populateNerResults(results);
-        })
-        .catch(error => console.error('Error loading results:', error));
-});
-</script>
 {% endblock %}
