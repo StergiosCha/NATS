@@ -5,9 +5,9 @@ import spacy
 app = Flask(__name__, template_folder='app/templates')
 app.config['MAX_CONTENT_LENGTH'] = 8 * 1024 * 1024  # Reduce to 8MB
 
-# Load smaller spaCy model
-nlp = spacy.load('el_core_news_sm')  # Use smaller model if available
-# Or disable some components we don't need
+# Use md model since we already have it installed
+nlp = spacy.load('el_core_news_md')  # Use the model we know exists
+# Disable unnecessary components to save memory
 nlp.select_pipes(enable=['ner'])  # Only keep NER
 
 @app.route('/')
