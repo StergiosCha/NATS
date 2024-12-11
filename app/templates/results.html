@@ -3,26 +3,43 @@
 
 {% block content %}
 <div class="space-y-8">
+    <!-- Files and Entities -->
     <div class="bg-white rounded-lg shadow-md p-6">
-        <h2 class="text-xl font-bold mb-4">Uploaded Files</h2>
-        <div class="overflow-x-auto">
-            <table class="min-w-full divide-y divide-gray-200">
-                <thead>
-                    <tr>
-                        <th class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase">Filename</th>
-                        <th class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase">Content Preview</th>
-                    </tr>
-                </thead>
-                <tbody class="bg-white divide-y divide-gray-200">
-                    {% for filename, content in files.items() %}
-                    <tr>
-                        <td class="px-6 py-4 whitespace-nowrap">{{ filename }}</td>
-                        <td class="px-6 py-4">{{ content[:100] }}...</td>
-                    </tr>
+        <h2 class="text-xl font-bold mb-4">Analyzed Files</h2>
+        {% for filename, data in files.items() %}
+        <div class="mb-8 border-b pb-6">
+            <h3 class="text-lg font-semibold mb-2">{{ filename }}</h3>
+            
+            <!-- Text Preview -->
+            <div class="mb-4">
+                <h4 class="text-md font-medium mb-2">Text Preview:</h4>
+                <p class="text-gray-600">{{ data.preview }}</p>
+            </div>
+            
+            <!-- Named Entities -->
+            <div>
+                <h4 class="text-md font-medium mb-2">Named Entities:</h4>
+                <div class="flex flex-wrap gap-2">
+                    {% for entity in data.entities %}
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium
+                               {% if entity.type == 'PERSON' %}
+                                 bg-blue-100 text-blue-800
+                               {% elif entity.type == 'ORG' %}
+                                 bg-green-100 text-green-800
+                               {% elif entity.type == 'LOC' or entity.type == 'GPE' %}
+                                 bg-yellow-100 text-yellow-800
+                               {% elif entity.type == 'DATE' %}
+                                 bg-purple-100 text-purple-800
+                               {% else %}
+                                 bg-gray-100 text-gray-800
+                               {% endif %}">
+                        {{ entity.text }} ({{ entity.type }})
+                    </span>
                     {% endfor %}
-                </tbody>
-            </table>
+                </div>
+            </div>
         </div>
+        {% endfor %}
     </div>
 </div>
 {% endblock %}
