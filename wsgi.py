@@ -1,8 +1,11 @@
 from flask import Flask, render_template, request, jsonify
 import os
+import spacy
 
 app = Flask(__name__, template_folder='app/templates')
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16MB max file size
+
+nlp = spacy.load('el_core_news_md')
 
 @app.route('/')
 def home():
@@ -21,9 +24,18 @@ def upload_files():
             if file and file.filename:
                 try:
                     full_text = file.read().decode('utf-8')
-                    # Create preview text properly
                     preview = full_text[:1000] if len(full_text) > 1000 else full_text
-                    texts[file.filename] = preview
+                    
+                    # Add spaCy processing
+                    doc = nlp(full_text)
+                    
+                    texts[file.filename] = {
+                        'preview': preview,
+                        'entities': [
+                            {'text': ent.text, 'type': ent.label_}
+                            for ent in doc.ents
+                        ]
+                    }
                 except Exception as e:
                     print(f"Error processing {file.filename}: {str(e)}")
                     continue
