@@ -3,9 +3,12 @@ import os
 import spacy
 
 app = Flask(__name__, template_folder='app/templates')
-app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16MB max file size
+app.config['MAX_CONTENT_LENGTH'] = 8 * 1024 * 1024  # Reduce to 8MB
 
-nlp = spacy.load('el_core_news_md')
+# Load smaller spaCy model
+nlp = spacy.load('el_core_news_sm')  # Use smaller model if available
+# Or disable some components we don't need
+nlp.select_pipes(enable=['ner'])  # Only keep NER
 
 @app.route('/')
 def home():
@@ -24,17 +27,17 @@ def upload_files():
             if file and file.filename:
                 try:
                     full_text = file.read().decode('utf-8')
-                    preview = full_text[:1000] if len(full_text) > 1000 else full_text
+                    preview = full_text[:500]  # Reduce preview size
                     
-                    # Add spaCy processing
-                    doc = nlp(full_text)
+                    # Process only first 5000 characters for entities
+                    doc = nlp(full_text[:5000])
                     
                     texts[file.filename] = {
                         'preview': preview,
                         'entities': [
                             {'text': ent.text, 'type': ent.label_}
                             for ent in doc.ents
-                        ]
+                        ][:50]  # Limit number of entities shown
                     }
                 except Exception as e:
                     print(f"Error processing {file.filename}: {str(e)}")
