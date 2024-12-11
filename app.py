@@ -9,3 +9,5 @@ def create_app():
     app.register_blueprint(text_bp, url_prefix='/api/text')
     
     return app
+
+app = create_app()
