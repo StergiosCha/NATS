@@ -1,8 +1,15 @@
 {% extends "base.html" %}
 {% block title %}Upload Texts - NATS{% endblock %}
+
 {% block content %}
 <div class="max-w-2xl mx-auto">
     <h2 class="text-2xl font-bold mb-6">Upload Texts for Analysis</h2>
+    
+    {% if error %}
+    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+        {{ error }}
+    </div>
+    {% endif %}
     
     <div class="bg-white rounded-lg shadow-md p-6">
         <form action="/upload" method="post" enctype="multipart/form-data" class="space-y-4">
@@ -16,6 +23,7 @@
                        accept=".txt"
                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
                        required>
+                <p class="mt-1 text-sm text-gray-500">Maximum file size: 16MB total</p>
             </div>
             
             <div class="flex gap-4">
