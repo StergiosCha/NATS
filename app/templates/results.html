@@ -3,6 +3,13 @@
 
 {% block content %}
 <div class="space-y-8">
+    <!-- Document Embeddings Visualization -->
+    <div class="bg-white rounded-lg shadow-md p-6">
+        <h2 class="text-xl font-bold mb-4">Document Embeddings</h2>
+        <div id="embeddingsPlot" class="w-full h-[400px]"></div>
+    </div>
+
+    <!-- Files Table -->
     <div class="bg-white rounded-lg shadow-md p-6">
         <h2 class="text-xl font-bold mb-4">Uploaded Files</h2>
         <div class="overflow-x-auto">
@@ -14,10 +21,10 @@
                     </tr>
                 </thead>
                 <tbody class="bg-white divide-y divide-gray-200">
-                    {% for filename, content in files.items() %}
+                    {% for filename, data in files.items() %}
                     <tr>
                         <td class="px-6 py-4 whitespace-nowrap">{{ filename }}</td>
-                        <td class="px-6 py-4">{{ content[:100] }}...</td>
+                        <td class="px-6 py-4">{{ data.text[:100] }}...</td>
                     </tr>
                     {% endfor %}
                 </tbody>
@@ -25,4 +32,34 @@
         </div>
     </div>
 </div>
+
+<!-- Plotly for visualizations -->
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const embeddings = {{ embeddings|tojson }};
+    
+    // Create scatter plot
+    const data = [{
+        type: 'scatter',
+        mode: 'markers+text',
+        x: embeddings.map(e => e[0]),
+        y: embeddings.map(e => e[1]),
+        text: Object.keys({{ files|tojson }}),
+        textposition: 'top center',
+        marker: {
+            size: 10,
+            color: 'blue'
+        }
+    }];
+
+    const layout = {
+        title: 'Document Similarity Space',
+        xaxis: { title: 'Dimension 1' },
+        yaxis: { title: 'Dimension 2' }
+    };
+
+    Plotly.newPlot('embeddingsPlot', data, layout);
+});
+</script>
 {% endblock %}
