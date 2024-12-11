@@ -1,14 +1,11 @@
-<!-- app/templates/upload.html -->
 {% extends "base.html" %}
-
 {% block title %}Upload Texts - NATS{% endblock %}
-
 {% block content %}
 <div class="max-w-2xl mx-auto">
     <h2 class="text-2xl font-bold mb-6">Upload Texts for Analysis</h2>
     
     <div class="bg-white rounded-lg shadow-md p-6">
-        <form action="{{ url_for('text.upload_files') }}" method="post" enctype="multipart/form-data" class="space-y-4">
+        <form action="/upload" method="post" enctype="multipart/form-data" class="space-y-4">
             <div>
                 <label class="block text-sm font-medium text-gray-700">
                     Select text files to analyze
