@@ -1,36 +1,28 @@
-from flask import Flask, render_template, request, jsonify
-import os
-import spacy
-from app.models.doc_embeddings import DocEmbeddingsAnalyzer
+{% extends "base.html" %}
+{% block title %}Analysis Results - NATS{% endblock %}
 
-app = Flask(__name__, template_folder='app/templates')
-nlp = spacy.load('el_core_news_md')
-
-@app.route('/')
-def home():
-    return render_template('upload.html')
-
-@app.route('/upload', methods=['POST'])
-def upload_files():
-    if 'files' not in request.files:
-        return jsonify({'error': 'No files provided'}), 400
-    
-    files = request.files.getlist('files')
-    texts = {}
-    
-    # Load and process texts
-    for file in files:
-        if file.filename:
-            text = file.read().decode('utf-8')
-            # Process with spaCy
-            doc = nlp(text)
-            texts[file.filename] = doc
-            
-    # Perform document embeddings analysis
-    doc_analyzer = DocEmbeddingsAnalyzer()
-    doc_embeddings = doc_analyzer.create_embeddings(texts)
-    doc_viz = doc_analyzer.visualize_embeddings('both')
-            
-    return render_template('results.html', 
-                         files=texts, 
-                         doc_viz=doc_viz)
+{% block content %}
+<div class="space-y-8">
+    <div class="bg-white rounded-lg shadow-md p-6">
+        <h2 class="text-xl font-bold mb-4">Uploaded Files</h2>
+        <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead>
+                    <tr>
+                        <th class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase">Filename</th>
+                        <th class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase">Content Preview</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                    {% for filename, content in files.items() %}
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap">{{ filename }}</td>
+                        <td class="px-6 py-4">{{ content[:100] }}...</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
