@@ -22,6 +22,22 @@
                     <span class="text-sm">DATE: {{ entity_types.count('DATE') }}</span>
                 </div>
             </div>
+
+            <!-- Document Similarities -->
+            {% if has_similarities and data.similarities %}
+            <div class="mb-4">
+                <h4 class="text-md font-medium mb-2">Document Similarities:</h4>
+                <div class="flex flex-col gap-1">
+                    {% for other_doc, similarity in data.similarities.items() %}
+                    <div class="flex items-center gap-2">
+                        <span class="text-sm text-gray-600">{{ other_doc }}:</span>
+                        <div class="h-2 bg-blue-200 rounded" style="width: {{ similarity * 100 }}%"></div>
+                        <span class="text-sm text-gray-600">{{ "%.1f"|format(similarity * 100) }}%</span>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
             
             <!-- Text Preview -->
             <div class="mb-4">
