@@ -1,0 +1,14 @@
+# docker-compose.yml
+version: '3.8'
+
+services:
+  web:
+    build: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+    environment:
+      - FLASK_ENV=production
+      - FLASK_APP=app:create_app()
+    command: gunicorn --bind 0.0.0.0:8000 "app:create_app()"
