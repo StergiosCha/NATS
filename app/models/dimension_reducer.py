@@ -1,4 +1,4 @@
-# app/models/dimension_reducer.py
+# app/models/dimension_reducer.py update
 from sklearn.decomposition import PCA
 from sklearn.manifold import TSNE
 import numpy as np
@@ -22,12 +22,18 @@ class DimensionReducer:
         
         # Perform dimension reduction
         if method.lower() == 'pca':
-            reducer = PCA(n_components=self.n_components)
+            reducer = PCA(n_components=min(self.n_components, len(labels)-1))
+            reduced_matrix = reducer.fit_transform(embedding_matrix)
         else:  # t-SNE
-            reducer = TSNE(n_components=self.n_components, perplexity=30, 
-                         n_iter=1000, random_state=42)
-            
-        reduced_matrix = reducer.fit_transform(embedding_matrix)
+            # Adjust perplexity based on number of samples
+            perplexity = min(30, len(labels) - 1)
+            reducer = TSNE(
+                n_components=self.n_components, 
+                perplexity=perplexity,
+                n_iter=1000, 
+                random_state=42
+            )
+            reduced_matrix = reducer.fit_transform(embedding_matrix)
         
         # Create visualization
         fig = px.scatter(
