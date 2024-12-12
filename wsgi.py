@@ -17,7 +17,7 @@ def process_text_safely(text):
     connections = set()
     
     # Only process first 10000 characters for now
-    doc = nlp(text[:10000])
+    doc = nlp(text[:15000])
     
     # Process entities
     for ent in doc.ents:
