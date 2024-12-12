@@ -1,14 +1,11 @@
 from flask import Flask, render_template, request, jsonify
 import os
 import spacy
-from app.models.network_analyzer import NetworkAnalyzer
 
 app = Flask(__name__, template_folder='app/templates')
-app.config['MAX_CONTENT_LENGTH'] = 8 * 1024 * 1024  # 8MB max
+app.config['MAX_CONTENT_LENGTH'] = 4 * 1024 * 1024  # Reduce to 4MB max
 
-nlp = spacy.load('el_core_news_md')
-nlp.select_pipes(enable=['ner'])  # Only keep NER pipe
-network_analyzer = NetworkAnalyzer()
+nlp = spacy.load('el_core_news_md', disable=['tok2vec', 'tagger', 'parser', 'attribute_ruler', 'lemmatizer'])
 
 @app.route('/')
 def home():
@@ -23,22 +20,21 @@ def upload_files():
         files = request.files.getlist('files')
         texts = {}
         
-        # Create static directory if it doesn't exist
         os.makedirs('static/networks', exist_ok=True)
         
         for file in files:
             if file and file.filename:
                 try:
-                    text = file.read().decode('utf-8')
-                    preview = text[:500]  # Short preview
+                    text = file.read().decode('utf-8')[:3000]  # Only first 3000 chars
+                    preview = text[:200]  # Shorter preview
                     
-                    # Create network
-                    result = network_analyzer.create_network(text, 'static/networks')
+                    doc = nlp(text)
+                    entities = [(ent.text, ent.label_) for ent in doc.ents 
+                              if ent.label_ in ['PERSON', 'ORG', 'LOC', 'GPE', 'DATE']]
                     
                     texts[file.filename] = {
                         'preview': preview,
-                        'network_path': result['network_path'],
-                        'entities': result['entities']
+                        'entities': entities
                     }
                 except Exception as e:
                     print(f"Error processing {file.filename}: {str(e)}")
@@ -49,3 +45,6 @@ def upload_files():
     except Exception as e:
         print(f"Upload error: {str(e)}")
         return jsonify({'error': f'Upload failed: {str(e)}'}), 500
+
+if __name__ == '__main__':
+    app.run()
