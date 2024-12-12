@@ -18,7 +18,7 @@ def upload_files():
             return jsonify({'error': 'No files provided'}), 400
         
         files = request.files.getlist('files')
-        texts = {}
+        texts = {}  # Dictionary, not list
         
         os.makedirs('static/networks', exist_ok=True)
         
@@ -29,12 +29,14 @@ def upload_files():
                     preview = text[:200]  # Shorter preview
                     
                     doc = nlp(text)
-                    entities = [(ent.text, ent.label_) for ent in doc.ents 
-                              if ent.label_ in ['PERSON', 'ORG', 'LOC', 'GPE', 'DATE']]
+                    entities_dict = {}  # Create a dictionary instead of list
+                    for ent in doc.ents:
+                        if ent.label_ in ['PERSON', 'ORG', 'LOC', 'GPE', 'DATE']:
+                            entities_dict[ent.text] = ent.label_
                     
                     texts[file.filename] = {
                         'preview': preview,
-                        'entities': entities
+                        'entities': entities_dict  # Pass as dictionary
                     }
                 except Exception as e:
                     print(f"Error processing {file.filename}: {str(e)}")
