@@ -10,6 +10,34 @@ app.config['MAX_CONTENT_LENGTH'] = 4 * 1024 * 1024
 nlp = spacy.load('el_core_news_md', disable=['tagger', 'parser', 'attribute_ruler', 'lemmatizer'])
 nlp.add_pipe('sentencizer')
 
+def process_text_chunks(text, chunk_size=5000):
+    """Process text in chunks and collect all entities and connections"""
+    entities = {}
+    entity_counts = Counter()
+    connections = set()  # Store unique connections
+    
+    # Process text in chunks
+    for i in range(0, len(text), chunk_size):
+        chunk = text[i:i + chunk_size]
+        doc = nlp(chunk)
+        
+        # Process entities in this chunk
+        chunk_entities = {}
+        for ent in doc.ents:
+            if ent.label_ in ['PERSON', 'ORG', 'LOC', 'GPE', 'DATE']:
+                entities[ent.text] = ent.label_
+                chunk_entities[ent.text] = ent.label_
+                entity_counts[ent.label_] += 1
+        
+        # Find connections in sentences
+        for sent in doc.sents:
+            sent_ents = [ent for ent in sent.ents if ent.text in chunk_entities]
+            for i, ent1 in enumerate(sent_ents):
+                for ent2 in sent_ents[i+1:]:
+                    connections.add((ent1.text, ent2.text, sent.text[:100]))
+    
+    return entities, dict(entity_counts), connections
+
 @app.route('/')
 def home():
     return render_template('upload.html')
@@ -29,39 +57,31 @@ def upload_files():
             if file and file.filename:
                 try:
                     text = file.read().decode('utf-8')
-                    doc = nlp(text[:5000])
+                    
+                    # Process entire text in chunks
+                    entities, entity_counts, connections = process_text_chunks(text)
                     
                     # Create network
                     net = Network(height='500px', width='100%', bgcolor='#222222', font_color='white')
                     
-                    # Process entities and add nodes
-                    entities = {}
-                    entity_counts = Counter()
+                    # Add nodes
+                    for entity, label in entities.items():
+                        color = {
+                            'PERSON': '#ffff44',  # Yellow
+                            'ORG': '#4444ff',     # Blue
+                            'LOC': '#44ff44',     # Green
+                            'GPE': '#44ff44',     # Green
+                            'DATE': '#ff44ff'     # Purple
+                        }.get(label, '#ffffff')
+                        
+                        net.add_node(entity, 
+                                   label=entity,
+                                   color=color,
+                                   title=f"Type: {label}")
                     
-                    for ent in doc.ents:
-                        if ent.label_ in ['PERSON', 'ORG', 'LOC', 'GPE', 'DATE']:
-                            entities[ent.text] = ent.label_
-                            entity_counts[ent.label_] += 1
-                            
-                            color = {
-                                'PERSON': '#ffff44',  # Yellow
-                                'ORG': '#4444ff',     # Blue
-                                'LOC': '#44ff44',     # Green
-                                'GPE': '#44ff44',     # Green
-                                'DATE': '#ff44ff'     # Purple
-                            }.get(ent.label_, '#ffffff')
-                            
-                            net.add_node(ent.text, 
-                                       label=ent.text,
-                                       color=color,
-                                       title=f"Type: {ent.label_}")
-                    
-                    # Add edges between entities in same sentence
-                    for sent in doc.sents:
-                        sent_ents = [ent for ent in sent.ents if ent.label_ in entities]
-                        for i, ent1 in enumerate(sent_ents):
-                            for ent2 in sent_ents[i+1:]:
-                                net.add_edge(ent1.text, ent2.text, title=sent.text[:100])
+                    # Add all connections
+                    for ent1, ent2, context in connections:
+                        net.add_edge(ent1, ent2, title=context)
                     
                     # Save network
                     network_filename = f'networks/network_{len(texts)}.html'
@@ -71,7 +91,7 @@ def upload_files():
                         'preview': text[:200],
                         'entities': entities,
                         'network_path': network_filename,
-                        'entity_counts': dict(entity_counts)  # Add entity counts
+                        'entity_counts': entity_counts
                     }
                     
                 except Exception as e:
