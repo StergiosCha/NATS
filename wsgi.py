@@ -2,11 +2,25 @@ from flask import Flask, render_template, request, jsonify
 import os
 import spacy
 from pyvis.network import Network
+from collections import defaultdict
 
 app = Flask(__name__, template_folder='app/templates')
-app.config['MAX_CONTENT_LENGTH'] = 4 * 1024 * 1024  # Reduce to 4MB max
+app.config['MAX_CONTENT_LENGTH'] = 4 * 1024 * 1024
 
 nlp = spacy.load('el_core_news_md', disable=['tok2vec', 'tagger', 'parser', 'attribute_ruler', 'lemmatizer'])
+
+def process_text_in_chunks(text, chunk_size=3000):
+    """Process text in chunks to handle large texts"""
+    entities_dict = defaultdict(set)
+    chunks = [text[i:i + chunk_size] for i in range(0, len(text), chunk_size)]
+    
+    for chunk in chunks:
+        doc = nlp(chunk)
+        for ent in doc.ents:
+            if ent.label_ in ['PERSON', 'ORG', 'LOC', 'GPE', 'DATE']:
+                entities_dict[ent.label_].add(ent.text)
+    
+    return entities_dict
 
 @app.route('/')
 def home():
@@ -21,38 +35,54 @@ def upload_files():
         files = request.files.getlist('files')
         texts = {}
         
-        # Create static/networks directory if it doesn't exist
         os.makedirs('static/networks', exist_ok=True)
         
         for file in files:
             if file and file.filename:
                 try:
-                    text = file.read().decode('utf-8')[:3000]
-                    preview = text[:200]
+                    full_text = file.read().decode('utf-8')
+                    preview = full_text[:200]
                     
-                    doc = nlp(text)
-                    entities_dict = {}
+                    # Process entire text in chunks
+                    entities_by_type = process_text_in_chunks(full_text)
                     
                     # Create network
                     net = Network(height='500px', width='100%', bgcolor='#222222', font_color='white')
                     
-                    # Add entities to both dictionary and network
-                    for ent in doc.ents:
-                        if ent.label_ in ['PERSON', 'ORG', 'LOC', 'GPE', 'DATE']:
-                            entities_dict[ent.text] = ent.label_
-                            net.add_node(ent.text, 
-                                       label=ent.text,
-                                       color='#44ff44' if ent.label_ in ['LOC', 'GPE'] else '#ffff44',
-                                       title=f"Type: {ent.label_}")
+                    # Color scheme for entity types
+                    colors = {
+                        'PERSON': '#ffff44',  # Yellow
+                        'ORG': '#4444ff',     # Blue
+                        'LOC': '#44ff44',     # Green
+                        'GPE': '#44ff44',     # Green
+                        'DATE': '#ff44ff'      # Purple
+                    }
+                    
+                    # Add all entities to network
+                    entities_dict = {}
+                    for ent_type, entities in entities_by_type.items():
+                        for entity in entities:
+                            entities_dict[entity] = ent_type
+                            net.add_node(entity,
+                                       label=entity,
+                                       color=colors[ent_type],
+                                       title=f"Type: {ent_type}")
+                            
+                            # Connect entities of same type
+                            for other_entity in entities:
+                                if entity != other_entity:
+                                    net.add_edge(entity, other_entity, color='rgba(255,255,255,0.2)')
                     
                     # Save network file
                     network_filename = f'networks/network_{len(texts)}.html'
                     net.save_graph(f'static/{network_filename}')
                     
+                    # Store results
                     texts[file.filename] = {
                         'preview': preview,
                         'entities': entities_dict,
-                        'network_path': network_filename
+                        'network_path': network_filename,
+                        'entity_counts': {label: len(ents) for label, ents in entities_by_type.items()}
                     }
                 except Exception as e:
                     print(f"Error processing {file.filename}: {str(e)}")
