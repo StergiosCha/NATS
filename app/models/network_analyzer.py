@@ -1,5 +1,4 @@
-# Open app/models/network_analyzer.py and add this content:
-cat > app/models/network_analyzer.py << 'EOL'
+
 import spacy
 import networkx as nx
 from pyvis.network import Network
