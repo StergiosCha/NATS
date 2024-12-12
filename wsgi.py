@@ -1,14 +1,13 @@
 from flask import Flask, render_template, request, jsonify
 import os
 import spacy
-from sklearn.metrics.pairwise import cosine_similarity
-import numpy as np
+from app.models.network_analyzer import NetworkAnalyzer
 
 app = Flask(__name__, template_folder='app/templates')
 app.config['MAX_CONTENT_LENGTH'] = 8 * 1024 * 1024  # 8MB max
 
 nlp = spacy.load('el_core_news_md')
-nlp.select_pipes(enable=['ner', 'trf_wordpiecer', 'trf_tok2vec'])
+network_analyzer = NetworkAnalyzer()
 
 @app.route('/')
 def home():
@@ -24,22 +23,28 @@ def upload_files():
         texts = {}
         docs = {}
         
-        # Process files
+        os.makedirs('static/networks', exist_ok=True)
+        
         for file in files:
             if file and file.filename:
                 try:
                     full_text = file.read().decode('utf-8')
                     preview = full_text[:500]
-                    
                     doc = nlp(full_text[:5000])
                     docs[file.filename] = doc
+                    
+                    # Create network
+                    network_result = network_analyzer.create_network(full_text, 'static/networks')
                     
                     texts[file.filename] = {
                         'preview': preview,
                         'entities': [
                             {'text': ent.text, 'type': ent.label_}
                             for ent in doc.ents
-                        ][:50]
+                        ][:50],
+                        'network_path': network_result['network_path'],
+                        'certain_entities': network_result['certain_entities'],
+                        'uncertain_entities': network_result['uncertain_entities']
                     }
                 except Exception as e:
                     print(f"Error processing {file.filename}: {str(e)}")
@@ -64,6 +69,3 @@ def upload_files():
     except Exception as e:
         print(f"Upload error: {str(e)}")
         return jsonify({'error': f'Upload failed: {str(e)}'}), 500
-
-if __name__ == '__main__':
-    app.run()
