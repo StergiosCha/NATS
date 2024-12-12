@@ -1,53 +1,38 @@
-from flask import Flask, render_template, request, jsonify
-import os
-import spacy
-from pyvis.network import Network
-from collections import Counter
-
-app = Flask(__name__, template_folder='app/templates')
-app.config['MAX_CONTENT_LENGTH'] = 4 * 1024 * 1024
-
-nlp = spacy.load('el_core_news_md', disable=['tagger', 'parser', 'attribute_ruler', 'lemmatizer'])
-nlp.add_pipe('sentencizer')
-
 def process_text_safely(text):
     """Process text with minimal memory usage"""
     entities = {}
     entity_counts = Counter()
     connections = set()
+    sentence_context = {}  # Store contexts for connections
     
-    # Only process first 10000 characters for now
     doc = nlp(text[:35000])
+    
+    # Track entity frequencies
+    entity_frequency = Counter()
     
     # Process entities
     for ent in doc.ents:
         if ent.label_ in ['PERSON', 'ORG', 'LOC', 'GPE', 'DATE']:
             entities[ent.text] = ent.label_
             entity_counts[ent.label_] += 1
+            entity_frequency[ent.text] += 1
     
-    # Find connections
+    # Find connections with context
     for sent in doc.sents:
         sent_ents = [ent for ent in sent.ents if ent.label_ in ['PERSON', 'ORG', 'LOC', 'GPE', 'DATE']]
         for i, ent1 in enumerate(sent_ents):
             for ent2 in sent_ents[i+1:]:
-                connections.add((ent1.text, ent2.text))
+                connection = (ent1.text, ent2.text)
+                connections.add(connection)
+                # Store sentence context for this connection
+                sentence_context[connection] = sent.text
     
-    return entities, dict(entity_counts), connections
-
-@app.route('/')
-def home():
-    return render_template('upload.html')
+    return entities, dict(entity_counts), connections, sentence_context, entity_frequency
 
 @app.route('/upload', methods=['POST'])
 def upload_files():
     try:
-        if 'files' not in request.files:
-            return jsonify({'error': 'No files provided'}), 400
-        
-        files = request.files.getlist('files')
-        texts = {}
-        
-        os.makedirs('static/networks', exist_ok=True)
+        # ... (keep existing file handling code)
         
         for file in files:
             if file and file.filename:
@@ -55,13 +40,37 @@ def upload_files():
                     text = file.read().decode('utf-8')
                     
                     # Process text
-                    entities, entity_counts, connections = process_text_safely(text)
+                    entities, entity_counts, connections, sentence_context, entity_frequency = process_text_safely(text)
                     
-                    # Create network
+                    # Create network with physics settings
                     net = Network(height='500px', width='100%', bgcolor='#222222', font_color='white')
                     
-                    # Add nodes with colors
+                    # Configure physics for better layout
+                    net.set_options("""
+                    {
+                      "physics": {
+                        "barnesHut": {
+                          "gravitationalConstant": -2000,
+                          "centralGravity": 0.3,
+                          "springLength": 200,
+                          "springConstant": 0.04
+                        },
+                        "minVelocity": 0.75
+                      }
+                    }
+                    """)
+                    
+                    # Calculate node sizes based on frequency
+                    max_freq = max(entity_frequency.values()) if entity_frequency else 1
+                    min_size = 20
+                    max_size = 50
+                    
+                    # Add nodes with dynamic sizes
                     for entity, label in entities.items():
+                        # Calculate node size
+                        freq = entity_frequency[entity]
+                        size = min_size + (max_size - min_size) * (freq / max_freq)
+                        
                         color = '#ffffff'  # default white
                         if label == 'PERSON':
                             color = '#ffff44'  # yellow
@@ -75,11 +84,13 @@ def upload_files():
                         net.add_node(entity, 
                                    label=entity,
                                    color=color,
-                                   title=f"Type: {label}")
+                                   size=size,
+                                   title=f"Type: {label}\nFrequency: {freq}")
                     
-                    # Add edges
-                    for ent1, ent2 in connections:
-                        net.add_edge(ent1, ent2)
+                    # Add edges with context tooltips
+                    for (ent1, ent2) in connections:
+                        context = sentence_context.get((ent1, ent2), "")
+                        net.add_edge(ent1, ent2, title=context[:100] + "...")
                     
                     # Save network
                     network_filename = f'networks/network_{len(texts)}.html'
@@ -95,12 +106,9 @@ def upload_files():
                 except Exception as e:
                     print(f"Error processing {file.filename}: {str(e)}")
                     continue
-        
+                    
         return render_template('results.html', files=texts)
-    
+        
     except Exception as e:
         print(f"Upload error: {str(e)}")
         return jsonify({'error': f'Upload failed: {str(e)}'}), 500
-
-if __name__ == '__main__':
-    app.run()
