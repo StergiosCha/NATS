@@ -124,8 +124,4 @@ class NetworkAnalyzer:
             'network_path': network_path,
             'csv_path': csv_path
         }
-EOL
 
-git add app/models/network_analyzer.py
-git commit -m "feat: implement network analyzer"
-git push origin main
