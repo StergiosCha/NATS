@@ -2,13 +2,13 @@ from flask import Flask, render_template, request, jsonify
 import os
 import spacy
 from pyvis.network import Network
+from collections import Counter
 
 app = Flask(__name__, template_folder='app/templates')
 app.config['MAX_CONTENT_LENGTH'] = 4 * 1024 * 1024
 
-# Load spaCy and add sentencizer
 nlp = spacy.load('el_core_news_md', disable=['tagger', 'parser', 'attribute_ruler', 'lemmatizer'])
-nlp.add_pipe('sentencizer')  # Add this line to fix the error
+nlp.add_pipe('sentencizer')
 
 @app.route('/')
 def home():
@@ -36,9 +36,13 @@ def upload_files():
                     
                     # Process entities and add nodes
                     entities = {}
+                    entity_counts = Counter()
+                    
                     for ent in doc.ents:
                         if ent.label_ in ['PERSON', 'ORG', 'LOC', 'GPE', 'DATE']:
                             entities[ent.text] = ent.label_
+                            entity_counts[ent.label_] += 1
+                            
                             color = {
                                 'PERSON': '#ffff44',  # Yellow
                                 'ORG': '#4444ff',     # Blue
@@ -66,7 +70,8 @@ def upload_files():
                     texts[file.filename] = {
                         'preview': text[:200],
                         'entities': entities,
-                        'network_path': network_filename
+                        'network_path': network_filename,
+                        'entity_counts': dict(entity_counts)  # Add entity counts
                     }
                     
                 except Exception as e:
