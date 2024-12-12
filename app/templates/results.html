@@ -1,6 +1,5 @@
 {% extends "base.html" %}
 {% block title %}Analysis Results - NATS{% endblock %}
-
 {% block content %}
 <div class="space-y-8">
     <!-- Files and Entities -->
@@ -11,28 +10,41 @@
             <h3 class="text-lg font-semibold mb-2">{{ filename }}</h3>
             
             <!-- Entity Stats -->
-            <div class="mb-4">
+            <div class="mb-4 bg-gray-50 p-4 rounded-lg">
                 <h4 class="text-md font-medium mb-2">Entity Statistics:</h4>
-                <p class="text-gray-600">Total Entities Found: {{ data.entities|length }}</p>
-                <div class="flex gap-4 mt-2">
+                <p class="text-gray-600 mb-2">Total Entities Found: {{ data.entities|length }}</p>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
                     {% set entity_types = data.entities|map(attribute='type')|list %}
-                    <span class="text-sm">PERSON: {{ entity_types.count('PERSON') }}</span>
-                    <span class="text-sm">LOC: {{ entity_types.count('LOC') }}</span>
-                    <span class="text-sm">ORG: {{ entity_types.count('ORG') }}</span>
-                    <span class="text-sm">DATE: {{ entity_types.count('DATE') }}</span>
+                    <div class="bg-blue-50 p-3 rounded-lg text-center">
+                        <span class="text-sm font-medium text-blue-800">PERSON: {{ entity_types.count('PERSON') }}</span>
+                    </div>
+                    <div class="bg-yellow-50 p-3 rounded-lg text-center">
+                        <span class="text-sm font-medium text-yellow-800">LOC: {{ entity_types.count('LOC') }}</span>
+                    </div>
+                    <div class="bg-green-50 p-3 rounded-lg text-center">
+                        <span class="text-sm font-medium text-green-800">ORG: {{ entity_types.count('ORG') }}</span>
+                    </div>
+                    <div class="bg-purple-50 p-3 rounded-lg text-center">
+                        <span class="text-sm font-medium text-purple-800">DATE: {{ entity_types.count('DATE') }}</span>
+                    </div>
                 </div>
             </div>
 
             <!-- Document Similarities -->
             {% if has_similarities and data.similarities %}
-            <div class="mb-4">
+            <div class="mb-4 bg-gray-50 p-4 rounded-lg">
                 <h4 class="text-md font-medium mb-2">Document Similarities:</h4>
-                <div class="flex flex-col gap-1">
+                <div class="space-y-3">
                     {% for other_doc, similarity in data.similarities.items() %}
-                    <div class="flex items-center gap-2">
-                        <span class="text-sm text-gray-600">{{ other_doc }}:</span>
-                        <div class="h-2 bg-blue-200 rounded" style="width: {{ similarity * 100 }}%"></div>
-                        <span class="text-sm text-gray-600">{{ "%.1f"|format(similarity * 100) }}%</span>
+                    <div class="relative">
+                        <div class="flex justify-between mb-1">
+                            <span class="text-sm font-medium text-gray-700">{{ other_doc }}</span>
+                            <span class="text-sm font-medium text-blue-600">{{ "%.1f"|format(similarity * 100) }}%</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2.5">
+                            <div class="bg-blue-600 h-2.5 rounded-full transition-all duration-300" 
+                                 style="width: {{ similarity * 100 }}%"></div>
+                        </div>
                     </div>
                     {% endfor %}
                 </div>
@@ -40,13 +52,13 @@
             {% endif %}
             
             <!-- Text Preview -->
-            <div class="mb-4">
+            <div class="mb-4 bg-gray-50 p-4 rounded-lg">
                 <h4 class="text-md font-medium mb-2">Text Preview:</h4>
                 <p class="text-gray-600">{{ data.preview }}</p>
             </div>
             
             <!-- Named Entities -->
-            <div>
+            <div class="bg-gray-50 p-4 rounded-lg">
                 <h4 class="text-md font-medium mb-2">Named Entities:</h4>
                 <div class="flex flex-wrap gap-2">
                     {% for entity in data.entities %}
