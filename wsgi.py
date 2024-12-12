@@ -6,7 +6,9 @@ from pyvis.network import Network
 app = Flask(__name__, template_folder='app/templates')
 app.config['MAX_CONTENT_LENGTH'] = 4 * 1024 * 1024
 
+# Load spaCy and add sentencizer
 nlp = spacy.load('el_core_news_md', disable=['tagger', 'parser', 'attribute_ruler', 'lemmatizer'])
+nlp.add_pipe('sentencizer')  # Add this line to fix the error
 
 @app.route('/')
 def home():
@@ -21,7 +23,6 @@ def upload_files():
         files = request.files.getlist('files')
         texts = {}
         
-        # Ensure directory exists
         os.makedirs('static/networks', exist_ok=True)
         
         for file in files:
@@ -31,21 +32,41 @@ def upload_files():
                     doc = nlp(text[:5000])
                     
                     # Create network
-                    net = Network(height='500px', width='100%')
+                    net = Network(height='500px', width='100%', bgcolor='#222222', font_color='white')
                     
-                    # Process entities
+                    # Process entities and add nodes
+                    entities = {}
                     for ent in doc.ents:
                         if ent.label_ in ['PERSON', 'ORG', 'LOC', 'GPE', 'DATE']:
+                            entities[ent.text] = ent.label_
+                            color = {
+                                'PERSON': '#ffff44',  # Yellow
+                                'ORG': '#4444ff',     # Blue
+                                'LOC': '#44ff44',     # Green
+                                'GPE': '#44ff44',     # Green
+                                'DATE': '#ff44ff'     # Purple
+                            }.get(ent.label_, '#ffffff')
+                            
                             net.add_node(ent.text, 
-                                       title=ent.label_)
+                                       label=ent.text,
+                                       color=color,
+                                       title=f"Type: {ent.label_}")
+                    
+                    # Add edges between entities in same sentence
+                    for sent in doc.sents:
+                        sent_ents = [ent for ent in sent.ents if ent.label_ in entities]
+                        for i, ent1 in enumerate(sent_ents):
+                            for ent2 in sent_ents[i+1:]:
+                                net.add_edge(ent1.text, ent2.text, title=sent.text[:100])
                     
                     # Save network
-                    net_file = f'network_{len(texts)}.html'
-                    net.save_graph(f'static/networks/{net_file}')
+                    network_filename = f'networks/network_{len(texts)}.html'
+                    net.save_graph(f'static/{network_filename}')
                     
                     texts[file.filename] = {
                         'preview': text[:200],
-                        'network_file': f'networks/{net_file}'
+                        'entities': entities,
+                        'network_path': network_filename
                     }
                     
                 except Exception as e:
