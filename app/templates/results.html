@@ -1,37 +1,51 @@
-<!-- Add this section after the Entity Stats section -->
-<!-- Network Visualization -->
-<div class="mb-4 bg-gray-50 p-4 rounded-lg">
-    <h4 class="text-md font-medium mb-2">Entity Network:</h4>
-    <iframe src="{{ data.network_path }}" 
-            class="w-full h-[600px] border-0 rounded-lg shadow-sm">
-    </iframe>
-</div>
+{% extends "base.html" %}
+{% block title %}Analysis Results - NATS{% endblock %}
 
-<!-- Entity Certainty -->
-<div class="mb-4 bg-gray-50 p-4 rounded-lg">
-    <h4 class="text-md font-medium mb-2">Entity Certainty:</h4>
-    
-    <!-- Certain Entities -->
-    <div class="mb-4">
-        <h5 class="text-sm font-medium text-green-800 mb-2">Verified Entities:</h5>
-        <div class="flex flex-wrap gap-2">
-            {% for entity, type in data.certain_entities %}
-            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                {{ entity }} ({{ type }})
-            </span>
-            {% endfor %}
+{% block content %}
+<div class="space-y-8">
+    {% for filename, data in files.items() %}
+    <div class="bg-white rounded-lg shadow-md p-6">
+        <h2 class="text-xl font-bold mb-4">{{ filename }}</h2>
+        
+        <!-- Text Preview -->
+        <div class="mb-4 bg-gray-50 p-4 rounded-lg">
+            <h3 class="text-lg font-medium mb-2">Text Preview:</h3>
+            <p class="text-gray-600">{{ data.preview }}</p>
+        </div>
+        
+        <!-- Entity Network -->
+        <div class="mb-4">
+            <h3 class="text-lg font-medium mb-2">Entity Network:</h3>
+            <div class="bg-gray-50 rounded-lg overflow-hidden">
+                <iframe src="{{ url_for('static', filename=data.network_path) }}"
+                        class="w-full h-[600px] border-0">
+                </iframe>
+            </div>
+        </div>
+
+        <!-- Entity List -->
+        <div class="bg-gray-50 p-4 rounded-lg">
+            <h3 class="text-lg font-medium mb-2">Entities Found:</h3>
+            <div class="flex flex-wrap gap-2">
+                {% for entity, type in data.entities.items() %}
+                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium
+                           {% if type == 'PERSON' %}
+                             bg-blue-100 text-blue-800
+                           {% elif type == 'ORG' %}
+                             bg-green-100 text-green-800
+                           {% elif type == 'LOC' or type == 'GPE' %}
+                             bg-yellow-100 text-yellow-800
+                           {% elif type == 'DATE' %}
+                             bg-purple-100 text-purple-800
+                           {% else %}
+                             bg-gray-100 text-gray-800
+                           {% endif %}">
+                    {{ entity }} ({{ type }})
+                </span>
+                {% endfor %}
+            </div>
         </div>
     </div>
-    
-    <!-- Uncertain Entities -->
-    <div>
-        <h5 class="text-sm font-medium text-yellow-800 mb-2">Unverified Entities:</h5>
-        <div class="flex flex-wrap gap-2">
-            {% for entity, type in data.uncertain_entities %}
-            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
-                {{ entity }} ({{ type }})
-            </span>
-            {% endfor %}
-        </div>
-    </div>
+    {% endfor %}
 </div>
+{% endblock %}
