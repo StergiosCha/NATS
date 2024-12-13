@@ -1,69 +1,68 @@
+# app/templates/upload.html
 {% extends "base.html" %}
 {% block title %}Upload Texts - NATS{% endblock %}
 
 {% block content %}
 <div class="max-w-2xl mx-auto">
-    <h2 class="text-2xl font-bold mb-6">Upload Texts for Analysis</h2>
-    
-    <div class="bg-white rounded-lg shadow-md p-6">
-        <form action="/upload" method="post" enctype="multipart/form-data" class="space-y-4">
-            <!-- Analysis Type Selection -->
-            <div>
-                <label class="block text-sm font-medium text-gray-700 mb-2">
-                    Select Analysis Type
-                </label>
-                <select name="analysis_type" 
-                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm">
-                    <option value="NER">Named Entity Recognition Network</option>
-                    <option value="Doc2Vec">Document Embeddings</option>
-                    <option value="Word2Vec">Word Embeddings</option>
-                </select>
-            </div>
-            
-            <!-- Reduction Type Selection (for embeddings) -->
-            <div id="reduction_options" class="hidden">
-                <label class="block text-sm font-medium text-gray-700 mb-2">
-                    Select Dimension Reduction
-                </label>
-                <select name="reduction_type" 
-                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm">
-                    <option value="PCA">PCA</option>
-                    <option value="TSNE">t-SNE</option>
-                </select>
-            </div>
+   <h2 class="text-2xl font-bold mb-6">Upload Texts for Analysis</h2>
+   
+   <div class="bg-white rounded-lg shadow-md p-6">
+       <form action="/upload" method="post" enctype="multipart/form-data" class="space-y-4">
+           <!-- Analysis Type Selection -->
+           <div>
+               <label class="block text-sm font-medium text-gray-700 mb-2">
+                   Select Analysis Type
+               </label>
+               <select name="analysis_type" 
+                       class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm">
+                   <option value="NER">Named Entity Recognition Network</option>
+                   <option value="Doc2Vec">Document Embeddings</option>
+               </select>
+           </div>
+           
+           <!-- Reduction Type Selection (for Doc2Vec) -->
+           <div id="reduction_options" class="hidden">
+               <label class="block text-sm font-medium text-gray-700 mb-2">
+                   Dimension Reduction Method
+               </label>
+               <select name="reduction_type" 
+                       class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm">
+                   <option value="pca">PCA</option>
+                   <option value="tsne">t-SNE</option>
+               </select>
+           </div>
 
-            <!-- File Upload -->
-            <div>
-                <label class="block text-sm font-medium text-gray-700">
-                    Upload Text Files
-                </label>
-                <input type="file" 
-                       name="files" 
-                       multiple 
-                       accept=".txt"
-                       class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
-                       required>
-                <p class="mt-1 text-sm text-gray-500">Upload one or more .txt files</p>
-            </div>
-            
-            <div class="flex gap-4">
-                <button type="submit" 
-                        class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700">
-                    Analyze
-                </button>
-            </div>
-        </form>
-    </div>
+           <!-- File Upload -->
+           <div>
+               <label class="block text-sm font-medium text-gray-700">
+                   Upload Text Files
+               </label>
+               <input type="file" 
+                      name="files" 
+                      multiple 
+                      accept=".txt"
+                      class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
+                      required>
+           </div>
+           
+           <div class="flex gap-4">
+               <button type="submit" 
+                       class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700">
+                   Analyze
+               </button>
+           </div>
+       </form>
+   </div>
 </div>
 
 <script>
 document.querySelector('select[name="analysis_type"]').addEventListener('change', function() {
-    const reductionOptions = document.getElementById('reduction_options');
-    if (this.value === 'Doc2Vec' || this.value === 'Word2Vec') {
-        reductionOptions.classList.remove('hidden');
-    } else {
-        reductionOptions.classList.add('hidden');
-    }
+   const reductionOptions = document.getElementById('reduction_options');
+   if (this.value === 'Doc2Vec') {
+       reductionOptions.classList.remove('hidden');
+   } else {
+       reductionOptions.classList.add('hidden');
+   }
 });
 </script>
 {% endblock %}
