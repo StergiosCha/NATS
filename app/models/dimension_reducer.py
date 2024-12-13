@@ -1,44 +1,41 @@
-# app/models/dimension_reducer.py update
 from sklearn.decomposition import PCA
 from sklearn.manifold import TSNE
 import numpy as np
 import plotly.express as px
-from typing import Dict, List, Union, Any
+from typing import Dict, Any
 
 class DimensionReducer:
     def __init__(self, n_components: int = 2):
         self.n_components = n_components
         
-    def reduce_embeddings(self, 
+    def reduce_dimensions(self, 
                          embeddings: Dict[str, np.ndarray], 
                          method: str = 'pca'
                          ) -> Dict[str, Any]:
-        """
-        Reduce embeddings (either word or document) to lower dimensions
-        """
-        # Convert embeddings to matrix
+        """Reduce dimensions of embeddings"""
+        # Prepare data
         labels = list(embeddings.keys())
         embedding_matrix = np.array([embeddings[label] for label in labels])
         
-        # Perform dimension reduction
+        # Choose reducer
         if method.lower() == 'pca':
             reducer = PCA(n_components=min(self.n_components, len(labels)-1))
-            reduced_matrix = reducer.fit_transform(embedding_matrix)
         else:  # t-SNE
-            # Adjust perplexity based on number of samples
-            perplexity = min(30, len(labels) - 1)
+            perplexity = min(30, max(5, len(labels) // 5))
             reducer = TSNE(
-                n_components=self.n_components, 
+                n_components=self.n_components,
                 perplexity=perplexity,
-                n_iter=1000, 
+                n_iter=250,
                 random_state=42
             )
-            reduced_matrix = reducer.fit_transform(embedding_matrix)
+        
+        # Reduce dimensions
+        reduced = reducer.fit_transform(embedding_matrix)
         
         # Create visualization
         fig = px.scatter(
-            x=reduced_matrix[:, 0],
-            y=reduced_matrix[:, 1],
+            x=reduced[:, 0],
+            y=reduced[:, 1],
             text=labels,
             title=f'{method.upper()} Visualization'
         )
@@ -48,21 +45,15 @@ class DimensionReducer:
             marker=dict(size=10)
         )
         
-        # Get explained variance ratio for PCA
-        explained_variance = None
-        if method.lower() == 'pca':
-            explained_variance = reducer.explained_variance_ratio_.tolist()
-        
         return {
-            'coordinates': reduced_matrix,
+            'coordinates': reduced.tolist(),
             'labels': labels,
-            'plot': fig.to_json(),
-            'explained_variance': explained_variance
+            'plot': fig.to_json()
         }
     
-    def analyze_both_methods(self, embeddings: Dict[str, np.ndarray]) -> Dict[str, Dict]:
-        """Run both PCA and t-SNE analysis"""
+    def analyze_both(self, embeddings: Dict[str, np.ndarray]) -> Dict[str, Dict]:
+        """Run both PCA and t-SNE"""
         return {
-            'pca': self.reduce_embeddings(embeddings, 'pca'),
-            'tsne': self.reduce_embeddings(embeddings, 'tsne')
+            'pca': self.reduce_dimensions(embeddings, 'pca'),
+            'tsne': self.reduce_dimensions(embeddings, 'tsne')
         }
