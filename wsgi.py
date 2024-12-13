@@ -1,38 +1,17 @@
 from flask import Flask, render_template, request, jsonify
 import os
 import spacy
-from pyvis.network import Network
-from collections import Counter
+from app.models.ner_analyzer import NERAnalyzer
+from app.models.doc_embeddings import DocEmbeddingsAnalyzer
+from app.models.word_embeddings import WordEmbeddingsAnalyzer
 
 app = Flask(__name__, template_folder='app/templates')
-app.config['MAX_CONTENT_LENGTH'] = 4 * 1024 * 1024
+app.config['MAX_CONTENT_LENGTH'] = 4 * 1024 * 1024  # 4MB max
 
-nlp = spacy.load('el_core_news_md', disable=['tagger', 'parser', 'attribute_ruler', 'lemmatizer'])
-nlp.add_pipe('sentencizer')
-
-def process_text_safely(text):
-    """Process text with minimal memory usage"""
-    entities = {}
-    entity_counts = Counter()
-    connections = set()
-    
-    # Only process first 10000 characters for now
-    doc = nlp(text[:35000])
-    
-    # Process entities
-    for ent in doc.ents:
-        if ent.label_ in ['PERSON', 'ORG', 'LOC', 'GPE', 'DATE']:
-            entities[ent.text] = ent.label_
-            entity_counts[ent.label_] += 1
-    
-    # Find connections
-    for sent in doc.sents:
-        sent_ents = [ent for ent in sent.ents if ent.label_ in ['PERSON', 'ORG', 'LOC', 'GPE', 'DATE']]
-        for i, ent1 in enumerate(sent_ents):
-            for ent2 in sent_ents[i+1:]:
-                connections.add((ent1.text, ent2.text))
-    
-    return entities, dict(entity_counts), connections
+# Initialize analyzers
+ner_analyzer = NERAnalyzer()
+doc_analyzer = DocEmbeddingsAnalyzer()
+word_analyzer = WordEmbeddingsAnalyzer()
 
 @app.route('/')
 def home():
@@ -44,59 +23,32 @@ def upload_files():
         if 'files' not in request.files:
             return jsonify({'error': 'No files provided'}), 400
         
+        analysis_type = request.form.get('analysis_type', 'NER')
         files = request.files.getlist('files')
         texts = {}
         
-        os.makedirs('static/networks', exist_ok=True)
-        
+        # Process files based on analysis type
         for file in files:
             if file and file.filename:
                 try:
                     text = file.read().decode('utf-8')
                     
-                    # Process text
-                    entities, entity_counts, connections = process_text_safely(text)
+                    if analysis_type == 'NER':
+                        result = ner_analyzer.process_text(text, 'app/static/networks')
+                    elif analysis_type == 'Doc2Vec':
+                        result = doc_analyzer.analyze_text(text)
+                    else:  # Word2Vec
+                        result = word_analyzer.analyze_text(text)
                     
-                    # Create network
-                    net = Network(height='500px', width='100%', bgcolor='#222222', font_color='white')
-                    
-                    # Add nodes with colors
-                    for entity, label in entities.items():
-                        color = '#ffffff'  # default white
-                        if label == 'PERSON':
-                            color = '#ffff44'  # yellow
-                        elif label == 'ORG':
-                            color = '#4444ff'  # blue
-                        elif label in ['LOC', 'GPE']:
-                            color = '#44ff44'  # green
-                        elif label == 'DATE':
-                            color = '#ff44ff'  # purple
-                            
-                        net.add_node(entity, 
-                                   label=entity,
-                                   color=color,
-                                   title=f"Type: {label}")
-                    
-                    # Add edges
-                    for ent1, ent2 in connections:
-                        net.add_edge(ent1, ent2)
-                    
-                    # Save network
-                    network_filename = f'networks/network_{len(texts)}.html'
-                    net.save_graph(f'static/{network_filename}')
-                    
-                    texts[file.filename] = {
-                        'preview': text[:200],
-                        'entities': entities,
-                        'network_path': network_filename,
-                        'entity_counts': entity_counts
-                    }
+                    texts[file.filename] = result
                     
                 except Exception as e:
                     print(f"Error processing {file.filename}: {str(e)}")
                     continue
-        
-        return render_template('results.html', files=texts)
+                
+        return render_template('results.html', 
+                             files=texts, 
+                             analysis_type=analysis_type)
     
     except Exception as e:
         print(f"Upload error: {str(e)}")
