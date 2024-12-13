@@ -1,120 +1,63 @@
-# Open app/models/ner_analyzer.py and add this content:
-cat > app/models/ner_analyzer.py << 'EOL'
 import spacy
+from pyvis.network import Network
 from collections import Counter
-from typing import Dict, List, Any
-import plotly.graph_objects as go
-from plotly.subplots import make_subplots
+from typing import Dict, Any
+import os
 
 class NERAnalyzer:
-   def __init__(self):
-       self.entity_types = {
-           'PERSON': 'People, including fictional',
-           'LOC': 'Locations, countries, cities',
-           'ORG': 'Organizations, companies, institutions',
-           'GPE': 'Geopolitical entities, countries, cities',
-           'DATE': 'Dates or periods',
-           'EVENT': 'Named events',
-           'WORK_OF_ART': 'Titles of books, songs, etc.'
-       }
-       self.entities = {}
-       
-   def analyze_text(self, doc: spacy.tokens.Doc, filename: str) -> Dict[str, List[Dict]]:
-       """Analyze a single text document for named entities"""
-       text_entities = []
-       
-       for ent in doc.ents:
-           if ent.label_ in self.entity_types:
-               text_entities.append({
-                   'text': ent.text,
-                   'label': ent.label_,
-                   'start_char': ent.start_char,
-                   'end_char': ent.end_char,
-                   'description': self.entity_types[ent.label_]
-               })
-       
-       self.entities[filename] = text_entities
-       return self.entities
-
-   def analyze_texts(self, texts: Dict[str, spacy.tokens.Doc]) -> Dict[str, List[Dict]]:
-       """Analyze multiple texts for named entities"""
-       for filename, doc in texts.items():
-           self.analyze_text(doc, filename)
-       return self.entities
-
-   def get_entity_counts(self) -> Dict[str, Dict[str, int]]:
-       """Get counts of each entity type per document"""
-       counts = {}
-       for filename, entities in self.entities.items():
-           type_counts = Counter(entity['label'] for entity in entities)
-           counts[filename] = dict(type_counts)
-       return counts
-
-   def get_entity_distribution(self) -> Dict[str, int]:
-       """Get overall distribution of entity types"""
-       all_types = Counter()
-       for entities in self.entities.values():
-           all_types.update(entity['label'] for entity in entities)
-       return dict(all_types)
-
-   def create_visualization(self) -> str:
-       """Create interactive visualization of entity distributions"""
-       entity_counts = self.get_entity_counts()
-       entity_dist = self.get_entity_distribution()
-       
-       # Create figure with subplots
-       fig = make_subplots(
-           rows=2, cols=1,
-           subplot_titles=('Entity Distribution Across All Texts', 
-                         'Entity Distribution by Document'),
-           heights=[0.4, 0.6]
-       )
-       
-       # Add overall distribution bar chart
-       fig.add_trace(
-           go.Bar(
-               x=list(entity_dist.keys()),
-               y=list(entity_dist.values()),
-               name='Total Entities'
-           ),
-           row=1, col=1
-       )
-       
-       # Add per-document stacked bar chart
-       for ent_type in self.entity_types:
-           y_values = [counts.get(ent_type, 0) for counts in entity_counts.values()]
-           fig.add_trace(
-               go.Bar(
-                   name=ent_type,
-                   x=list(entity_counts.keys()),
-                   y=y_values
-               ),
-               row=2, col=1
-           )
-       
-       fig.update_layout(
-           title_text='Named Entity Analysis',
-           barmode='stack',
-           height=800,
-           showlegend=True
-       )
-       
-       return fig.to_json()
-
-   def get_entity_context(self, entity_type: str = None) -> Dict[str, List[Dict]]:
-       """Get contexts for entities, optionally filtered by type"""
-       contexts = {}
-       for filename, entities in self.entities.items():
-           if entity_type:
-               filtered = [e for e in entities if e['label'] == entity_type]
-           else:
-               filtered = entities
-               
-           contexts[filename] = filtered
-           
-       return contexts
-EOL
-
-git add app/models/ner_analyzer.py
-git commit -m "feat: implement ner analyzer"
-git push origin main
+    def __init__(self):
+        self.nlp = spacy.load('el_core_news_md', disable=['tagger', 'parser', 'attribute_ruler', 'lemmatizer'])
+        self.nlp.add_pipe('sentencizer')
+        
+        self.entity_colors = {
+            'PERSON': '#ffff44',  # Yellow
+            'ORG': '#4444ff',     # Blue
+            'LOC': '#44ff44',     # Green
+            'GPE': '#44ff44',     # Green
+            'DATE': '#ff44ff'     # Purple
+        }
+    
+    def process_text(self, text: str, output_dir: str) -> Dict[str, Any]:
+        """Process text and create entity network"""
+        # Process text in smaller chunk
+        doc = self.nlp(text[:10000])
+        
+        # Track entities
+        entities = {}
+        entity_counts = Counter()
+        connections = set()
+        
+        # Process entities
+        for ent in doc.ents:
+            if ent.label_ in self.entity_colors:
+                entities[ent.text] = ent.label_
+                entity_counts[ent.label_] += 1
+        
+        # Create network
+        net = Network(height='500px', width='100%', bgcolor='#222222', font_color='white')
+        
+        # Add nodes
+        for entity, label in entities.items():
+            net.add_node(entity, 
+                        label=entity,
+                        color=self.entity_colors.get(label, '#ffffff'),
+                        title=f"Type: {label}")
+        
+        # Find connections in sentences
+        for sent in doc.sents:
+            sent_ents = [ent for ent in sent.ents if ent.label_ in self.entity_colors]
+            for i, ent1 in enumerate(sent_ents):
+                for ent2 in sent_ents[i+1:]:
+                    connections.add((ent1.text, ent2.text))
+                    net.add_edge(ent1.text, ent2.text, title=sent.text[:100])
+        
+        # Save network
+        os.makedirs(output_dir, exist_ok=True)
+        network_path = os.path.join(output_dir, f'network_{len(os.listdir(output_dir))}.html')
+        net.save_graph(network_path)
+        
+        return {
+            'entities': entities,
+            'entity_counts': dict(entity_counts),
+            'network_path': os.path.basename(network_path)
+        }
