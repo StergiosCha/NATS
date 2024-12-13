@@ -1,43 +1,40 @@
 # app/models/doc_embeddings.py
 from gensim.models.doc2vec import Doc2Vec, TaggedDocument
 import numpy as np
-from typing import Dict, Any
+from sklearn.decomposition import PCA
+from sklearn.manifold import TSNE
+import plotly.express as px
 import spacy
-from app.models.dimension_reducer import DimensionReducer
+from typing import Dict, Any
 
-class DocEmbeddingsAnalyzer:
-    def __init__(self, vector_size=100, window=5, min_count=2, epochs=20):
-        self.vector_size = vector_size
-        self.window = window
-        self.min_count = min_count
-        self.epochs = epochs
+class DocEmbeddingAnalyzer:
+    def __init__(self):
         self.nlp = spacy.load('el_core_news_md', disable=['tagger', 'parser', 'attribute_ruler', 'lemmatizer'])
-        self.dimension_reducer = DimensionReducer()
+        self.vector_size = 50  # Keep dimensions small
         
-    def analyze_text(self, text: str) -> Dict[str, Any]:
-        """Analyze text using Doc2Vec and dimension reduction"""
-        # Process text
-        doc = self.nlp(text[:10000])  # Limit for memory
+    def analyze_doc(self, text: str, reduction_type: str = 'pca') -> Dict[str, Any]:
+        # Process first part of text
+        doc = self.nlp(text[:5000])
         
         # Prepare document for Doc2Vec
-        documents = [TaggedDocument(words=[token.text for token in doc], tags=['text'])]
+        document = TaggedDocument(words=[token.text for token in doc], tags=['doc'])
         
-        # Train Doc2Vec model
-        model = Doc2Vec(documents,
-                       vector_size=self.vector_size,
-                       window=self.window,
-                       min_count=self.min_count,
-                       workers=4,
-                       epochs=self.epochs)
+        # Train Doc2Vec (minimal parameters)
+        model = Doc2Vec([document], vector_size=self.vector_size, min_count=1, epochs=20)
         
-        # Get document embedding
-        embedding = {'text': model.dv['text']}
+        # Get document vector
+        doc_vector = model.dv['doc']
         
-        # Reduce dimensions and create visualizations
-        visualizations = self.dimension_reducer.analyze_both(embedding)
+        # Create visualization
+        if reduction_type == 'pca':
+            reducer = PCA(n_components=2)
+        else:
+            reducer = TSNE(n_components=2, perplexity=5)
+            
+        # Add plot
+        fig = px.scatter(x=[doc_vector[0]], y=[doc_vector[1]])
         
         return {
-            'pca_plot': visualizations['pca']['plot'],
-            'tsne_plot': visualizations['tsne']['plot'],
-            'embedding': embedding['text'].tolist()
+            'embedding': doc_vector.tolist(),
+            'plot': fig.to_json()
         }
