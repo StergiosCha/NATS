@@ -42,9 +42,6 @@ def upload_files():
                 except Exception as e:
                     print(f"Error processing {file.filename}: {str(e)}")
         
-        if len(documents) < 2:
-            return jsonify({'error': 'Need at least 2 documents for analysis'}), 400
-        
         # Train Doc2Vec on all documents
         model = Doc2Vec(documents, vector_size=20, min_count=1, epochs=10)
         
@@ -64,8 +61,6 @@ def upload_files():
                         text=filenames,
                         title=f"Document Embeddings ({reduction_type.upper()})")
         
-        fig.update_traces(textposition='top center')
-        
         # Store results
         texts = {
             'all_docs': {
@@ -73,11 +68,11 @@ def upload_files():
                 'reduction_type': reduction_type
             }
         }
-                
+        
         return render_template('results.html', 
                              files=texts, 
                              analysis_type=analysis_type)
-    
+        
     except Exception as e:
         print(f"Upload error: {str(e)}")
         return jsonify({'error': f'Upload failed: {str(e)}'}), 500
