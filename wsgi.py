@@ -1,15 +1,17 @@
+# wsgi.py
 from flask import Flask, render_template, request, jsonify
 import os
 import spacy
-from app.models.ner_analyzer import NERAnalyzer
-from app.models.doc_embeddings import DocEmbeddingAnalyzer
+from gensim.models.doc2vec import Doc2Vec, TaggedDocument
+import numpy as np
+from sklearn.decomposition import PCA
+import plotly.express as px
 
 app = Flask(__name__, template_folder='app/templates')
 app.config['MAX_CONTENT_LENGTH'] = 2 * 1024 * 1024
 
-# Initialize analyzers
-ner_analyzer = NERAnalyzer()
-doc_analyzer = DocEmbeddingAnalyzer()
+# Load spaCy with minimal components
+nlp = spacy.load('el_core_news_md', disable=['tagger', 'parser', 'attribute_ruler', 'lemmatizer'])
 
 @app.route('/')
 def home():
@@ -21,35 +23,42 @@ def upload_files():
         if 'files' not in request.files:
             return jsonify({'error': 'No files provided'}), 400
         
-        analysis_type = request.form.get('analysis_type', 'NER')
-        reduction_type = request.form.get('reduction_type', 'pca')
         files = request.files.getlist('files')
+        analysis_type = request.form.get('analysis_type', 'NER')
         texts = {}
-        
-        os.makedirs('app/static/networks', exist_ok=True)
         
         for file in files:
             if file and file.filename:
                 try:
-                    text = file.read().decode('utf-8')
+                    text = file.read().decode('utf-8')[:3000]  # Very limited text size
+                    doc = nlp(text)
                     
-                    if analysis_type == 'NER':
-                        result = ner_analyzer.process_text(text, 'app/static/networks')
-                    else:  # Doc2Vec
-                        result = doc_analyzer.analyze_doc(text, reduction_type)
+                    # For Doc2Vec analysis
+                    document = TaggedDocument(words=[token.text for token in doc], tags=[file.filename])
+                    model = Doc2Vec([document], vector_size=20, min_count=1, epochs=10)  # Minimal parameters
+                    doc_vector = model.dv[file.filename]
                     
-                    texts[file.filename] = result
+                    # Simple 2D reduction
+                    pca = PCA(n_components=2)
+                    coords = pca.fit_transform([doc_vector])
+                    
+                    fig = px.scatter(x=[coords[0][0]], y=[coords[0][1]], text=[file.filename])
+                    
+                    texts[file.filename] = {
+                        'plot': fig.to_json()
+                    }
+                    
                 except Exception as e:
                     print(f"Error processing {file.filename}: {str(e)}")
                     continue
-        
+                
         return render_template('results.html', 
                              files=texts, 
-                             analysis_type=analysis_type)
+                             analysis_type='Doc2Vec')
     
     except Exception as e:
         print(f"Upload error: {str(e)}")
         return jsonify({'error': f'Upload failed: {str(e)}'}), 500
 
 if __name__ == '__main__':
-    app.run()
+    app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 10000)))
