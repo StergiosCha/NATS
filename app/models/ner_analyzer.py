@@ -20,7 +20,7 @@ class NERAnalyzer:
     def process_text(self, text: str, output_dir: str) -> Dict[str, Any]:
         """Process text and create entity network"""
         # Process text in smaller chunk
-        doc = self.nlp(text[:10000])
+        doc = self.nlp(text[:2000])
         
         # Track entities
         entities = {}
