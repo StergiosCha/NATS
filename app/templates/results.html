@@ -4,52 +4,23 @@
 
 {% block content %}
 <div class="space-y-8">
-    {% for filename, data in files.items() %}
-    <div class="bg-white rounded-lg shadow-md p-6">
-        <h2 class="text-xl font-bold mb-4">{{ filename }}</h2>
-        
-        {% if analysis_type == 'NER' %}
-            <!-- Entity Network -->
-            <div class="mb-6">
-                <h3 class="text-lg font-medium mb-3">Entity Network</h3>
-                <div class="bg-gray-50 rounded-lg overflow-hidden">
-                    <iframe src="{{ url_for('static', filename=data.network_path) }}"
-                            class="w-full h-[600px] border-0">
-                    </iframe>
-                </div>
-            </div>
-
-            <!-- Entity Stats -->
-            <div class="mb-4 bg-gray-50 p-4 rounded-lg">
-                <h3 class="text-lg font-medium mb-2">Entity Statistics</h3>
-                <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
-                    {% for type, count in data.entity_counts.items() %}
-                    <div class="bg-white p-3 rounded-lg shadow text-center">
-                        <div class="text-sm font-semibold">{{ type }}</div>
-                        <div class="text-2xl font-bold">{{ count }}</div>
-                    </div>
-                    {% endfor %}
-                </div>
-            </div>
-        {% else %}
+    {% if analysis_type == 'Doc2Vec' %}
+        <div class="bg-white rounded-lg shadow-md p-6">
+            <h2 class="text-xl font-bold mb-4">Document Embeddings Analysis</h2>
+            
             <!-- Doc2Vec Visualization -->
             <div class="bg-gray-50 p-4 rounded-lg">
                 <h3 class="text-lg font-medium mb-3">Document Embedding Visualization</h3>
-                <div id="doc_plot_{{ loop.index }}" class="w-full h-[400px]"></div>
+                <div id="doc_plot" class="w-full h-[600px]"></div>
             </div>
-        {% endif %}
-    </div>
-    {% endfor %}
-</div>
+        </div>
 
-{% if analysis_type != 'NER' %}
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    {% for filename, data in files.items() %}
-        Plotly.newPlot('doc_plot_{{ loop.index }}', 
-                       JSON.parse('{{ data.plot|safe }}'));
-    {% endfor %}
-});
-</script>
-{% endif %}
+        <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const plotData = JSON.parse('{{ files.all_docs.plot | safe }}');
+            Plotly.newPlot('doc_plot', plotData.data, plotData.layout);
+        });
+        </script>
+    {% endif %}
+</div>
 {% endblock %}
