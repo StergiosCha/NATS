@@ -16,8 +16,13 @@
 
         <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const plotData = JSON.parse('{{ files.all_docs.plot | safe }}');
-            Plotly.newPlot('doc_plot', plotData.data, plotData.layout);
+            try {
+                const plotData = JSON.parse('{{ files.all_docs.plot | safe }}');
+                console.log('Plot data:', plotData);  // Debug log
+                Plotly.newPlot('doc_plot', plotData.data, plotData.layout);
+            } catch (e) {
+                console.error('Error plotting:', e);  // Debug log
+            }
         });
         </script>
     {% endif %}
