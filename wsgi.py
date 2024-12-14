@@ -8,10 +8,10 @@ from sklearn.manifold import TSNE
 import plotly.express as px
 
 app = Flask(__name__, template_folder='app/templates')
-app.config['MAX_CONTENT_LENGTH'] = 2 * 1024 * 1024
+app.config['MAX_CONTENT_LENGTH'] = 1 * 1024 * 1024  # Reduce to 1MB
 
-# Load spaCy with minimal components
-nlp = spacy.load('el_core_news_md', disable=['tagger', 'parser', 'attribute_ruler', 'lemmatizer'])
+# Load spaCy with bare minimum components
+nlp = spacy.load('el_core_news_md', disable=['tok2vec', 'tagger', 'parser', 'attribute_ruler', 'lemmatizer'])
 
 @app.route('/')
 def home():
@@ -31,37 +31,47 @@ def upload_files():
         documents = []
         filenames = []
         
+        # Process smaller chunks
+        chunk_size = 1000  # Reduced from 3000
+
         for file in files:
             if file and file.filename:
                 try:
-                    text = file.read().decode('utf-8')[:3000]
+                    text = file.read().decode('utf-8')[:chunk_size]
                     doc = nlp(text)
-                    documents.append(TaggedDocument(words=[token.text for token in doc], 
-                                                 tags=[file.filename]))
+                    documents.append(TaggedDocument(
+                        words=[token.text for token in doc if not token.is_punct and not token.is_space],
+                        tags=[file.filename]
+                    ))
                     filenames.append(file.filename)
                 except Exception as e:
                     print(f"Error processing {file.filename}: {str(e)}")
+                    continue
+
+        if len(documents) < 2:
+            return jsonify({'error': 'Need at least 2 documents for comparison'}), 400
+
+        # Train Doc2Vec with minimal parameters
+        model = Doc2Vec(documents, vector_size=10, window=5, min_count=1, epochs=5, workers=1)
         
-        # Train Doc2Vec on all documents
-        model = Doc2Vec(documents, vector_size=20, min_count=1, epochs=10)
+        # Get vectors
+        vectors = np.array([model.dv[fname] for fname in filenames])
         
-        # Get vectors for all documents
-        vectors = [model.dv[fname] for fname in filenames]
-        
-        # Perform dimension reduction
+        # Dimension reduction
         if reduction_type == 'pca':
             reducer = PCA(n_components=2)
-        else:  # t-SNE
-            reducer = TSNE(n_components=2, perplexity=min(30, len(vectors)-1))
+        else:
+            perplexity = min(len(vectors) - 1, 5)  # Reduced perplexity
+            reducer = TSNE(n_components=2, perplexity=perplexity, n_iter=250)
             
         coords = reducer.fit_transform(vectors)
         
-        # Create plot with all documents
+        # Create simple plot
         fig = px.scatter(x=coords[:, 0], y=coords[:, 1], 
                         text=filenames,
                         title=f"Document Embeddings ({reduction_type.upper()})")
+        fig.update_traces(textposition='top center')
         
-        # Store results
         texts = {
             'all_docs': {
                 'plot': fig.to_json(),
