@@ -11,29 +11,27 @@ def upload_files():
         documents = []
         filenames = []
 
-        # Debug print
-        print(f"Number of files received: {len(files)}")
-
         for file in files:
             if file and file.filename:
                 try:
-                    # Read entire file
-                    text = file.read().decode('utf-8')
-                    print(f"Processing file: {file.filename}, length: {len(text)}")
+                    # Try different encodings
+                    content = file.read()
+                    try:
+                        text = content.decode('utf-8-sig')  # Try UTF-8 with BOM first
+                    except UnicodeDecodeError:
+                        try:
+                            text = content.decode('cp1253')  # Try Greek Windows encoding
+                        except UnicodeDecodeError:
+                            text = content.decode('iso-8859-7')  # Try Greek ISO encoding
                     
-                    doc = nlp(text[:5000])  # Process first 5000 characters
+                    doc = nlp(text[:5000])
                     tokens = [token.text for token in doc 
                             if not token.is_punct and not token.is_space]
                     
                     if tokens:
                         documents.append(TaggedDocument(words=tokens, tags=[file.filename]))
                         filenames.append(file.filename)
-                        print(f"Added document: {file.filename}, tokens: {len(tokens)}")
+                        print(f"Successfully processed: {file.filename}")
                 except Exception as e:
                     print(f"Error processing {file.filename}: {str(e)}")
                     continue
-
-        print(f"Total documents processed: {len(documents)}")
-
-        if len(documents) < 2:
-            return jsonify({'error': f'Need at least 2 documents. Only processed: {len(documents)}'}), 400
