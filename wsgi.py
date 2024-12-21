@@ -8,7 +8,7 @@ from sklearn.manifold import TSNE
 import plotly.express as px
 
 app = Flask(__name__, template_folder='app/templates')
-app.config['MAX_CONTENT_LENGTH'] = 2 * 1024 * 1024
+app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # Increased to 16 MB
 
 # Load spaCy with minimal components
 nlp = spacy.load('el_core_news_md', disable=['tagger', 'parser', 'attribute_ruler', 'lemmatizer'])
@@ -30,8 +30,6 @@ def upload_files():
         # Collect all documents first
         documents = []
         filenames = []
-        texts = {}
-
         for file in files:
             if file and file.filename:
                 try:
@@ -40,14 +38,6 @@ def upload_files():
                     documents.append(TaggedDocument(words=[token.text for token in doc],
                                                     tags=[file.filename]))
                     filenames.append(file.filename)
-                    
-                    # Extract entities
-                    entities = [{'text': ent.text, 'label': ent.label_} for ent in doc.ents]
-                    
-                    texts[file.filename] = {
-                        'preview': text[:200],
-                        'entities': entities
-                    }
                 except Exception as e:
                     print(f"Error processing {file.filename}: {str(e)}")
 
@@ -70,9 +60,11 @@ def upload_files():
                          title=f"Document Embeddings ({reduction_type.upper()})")
 
         # Store results
-        texts['all_docs'] = {
-            'plot': fig.to_json(),
-            'reduction_type': reduction_type
+        texts = {
+            'all_docs': {
+                'plot': fig.to_json(),
+                'reduction_type': reduction_type
+            }
         }
 
         return render_template('results.html',
@@ -81,6 +73,10 @@ def upload_files():
     except Exception as e:
         print(f"Upload error: {str(e)}")
         return jsonify({'error': f'Upload failed: {str(e)}'}), 500
+
+@app.errorhandler(413)
+def request_entity_too_large(error):
+    return "File Too Large", 413
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 10000)))
