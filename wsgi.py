@@ -8,7 +8,9 @@ from sklearn.manifold import TSNE
 import plotly.express as px
 
 app = Flask(__name__, template_folder='app/templates')
-app.config['MAX_CONTENT_LENGTH'] = 2 * 1024 * 1024
+
+# Increase the maximum content length to 16 MB
+app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
 
 # Load spaCy with minimal components
 nlp = spacy.load('el_core_news_md', disable=['tagger', 'parser', 'attribute_ruler', 'lemmatizer'])
@@ -73,6 +75,10 @@ def upload_files():
     except Exception as e:
         print(f"Upload error: {str(e)}")
         return jsonify({'error': f'Upload failed: {str(e)}'}), 500
+
+@app.errorhandler(413)
+def request_entity_too_large(error):
+    return "File Too Large", 413
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 10000)))
