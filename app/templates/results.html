@@ -1,13 +1,39 @@
+<!-- app/templates/results.html -->
 {% extends "base.html" %}
-{% block title %}Results - NATS{% endblock %}
+{% block title %}Analysis Results - NATS{% endblock %}
 
 {% block content %}
 <div class="space-y-8">
-    {% for filename, data in files.items() %}
-    <div class="bg-white rounded-lg shadow-md p-6">
-        <h2 class="text-lg font-bold mb-2">{{ filename }}</h2>
-        <p class="text-gray-600">{{ data.preview }}</p>
-    </div>
-    {% endfor %}
+    {% if analysis_type == 'NER' %}
+        {% for filename, data in files.items() %}
+        <div class="bg-white rounded-lg shadow-md p-6">
+            <h2 class="text-xl font-bold mb-4">{{ filename }}</h2>
+            <div class="bg-gray-50 rounded-lg overflow-hidden">
+                <iframe src="{{ url_for('static', filename=data.network_path) }}"
+                        class="w-full h-[600px] border-0">
+                </iframe>
+            </div>
+        </div>
+        {% endfor %}
+    {% else %}
+        <!-- Doc2Vec Results -->
+        <div class="bg-white rounded-lg shadow-md p-6">
+            <h2 class="text-xl font-bold mb-4">Document Embeddings</h2>
+            <div class="bg-gray-50 p-4 rounded-lg">
+                <div id="embedding_plot" class="w-full h-[600px]"></div>
+            </div>
+        </div>
+
+        <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            try {
+                const plotData = JSON.parse('{{ files.all_docs.plot | safe }}');
+                Plotly.newPlot('embedding_plot', plotData.data, plotData.layout);
+            } catch (e) {
+                console.error('Error plotting:', e);
+            }
+        });
+        </script>
+    {% endif %}
 </div>
 {% endblock %}
