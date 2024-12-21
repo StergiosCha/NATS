@@ -6,10 +6,9 @@ import numpy as np
 from sklearn.decomposition import PCA
 from sklearn.manifold import TSNE
 import plotly.express as px
-from collections import Counter
 
 app = Flask(__name__, template_folder='app/templates')
-app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # Increased to 16 MB
+app.config['MAX_CONTENT_LENGTH'] = 2 * 1024 * 1024
 
 # Load spaCy with minimal components
 nlp = spacy.load('el_core_news_md', disable=['tagger', 'parser', 'attribute_ruler', 'lemmatizer'])
@@ -28,6 +27,7 @@ def upload_files():
         analysis_type = request.form.get('analysis_type', 'NER')
         reduction_type = request.form.get('reduction_type', 'pca')
 
+        # Collect all documents first
         documents = []
         filenames = []
         texts = {}
@@ -40,26 +40,19 @@ def upload_files():
                     documents.append(TaggedDocument(words=[token.text for token in doc],
                                                     tags=[file.filename]))
                     filenames.append(file.filename)
-
-                    # Count entities
-                    entities = [ent.label_ for ent in doc.ents if ent.label_ in ['PERSON', 'ORG', 'LOC', 'GPE', 'DATE']]
-                    entity_counts = dict(Counter(entities))
-
+                    
+                    # Extract entities
+                    entities = [{'text': ent.text, 'label': ent.label_} for ent in doc.ents]
+                    
                     texts[file.filename] = {
                         'preview': text[:200],
-                        'entity_counts': entity_counts
+                        'entities': entities
                     }
                 except Exception as e:
                     print(f"Error processing {file.filename}: {str(e)}")
 
-        # Initialize the Doc2Vec model
-        model = Doc2Vec(vector_size=20, min_count=1, epochs=10)
-
-        # Build vocabulary
-        model.build_vocab(documents)
-
-        # Train the model
-        model.train(documents, total_examples=model.corpus_count, epochs=model.epochs)
+        # Train Doc2Vec on all documents
+        model = Doc2Vec(documents, vector_size=20, min_count=1, epochs=10)
 
         # Get vectors for all documents
         vectors = [model.dv[fname] for fname in filenames]
@@ -67,7 +60,7 @@ def upload_files():
         # Perform dimension reduction
         if reduction_type == 'pca':
             reducer = PCA(n_components=2)
-        else:  # t-SNE
+        else: # t-SNE
             reducer = TSNE(n_components=2, perplexity=min(30, len(vectors)-1))
         coords = reducer.fit_transform(vectors)
 
@@ -88,10 +81,6 @@ def upload_files():
     except Exception as e:
         print(f"Upload error: {str(e)}")
         return jsonify({'error': f'Upload failed: {str(e)}'}), 500
-
-@app.errorhandler(413)
-def request_entity_too_large(error):
-    return "File Too Large", 413
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 10000)))
