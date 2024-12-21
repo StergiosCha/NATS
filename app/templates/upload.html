@@ -1,3 +1,4 @@
+<!-- app/templates/upload.html -->
 {% extends "base.html" %}
 {% block title %}Upload Texts - NATS{% endblock %}
 
@@ -7,8 +8,35 @@
     
     <div class="bg-white rounded-lg shadow-md p-6">
         <form action="/upload" method="post" enctype="multipart/form-data" class="space-y-4">
+            <!-- Analysis Type Selection -->
             <div>
-                <label class="block text-sm font-medium text-gray-700">Upload Text Files</label>
+                <label class="block text-sm font-medium text-gray-700 mb-2">
+                    Select Analysis Type
+                </label>
+                <select name="analysis_type" id="analysisType"
+                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm">
+                    <option value="NER">Named Entity Network</option>
+                    <option value="Doc2Vec">Document Embeddings</option>
+                </select>
+            </div>
+            
+            <!-- Reduction Type Selection (only for Doc2Vec) -->
+            <div id="reduction_options" class="hidden">
+                <label class="block text-sm font-medium text-gray-700 mb-2">
+                    Select Reduction Method
+                </label>
+                <select name="reduction_type" 
+                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm">
+                    <option value="pca">PCA</option>
+                    <option value="tsne">t-SNE</option>
+                </select>
+            </div>
+
+            <!-- File Upload -->
+            <div>
+                <label class="block text-sm font-medium text-gray-700">
+                    Upload Text Files
+                </label>
                 <input type="file" 
                        name="files" 
                        multiple 
@@ -24,4 +52,15 @@
         </form>
     </div>
 </div>
+
+<script>
+document.getElementById('analysisType').addEventListener('change', function() {
+    const reductionOptions = document.getElementById('reduction_options');
+    if (this.value === 'Doc2Vec') {
+        reductionOptions.classList.remove('hidden');
+    } else {
+        reductionOptions.classList.add('hidden');
+    }
+});
+</script>
 {% endblock %}
