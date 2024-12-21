@@ -6,6 +6,7 @@ import numpy as np
 from sklearn.decomposition import PCA
 from sklearn.manifold import TSNE
 import plotly.express as px
+from collections import Counter
 
 app = Flask(__name__, template_folder='app/templates')
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # Increased to 16 MB
@@ -27,9 +28,10 @@ def upload_files():
         analysis_type = request.form.get('analysis_type', 'NER')
         reduction_type = request.form.get('reduction_type', 'pca')
 
-        # Collect all documents first
         documents = []
         filenames = []
+        texts = {}
+
         for file in files:
             if file and file.filename:
                 try:
@@ -38,6 +40,15 @@ def upload_files():
                     documents.append(TaggedDocument(words=[token.text for token in doc],
                                                     tags=[file.filename]))
                     filenames.append(file.filename)
+
+                    # Extract entities and count them
+                    entities = [ent.label_ for ent in doc.ents]
+                    entity_counts = dict(Counter(entities))
+
+                    texts[file.filename] = {
+                        'preview': text[:200],
+                        'entity_counts': entity_counts
+                    }
                 except Exception as e:
                     print(f"Error processing {file.filename}: {str(e)}")
 
@@ -50,7 +61,7 @@ def upload_files():
         # Perform dimension reduction
         if reduction_type == 'pca':
             reducer = PCA(n_components=2)
-        else: # t-SNE
+        else:  # t-SNE
             reducer = TSNE(n_components=2, perplexity=min(30, len(vectors)-1))
         coords = reducer.fit_transform(vectors)
 
@@ -60,11 +71,9 @@ def upload_files():
                          title=f"Document Embeddings ({reduction_type.upper()})")
 
         # Store results
-        texts = {
-            'all_docs': {
-                'plot': fig.to_json(),
-                'reduction_type': reduction_type
-            }
+        texts['all_docs'] = {
+            'plot': fig.to_json(),
+            'reduction_type': reduction_type
         }
 
         return render_template('results.html',
