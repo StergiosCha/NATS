@@ -135,5 +135,7 @@ def upload_files():
 def request_entity_too_large(error):
     return "File Too Large", 413
 
+# This ensures the app runs on the correct port when deployed to Render
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 10000)))
+    port = int(os.environ.get('PORT', 5000))
+    app.run(host='0.0.0.0', port=port)
