@@ -1,30 +1,13 @@
 {% extends "base.html" %}
-{% block title %}Analysis Results - NATS{% endblock %}
+{% block title %}Results - NATS{% endblock %}
 
 {% block content %}
 <div class="space-y-8">
-    {% if analysis_type == 'Doc2Vec' %}
-        <div class="bg-white rounded-lg shadow-md p-6">
-            <h2 class="text-xl font-bold mb-4">Document Embeddings Analysis</h2>
-            
-            <!-- Doc2Vec Visualization -->
-            <div class="bg-gray-50 p-4 rounded-lg">
-                <h3 class="text-lg font-medium mb-3">Document Embedding Visualization</h3>
-                <div id="doc_plot" class="w-full h-[600px]"></div>
-            </div>
-        </div>
-
-        <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            try {
-                const plotData = JSON.parse('{{ files.all_docs.plot | safe }}');
-                console.log('Plot data:', plotData);  // Debug log
-                Plotly.newPlot('doc_plot', plotData.data, plotData.layout);
-            } catch (e) {
-                console.error('Error plotting:', e);  // Debug log
-            }
-        });
-        </script>
-    {% endif %}
+    {% for filename, data in files.items() %}
+    <div class="bg-white rounded-lg shadow-md p-6">
+        <h2 class="text-lg font-bold mb-2">{{ filename }}</h2>
+        <p class="text-gray-600">{{ data.preview }}</p>
+    </div>
+    {% endfor %}
 </div>
 {% endblock %}
