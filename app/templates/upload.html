@@ -1,3 +1,4 @@
+<!-- app/templates/upload.html -->
 {% extends "base.html" %}
 {% block title %}Upload Texts - NATS{% endblock %}
 
@@ -5,17 +6,34 @@
 <div class="max-w-2xl mx-auto">
     <h2 class="text-2xl font-bold mb-6">Upload Texts for Analysis</h2>
     
-    {% if error %}
-    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
-        {{ error }}
-    </div>
-    {% endif %}
-    
     <div class="bg-white rounded-lg shadow-md p-6">
         <form action="/upload" method="post" enctype="multipart/form-data" class="space-y-4">
             <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">
+                    Select Analysis Type
+                </label>
+                <select name="analysis_type" id="analysisType"
+                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm">
+                    <option value="NER">Named Entity Recognition</option>
+                    <option value="Doc2Vec">Document Embeddings</option>
+                </select>
+            </div>
+            
+            <!-- Only show for Doc2Vec -->
+            <div id="reduction_options" class="hidden">
+                <label class="block text-sm font-medium text-gray-700 mb-2">
+                    Select Reduction Method
+                </label>
+                <select name="reduction_type" 
+                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm">
+                    <option value="pca">PCA</option>
+                    <option value="tsne">t-SNE</option>
+                </select>
+            </div>
+
+            <div>
                 <label class="block text-sm font-medium text-gray-700">
-                    Select text files to analyze
+                    Upload Text Files
                 </label>
                 <input type="file" 
                        name="files" 
@@ -23,16 +41,24 @@
                        accept=".txt"
                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
                        required>
-                <p class="mt-1 text-sm text-gray-500">Maximum file size: 16MB total</p>
             </div>
             
-            <div class="flex gap-4">
-                <button type="submit" 
-                        class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700">
-                    Analyze Texts
-                </button>
-            </div>
+            <button type="submit" 
+                    class="w-full bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">
+                Analyze
+            </button>
         </form>
     </div>
 </div>
+
+<script>
+document.getElementById('analysisType').addEventListener('change', function() {
+    const reductionOptions = document.getElementById('reduction_options');
+    if (this.value === 'Doc2Vec') {
+        reductionOptions.classList.remove('hidden');
+    } else {
+        reductionOptions.classList.add('hidden');
+    }
+});
+</script>
 {% endblock %}
