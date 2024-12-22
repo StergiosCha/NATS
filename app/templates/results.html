@@ -3,40 +3,35 @@
 
 {% block content %}
 <div class="space-y-6">
-    <div class="flex justify-between items-center mb-6">
-        <h2 class="text-2xl font-bold">Αποτελέσματα Ανάλυσης</h2>
-        <a href="{{ url_for('main.home') }}" class="bg-gray-500 hover:bg-gray-600 text-white py-2 px-4 rounded transition duration-200">
-            Επιστροφή
+    <div class="flex justify-between items-center">
+        <h2 class="text-2xl font-bold">Results</h2>
+        <a href="{{ url_for('main.home') }}" class="bg-gray-500 hover:bg-gray-600 text-white py-2 px-4 rounded">
+            Back
         </a>
     </div>
 
     {% if analysis_type == 'NER' %}
         {% for filename, data in files.items() %}
-            <div class="bg-white shadow-md rounded-lg p-6 mb-6">
+            <div class="bg-white shadow-md rounded-lg p-6">
                 <h3 class="text-xl font-bold mb-4">{{ filename }}</h3>
                 
-                <!-- Text Preview -->
-                <div class="bg-gray-50 p-4 rounded mb-6">
-                    <h4 class="font-semibold mb-2">Προεπισκόπηση Κειμένου:</h4>
+                <div class="bg-gray-50 p-4 rounded mb-4">
+                    <h4 class="font-semibold mb-2">Preview:</h4>
                     <p>{{ data.preview }}...</p>
                 </div>
 
-                <!-- Entity Network -->
-                <div class="mb-6">
-                    <h4 class="font-semibold mb-2">Δίκτυο Οντοτήτων:</h4>
-                    <div class="border rounded">
-                        <iframe src="{{ url_for('static', filename=data.network_path) }}" 
-                                class="w-full h-[500px]">
-                        </iframe>
-                    </div>
+                <div class="mb-4">
+                    <h4 class="font-semibold mb-2">Entity Network:</h4>
+                    <iframe src="{{ url_for('static', filename=data.network_path) }}" 
+                            class="w-full h-[500px] border rounded">
+                    </iframe>
                 </div>
 
-                <!-- Entity List -->
-                <div class="mb-6">
-                    <h4 class="font-semibold mb-2">Οντότητες που Βρέθηκαν:</h4>
+                <div class="mb-4">
+                    <h4 class="font-semibold mb-2">Entities:</h4>
                     <div class="flex flex-wrap gap-2">
                         {% for entity, label in data.entities.items() %}
-                            <span class="inline-flex items-center px-3 py-1 rounded text-sm
+                            <span class="inline-flex px-3 py-1 rounded text-sm
                                 {% if label == 'PERSON' %}
                                     bg-yellow-200 text-gray-800
                                 {% elif label == 'ORG' %}
@@ -46,21 +41,19 @@
                                 {% elif label == 'DATE' %}
                                     bg-purple-400 text-gray-800
                                 {% endif %}">
-                                {{ entity }}
-                                <span class="ml-1 text-xs opacity-75">({{ label }})</span>
+                                {{ entity }} ({{ label }})
                             </span>
                         {% endfor %}
                     </div>
                 </div>
 
-                <!-- Entity Counts -->
                 <div>
-                    <h4 class="font-semibold mb-2">Πλήθος ανά Τύπο Οντότητας:</h4>
+                    <h4 class="font-semibold mb-2">Entity Counts:</h4>
                     <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
                         {% for label, count in data.entity_counts.items() %}
-                            <div class="flex justify-between items-center p-2 bg-gray-50 rounded">
-                                <span class="font-medium">{{ label }}</span>
-                                <span class="bg-gray-200 px-3 py-1 rounded-full text-sm">{{ count }}</span>
+                            <div class="flex justify-between p-2 bg-gray-50 rounded">
+                                <span>{{ label }}</span>
+                                <span class="bg-gray-200 px-2 rounded">{{ count }}</span>
                             </div>
                         {% endfor %}
                     </div>
@@ -68,11 +61,10 @@
             </div>
         {% endfor %}
     {% else %}
-        <!-- Doc2Vec Results -->
         <div class="bg-white shadow-md rounded-lg p-6">
-            <h3 class="text-xl font-bold mb-4">Ανάλυση Ομοιότητας Κειμένων</h3>
+            <h3 class="text-xl font-bold mb-4">Document Similarity</h3>
             <div class="bg-gray-50 rounded p-4">
-                <div id="plot" class="w-full h-[600px]"></div>
+                <div id="plot" style="width: 100%; height: 600px;"></div>
             </div>
             <script>
                 var plotData = {{ files.all_docs.plot | safe }};
