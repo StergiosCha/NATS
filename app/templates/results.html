@@ -1,71 +1,70 @@
+<!-- app/templates/results.html -->
 {% extends "base.html" %}
 {% block title %}Analysis Results - NATS{% endblock %}
 
 {% block content %}
 <div class="space-y-8">
-    {% for filename, data in files.items() %}
-    <div class="bg-white rounded-lg shadow-md p-6">
-        <h2 class="text-xl font-bold mb-4">{{ filename }}</h2>
-        
-        <!-- Entity Statistics -->
-        <div class="mb-6 bg-gray-50 p-4 rounded-lg">
-            <h3 class="text-lg font-medium mb-3">Entity Statistics</h3>
-            <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
-                {% for type, count in data.entity_counts.items() %}
-                <div class="p-3 rounded-lg text-center
-                    {% if type == 'PERSON' %} bg-yellow-100 text-yellow-800
-                    {% elif type == 'ORG' %} bg-blue-100 text-blue-800
-                    {% elif type in ['LOC', 'GPE'] %} bg-green-100 text-green-800
-                    {% elif type == 'DATE' %} bg-purple-100 text-purple-800
-                    {% endif %}">
-                    <div class="text-sm font-semibold">{{ type }}</div>
-                    <div class="text-2xl font-bold">{{ count }}</div>
+    {% if analysis_type == 'NER' %}
+        {% for filename, data in files.items() %}
+        <div class="bg-white rounded-lg shadow-md p-6">
+            <h2 class="text-xl font-bold mb-4">{{ filename }}</h2>
+            
+            <!-- Entity Counts -->
+            <div class="mb-6">
+                <h3 class="text-lg font-medium mb-3">Entity Counts</h3>
+                <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
+                    {% for type, count in data.entity_counts.items() %}
+                    <div class="bg-gray-50 p-3 rounded-lg text-center">
+                        <div class="text-sm font-semibold">{{ type }}</div>
+                        <div class="text-2xl font-bold">{{ count }}</div>
+                    </div>
+                    {% endfor %}
                 </div>
-                {% endfor %}
             </div>
-        </div>
 
-        <!-- Entity Network -->
-        <div class="mb-6">
-            <h3 class="text-lg font-medium mb-3">Entity Network</h3>
-            <div class="bg-gray-50 rounded-lg overflow-hidden">
-                <iframe src="{{ url_for('static', filename=data.network_path) }}"
-                        class="w-full h-[600px] border-0">
-                </iframe>
-            </div>
-        </div>
-
-        <!-- Entity List -->
-        <div class="bg-gray-50 p-4 rounded-lg">
-            <h3 class="text-lg font-medium mb-3">Detected Entities</h3>
-            {% for type in ['PERSON', 'LOC', 'GPE', 'ORG', 'DATE'] %}
-            {% set entities = data.entities.items()|selectattr('1', 'equalto', type)|list %}
-            {% if entities %}
-            <div class="mb-4">
-                <h4 class="text-md font-medium mb-2">{{ type }}:</h4>
+            <!-- Entities List -->
+            <div class="mb-6">
+                <h3 class="text-lg font-medium mb-3">Named Entities</h3>
                 <div class="flex flex-wrap gap-2">
-                    {% for entity, _ in entities %}
+                    {% for entity, type in data.entities.items() %}
                     <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium
-                        {% if type == 'PERSON' %} bg-yellow-100 text-yellow-800
-                        {% elif type == 'ORG' %} bg-blue-100 text-blue-800
-                        {% elif type in ['LOC', 'GPE'] %} bg-green-100 text-green-800
-                        {% elif type == 'DATE' %} bg-purple-100 text-purple-800
-                        {% endif %}">
-                        {{ entity }}
+                               {% if type == 'PERSON' %}
+                                 bg-blue-100 text-blue-800
+                               {% elif type == 'ORG' %}
+                                 bg-green-100 text-green-800
+                               {% elif type in ['LOC', 'GPE'] %}
+                                 bg-yellow-100 text-yellow-800
+                               {% elif type == 'DATE' %}
+                                 bg-purple-100 text-purple-800
+                               {% endif %}">
+                        {{ entity }} ({{ type }})
                     </span>
                     {% endfor %}
                 </div>
             </div>
-            {% endif %}
-            {% endfor %}
+        </div>
+        {% endfor %}
+    {% else %}
+        <!-- Doc2Vec Results -->
+        <div class="bg-white rounded-lg shadow-md p-6">
+            <h2 class="text-xl font-bold mb-4">Document Embeddings</h2>
+            <div class="bg-gray-50 p-4 rounded-lg">
+                <div id="embedding_plot" class="w-full h-[600px]"></div>
+            </div>
         </div>
 
-        <!-- Text Preview -->
-        <div class="mt-6 bg-gray-50 p-4 rounded-lg">
-            <h3 class="text-lg font-medium mb-2">Text Preview</h3>
-            <p class="text-gray-600">{{ data.preview }}...</p>
-        </div>
-    </div>
-    {% endfor %}
+        <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            try {
+                const plotData = JSON.parse('{{ files.all_docs.plot | safe }}');
+                Plotly.newPlot('embedding_plot', plotData.data, plotData.layout);
+            } catch (e) {
+                console.error('Error plotting:', e);
+                document.getElementById('embedding_plot').innerHTML = 
+                    '<p class="text-red-500">Error creating visualization</p>';
+            }
+        });
+        </script>
+    {% endif %}
 </div>
 {% endblock %}
