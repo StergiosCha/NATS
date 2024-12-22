@@ -1,17 +1,17 @@
-from flask import Flask, render_template, request, jsonify
+from flask import Blueprint, render_template, request, jsonify
 import os
-import spacy
 from pyvis.network import Network
 from collections import Counter
 from gensim.models.doc2vec import Doc2Vec, TaggedDocument
 from sklearn.decomposition import PCA
 from sklearn.manifold import TSNE
 import plotly.express as px
+import spacy
 
-app = Flask(__name__, template_folder='app/templates')
-app.config['MAX_CONTENT_LENGTH'] = 4 * 1024 * 1024
+# Initialize Blueprint
+main = Blueprint('main', __name__)
 
-# Initialize spacy
+# Initialize spaCy
 nlp = spacy.load('el_core_news_md', disable=['tagger', 'parser', 'attribute_ruler', 'lemmatizer'])
 nlp.add_pipe('sentencizer')
 
@@ -37,6 +37,7 @@ def process_text_safely(text):
     return entities, dict(entity_counts), connections
 
 def process_doc2vec(files, reduction_type='pca'):
+    """Process files with Doc2Vec and dimension reduction"""
     documents = []
     filenames = []
     
@@ -71,15 +72,11 @@ def process_doc2vec(files, reduction_type='pca'):
     
     return fig.to_json(), filenames
 
-@app.route('/', methods=['GET'])
+@main.route('/')
 def index():
-    try:
-        return render_template('upload.html')
-    except Exception as e:
-        print(f"Error rendering template: {str(e)}")
-        return str(e), 500
+    return render_template('upload.html')
 
-@app.route('/upload', methods=['POST'])
+@main.route('/upload', methods=['POST'])
 def upload_files():
     try:
         if 'files' not in request.files:
@@ -98,27 +95,31 @@ def upload_files():
                         text = file.read().decode('utf-8')
                         entities, entity_counts, connections = process_text_safely(text)
                         
+                        # Create network
                         net = Network(height='500px', width='100%', bgcolor='#222222', font_color='white')
                         
+                        # Add nodes with colors
                         for entity, label in entities.items():
-                            color = '#ffffff'
+                            color = '#ffffff'  # default white
                             if label == 'PERSON':
-                                color = '#ffff44'
+                                color = '#ffff44'  # yellow
                             elif label == 'ORG':
-                                color = '#4444ff'
+                                color = '#4444ff'  # blue
                             elif label in ['LOC', 'GPE']:
-                                color = '#44ff44'
+                                color = '#44ff44'  # green
                             elif label == 'DATE':
-                                color = '#ff44ff'
+                                color = '#ff44ff'  # purple
                                 
                             net.add_node(entity, 
                                        label=entity,
                                        color=color,
                                        title=f"Type: {label}")
                         
+                        # Add edges
                         for ent1, ent2 in connections:
                             net.add_edge(ent1, ent2)
                         
+                        # Save network
                         network_filename = f'networks/network_{len(texts)}.html'
                         net.save_graph(f'static/{network_filename}')
                         
@@ -144,7 +145,8 @@ def upload_files():
                 
             texts['all_docs'] = {
                 'plot': plot_json,
-                'filenames': filenames
+                'filenames': filenames,
+                'reduction_type': reduction_type
             }
             
             return render_template('results.html', files=texts, analysis_type='Doc2Vec')
@@ -152,6 +154,3 @@ def upload_files():
     except Exception as e:
         print(f"Upload error: {str(e)}")
         return jsonify({'error': f'Upload failed: {str(e)}'}), 500
-
-if __name__ == '__main__':
-    app.run(debug=True)
