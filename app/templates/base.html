@@ -1,39 +1,19 @@
-<!-- app/templates/upload.html -->
-{% extends "base.html" %}
-
-{% block content %}
-<div class="max-w-2xl mx-auto">
-    <div class="bg-white shadow-md rounded-lg p-6">
-        <h2 class="text-2xl font-bold mb-6">Ανάλυση Κειμένων</h2>
-        <form action="{{ url_for('upload_files') }}" method="post" enctype="multipart/form-data" class="space-y-6">
-            <div>
-                <label class="block text-gray-700 mb-2">Μεταφόρτωση Αρχείων:</label>
-                <input type="file" name="files" multiple required
-                       class="w-full p-2 border border-gray-300 rounded">
-            </div>
-            
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                    <label class="block text-gray-700 mb-2">Τύπος Ανάλυσης:</label>
-                    <select name="analysis_type" class="w-full p-2 border border-gray-300 rounded">
-                        <option value="NER">Αναγνώριση Οντοτήτων</option>
-                        <option value="Doc2Vec">Ομοιότητα Κειμένων</option>
-                    </select>
-                </div>
-                
-                <div>
-                    <label class="block text-gray-700 mb-2">Μείωση Διαστάσεων:</label>
-                    <select name="reduction_type" class="w-full p-2 border border-gray-300 rounded">
-                        <option value="pca">PCA</option>
-                        <option value="tsne">t-SNE</option>
-                    </select>
-                </div>
-            </div>
-
-            <button type="submit" class="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded transition duration-200">
-                Ανάλυση
-            </button>
-        </form>
-    </div>
-</div>
-{% endblock %}
+<!-- app/templates/base.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}NATS - Text Analysis{% endblock %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body class="bg-gray-100 min-h-screen">
+    <nav class="bg-gray-800 text-white p-4">
+        <div class="container mx-auto">
+            <h1 class="text-xl font-bold">NATS</h1>
+        </div>
+    </nav>
+    <main class="container mx-auto px-4 py-8">
+        {% block content %}{% endblock %}
+    </main>
+</body>
+</html>
