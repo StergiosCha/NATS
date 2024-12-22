@@ -10,6 +10,8 @@ import plotly.express as px
 
 app = Flask(__name__, template_folder='app/templates')
 app.config['MAX_CONTENT_LENGTH'] = 4 * 1024 * 1024
+
+# Initialize spacy
 nlp = spacy.load('el_core_news_md', disable=['tagger', 'parser', 'attribute_ruler', 'lemmatizer'])
 nlp.add_pipe('sentencizer')
 
@@ -19,16 +21,13 @@ def process_text_safely(text):
     entity_counts = Counter()
     connections = set()
     
-    # Only process first 10000 characters for now
     doc = nlp(text[:35000])
     
-    # Process entities
     for ent in doc.ents:
         if ent.label_ in ['PERSON', 'ORG', 'LOC', 'GPE', 'DATE']:
             entities[ent.text] = ent.label_
             entity_counts[ent.label_] += 1
     
-    # Find connections
     for sent in doc.sents:
         sent_ents = [ent for ent in sent.ents if ent.label_ in ['PERSON', 'ORG', 'LOC', 'GPE', 'DATE']]
         for i, ent1 in enumerate(sent_ents):
@@ -38,7 +37,6 @@ def process_text_safely(text):
     return entities, dict(entity_counts), connections
 
 def process_doc2vec(files, reduction_type='pca'):
-    """Process files with Doc2Vec and dimension reduction"""
     documents = []
     filenames = []
     
@@ -67,16 +65,19 @@ def process_doc2vec(files, reduction_type='pca'):
         reducer = TSNE(n_components=2, perplexity=min(3, len(vectors)-1))
         
     coords = reducer.fit_transform(vectors)
-    
     fig = px.scatter(x=coords[:, 0], y=coords[:, 1],
                     text=filenames,
                     title=f"Document Embeddings ({reduction_type.upper()})")
     
     return fig.to_json(), filenames
 
-@app.route('/')
-def home():
-    return render_template('upload.html')
+@app.route('/', methods=['GET'])
+def index():
+    try:
+        return render_template('upload.html')
+    except Exception as e:
+        print(f"Error rendering template: {str(e)}")
+        return str(e), 500
 
 @app.route('/upload', methods=['POST'])
 def upload_files():
@@ -95,35 +96,29 @@ def upload_files():
                 if file and file.filename:
                     try:
                         text = file.read().decode('utf-8')
-                        
-                        # Process text
                         entities, entity_counts, connections = process_text_safely(text)
                         
-                        # Create network
                         net = Network(height='500px', width='100%', bgcolor='#222222', font_color='white')
                         
-                        # Add nodes with colors
                         for entity, label in entities.items():
-                            color = '#ffffff'  # default white
+                            color = '#ffffff'
                             if label == 'PERSON':
-                                color = '#ffff44'  # yellow
+                                color = '#ffff44'
                             elif label == 'ORG':
-                                color = '#4444ff'  # blue
+                                color = '#4444ff'
                             elif label in ['LOC', 'GPE']:
-                                color = '#44ff44'  # green
+                                color = '#44ff44'
                             elif label == 'DATE':
-                                color = '#ff44ff'  # purple
+                                color = '#ff44ff'
                                 
                             net.add_node(entity, 
                                        label=entity,
                                        color=color,
                                        title=f"Type: {label}")
                         
-                        # Add edges
                         for ent1, ent2 in connections:
                             net.add_edge(ent1, ent2)
                         
-                        # Save network
                         network_filename = f'networks/network_{len(texts)}.html'
                         net.save_graph(f'static/{network_filename}')
                         
@@ -138,12 +133,11 @@ def upload_files():
                         print(f"Error processing {file.filename}: {str(e)}")
                         continue
             
-            return render_template('results.html', 
-                                files=texts,
-                                analysis_type='NER')
+            return render_template('results.html', files=texts, analysis_type='NER')
         
         else:  # Doc2Vec analysis
-            plot_json, filenames = process_doc2vec(files, request.form.get('reduction_type', 'pca'))
+            reduction_type = request.form.get('reduction_type', 'pca')
+            plot_json, filenames = process_doc2vec(files, reduction_type)
             
             if plot_json is None:
                 return jsonify({'error': 'No valid documents to process'}), 400
@@ -153,9 +147,7 @@ def upload_files():
                 'filenames': filenames
             }
             
-            return render_template('results.html',
-                                files=texts,
-                                analysis_type='Doc2Vec')
+            return render_template('results.html', files=texts, analysis_type='Doc2Vec')
     
     except Exception as e:
         print(f"Upload error: {str(e)}")
