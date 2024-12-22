@@ -10,7 +10,7 @@ from sklearn.manifold import TSNE
 import plotly.express as px
 
 app = Flask(__name__, template_folder='app/templates')
-app.config['MAX_CONTENT_LENGTH'] = 4 * 1024 * 1024
+app.config['MAX_CONTENT_LENGTH'] = 4 * 1024 * 1024  # 4MB max upload size
 
 # Initialize spacy with error handling
 try:
@@ -23,14 +23,21 @@ except Exception as e:
 networks_dir = os.path.join(app.static_folder, 'networks')
 os.makedirs(networks_dir, exist_ok=True)
 
+def read_in_chunks(file_object, chunk_size=1024):
+    while True:
+        data = file_object.read(chunk_size)
+        if not data:
+            break
+        yield data
+
 def process_text_safely(text):
     """Process text with minimal memory usage"""
     entities = {}
     entity_counts = Counter()
     connections = set()
     
-    # Only process first 10000 characters for now
-    doc = nlp(text[:35000])
+    # Only process first 10000 characters
+    doc = nlp(text[:10000])
     
     # Process entities
     for ent in doc.ents:
@@ -55,7 +62,7 @@ def process_doc2vec(files, reduction_type='pca'):
     for file in files:
         if file and file.filename:
             try:
-                text = file.read().decode('utf-8')
+                text = ''.join(chunk.decode('utf-8') for chunk in read_in_chunks(file))
                 doc = nlp(text[:3000])
                 tokens = [token.text for token in doc if not token.is_space]
                 documents.append(TaggedDocument(words=tokens, tags=[file.filename]))
@@ -103,13 +110,15 @@ def upload_files():
             for file in files:
                 if file and file.filename:
                     try:
-                        text = file.read().decode('utf-8')
+                        text = ''.join(chunk.decode('utf-8') for chunk in read_in_chunks(file))
                         
                         # Process text
                         entities, entity_counts, connections = process_text_safely(text)
                         
                         # Create network
                         net = Network(height='500px', width='100%', bgcolor='#222222', font_color='white')
+                        net.options.edges.smooth.type = 'continuous'
+                        net.options.physics.stabilization.iterations = 100
                         
                         # Add nodes with colors
                         for entity, label in entities.items():
