@@ -1,21 +1,39 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Document Analysis</title>
-</head>
-<body>
-    <h1>Upload Documents for Analysis</h1>
-    <form action="/upload" method="post" enctype="multipart/form-data">
-        <input type="file" name="files" multiple><br><br>
-        <select name="analysis_type">
-            <option value="NER">Named Entity Recognition</option>
-            <option value="Doc2Vec">Document Similarity</option>
-        </select>
-        <select name="reduction_type">
-            <option value="pca">PCA</option>
-            <option value="tsne">t-SNE</option>
-        </select><br><br>
-        <input type="submit" value="Upload and Analyze">
-    </form>
-</body>
-</html>
+<!-- app/templates/upload.html -->
+{% extends "base.html" %}
+
+{% block content %}
+<div class="max-w-2xl mx-auto">
+    <div class="bg-white shadow-md rounded-lg p-6">
+        <h2 class="text-2xl font-bold mb-6">Document Analysis</h2>
+        <form action="/upload" method="post" enctype="multipart/form-data" class="space-y-6">
+            <div>
+                <label class="block text-gray-700 mb-2">Upload Files:</label>
+                <input type="file" name="files" multiple required
+                       class="w-full p-2 border border-gray-300 rounded">
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-gray-700 mb-2">Analysis Type:</label>
+                    <select name="analysis_type" class="w-full p-2 border border-gray-300 rounded">
+                        <option value="NER">Named Entity Recognition</option>
+                        <option value="Doc2Vec">Document Similarity</option>
+                    </select>
+                </div>
+                
+                <div>
+                    <label class="block text-gray-700 mb-2">Dimension Reduction:</label>
+                    <select name="reduction_type" class="w-full p-2 border border-gray-300 rounded">
+                        <option value="pca">PCA</option>
+                        <option value="tsne">t-SNE</option>
+                    </select>
+                </div>
+            </div>
+
+            <button type="submit" class="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded transition duration-200">
+                Analyze Documents
+            </button>
+        </form>
+    </div>
+</div>
+{% endblock %}
