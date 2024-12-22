@@ -1,17 +1,16 @@
-from flask import Blueprint, render_template, request, jsonify
+# wsgi.py
+from flask import Flask, render_template, request, jsonify
 import os
+import spacy
 from pyvis.network import Network
 from collections import Counter
 from gensim.models.doc2vec import Doc2Vec, TaggedDocument
 from sklearn.decomposition import PCA
 from sklearn.manifold import TSNE
 import plotly.express as px
-import spacy
 
-# Initialize Blueprint
-main = Blueprint('main', __name__)
-
-# Initialize spaCy
+app = Flask(__name__, template_folder='app/templates')
+app.config['MAX_CONTENT_LENGTH'] = 4 * 1024 * 1024
 nlp = spacy.load('el_core_news_md', disable=['tagger', 'parser', 'attribute_ruler', 'lemmatizer'])
 nlp.add_pipe('sentencizer')
 
@@ -21,13 +20,16 @@ def process_text_safely(text):
     entity_counts = Counter()
     connections = set()
     
+    # Only process first 10000 characters for now
     doc = nlp(text[:35000])
     
+    # Process entities
     for ent in doc.ents:
         if ent.label_ in ['PERSON', 'ORG', 'LOC', 'GPE', 'DATE']:
             entities[ent.text] = ent.label_
             entity_counts[ent.label_] += 1
     
+    # Find connections
     for sent in doc.sents:
         sent_ents = [ent for ent in sent.ents if ent.label_ in ['PERSON', 'ORG', 'LOC', 'GPE', 'DATE']]
         for i, ent1 in enumerate(sent_ents):
@@ -72,11 +74,11 @@ def process_doc2vec(files, reduction_type='pca'):
     
     return fig.to_json(), filenames
 
-@main.route('/')
-def index():
+@app.route('/')
+def home():
     return render_template('upload.html')
 
-@main.route('/upload', methods=['POST'])
+@app.route('/upload', methods=['POST'])
 def upload_files():
     try:
         if 'files' not in request.files:
@@ -93,6 +95,8 @@ def upload_files():
                 if file and file.filename:
                     try:
                         text = file.read().decode('utf-8')
+                        
+                        # Process text
                         entities, entity_counts, connections = process_text_safely(text)
                         
                         # Create network
@@ -145,8 +149,7 @@ def upload_files():
                 
             texts['all_docs'] = {
                 'plot': plot_json,
-                'filenames': filenames,
-                'reduction_type': reduction_type
+                'filenames': filenames
             }
             
             return render_template('results.html', files=texts, analysis_type='Doc2Vec')
@@ -154,3 +157,6 @@ def upload_files():
     except Exception as e:
         print(f"Upload error: {str(e)}")
         return jsonify({'error': f'Upload failed: {str(e)}'}), 500
+
+if __name__ == '__main__':
+    app.run(debug=True)
