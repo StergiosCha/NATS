@@ -97,6 +97,10 @@ def process_doc2vec(files, reduction_type='pca'):
     model = Doc2Vec(documents, vector_size=20, min_count=1, epochs=10)
     vectors = [model.dv[fname] for fname in filenames]
 
+    if len(vectors) < 3 and reduction_type == 'tsne':
+        print("Too few vectors for t-SNE. Falling back to PCA.")
+        reduction_type = 'pca'
+
     if reduction_type == 'pca':
         reducer = PCA(n_components=2)
     else:
