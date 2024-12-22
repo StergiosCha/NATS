@@ -7,7 +7,6 @@ from gensim.models.doc2vec import Doc2Vec, TaggedDocument
 from sklearn.decomposition import PCA
 from sklearn.manifold import TSNE
 import plotly.express as px
-import json
 
 app = Flask(__name__, template_folder='app/templates')
 app.config['MAX_CONTENT_LENGTH'] = 4 * 1024 * 1024
@@ -48,7 +47,6 @@ def process_doc2vec(files, reduction_type='pca'):
             try:
                 text = file.read().decode('utf-8')
                 doc = nlp(text[:3000])  # Process first 3000 chars
-                # Get tokens while preserving Greek characters
                 tokens = [token.text for token in doc if not token.is_space]
                 documents.append(TaggedDocument(words=tokens, tags=[file.filename]))
                 filenames.append(file.filename)
