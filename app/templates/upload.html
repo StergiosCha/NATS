@@ -4,25 +4,25 @@
 {% block content %}
 <div class="max-w-2xl mx-auto">
     <div class="bg-white shadow-md rounded-lg p-6">
-        <h2 class="text-2xl font-bold mb-6">Ανάλυση Κειμένων</h2>
-        <form action="{{ url_for('main.upload_files') }}" method="post" enctype="multipart/form-data" class="space-y-6">
-            <div>
-                <label class="block text-gray-700 mb-2">Μεταφόρτωση Αρχείων:</label>
+        <h2 class="text-2xl font-bold mb-6">Analysis</h2>
+        <form action="{{ url_for('main.upload_files') }}" method="post" enctype="multipart/form-data">
+            <div class="mb-4">
+                <label class="block text-gray-700 mb-2">Upload Files:</label>
                 <input type="file" name="files" multiple required
                        class="w-full p-2 border border-gray-300 rounded">
             </div>
             
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                 <div>
-                    <label class="block text-gray-700 mb-2">Τύπος Ανάλυσης:</label>
+                    <label class="block text-gray-700 mb-2">Analysis Type:</label>
                     <select name="analysis_type" class="w-full p-2 border border-gray-300 rounded">
-                        <option value="NER">Αναγνώριση Οντοτήτων</option>
-                        <option value="Doc2Vec">Ομοιότητα Κειμένων</option>
+                        <option value="NER">NER</option>
+                        <option value="Doc2Vec">Doc2Vec</option>
                     </select>
                 </div>
                 
                 <div>
-                    <label class="block text-gray-700 mb-2">Μείωση Διαστάσεων:</label>
+                    <label class="block text-gray-700 mb-2">Reduction Type:</label>
                     <select name="reduction_type" class="w-full p-2 border border-gray-300 rounded">
                         <option value="pca">PCA</option>
                         <option value="tsne">t-SNE</option>
@@ -30,8 +30,8 @@
                 </div>
             </div>
 
-            <button type="submit" class="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded transition duration-200">
-                Ανάλυση
+            <button type="submit" class="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded">
+                Analyze
             </button>
         </form>
     </div>
