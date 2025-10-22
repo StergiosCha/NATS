@@ -1,0 +1,2484 @@
+{
+  "embeddings": {
+    "plot": {
+      "type": "plotly",
+      "data": [
+        {
+          "customdata": [
+            0,
+            1,
+            2
+          ],
+          "hovertemplate": [
+            "<b>short_story.txt</b><br>Words: 9<br>Sentences: 2<br>Text Length: 40 chars<br>Avg Word Length: 3.1<br>Readability: 100.0<br>Lexical Diversity: 0.889<br>Cluster: 1<br><span style='color: orange;'>📊 Size Balanced</span><br>X: %{x:.2f}<br>Y: %{y:.2f}",
+            "<b>novel.txt</b><br>Words: 163<br>Sentences: 12<br>Text Length: 1,186 chars<br>Avg Word Length: 6.1<br>Readability: 40.1<br>Lexical Diversity: 0.741<br>Cluster: 0<br><span style='color: orange;'>📊 Size Balanced</span><br>X: %{x:.2f}<br>Y: %{y:.2f}",
+            "<b>doc1.txt</b><br>Words: 11<br>Sentences: 2<br>Text Length: 79 chars<br>Avg Word Length: 5.7<br>Readability: 55.1<br>Lexical Diversity: 1.000<br>Cluster: 0<br><span style='color: orange;'>📊 Size Balanced</span><br>X: %{x:.2f}<br>Y: %{y:.2f}"
+          ],
+          "marker": {
+            "color": [
+              1,
+              0,
+              0
+            ],
+            "colorscale": [
+              [
+                0.0,
+                "#440154"
+              ],
+              [
+                0.1111111111111111,
+                "#482878"
+              ],
+              [
+                0.2222222222222222,
+                "#3e4989"
+              ],
+              [
+                0.3333333333333333,
+                "#31688e"
+              ],
+              [
+                0.4444444444444444,
+                "#26828e"
+              ],
+              [
+                0.5555555555555556,
+                "#1f9e89"
+              ],
+              [
+                0.6666666666666666,
+                "#35b779"
+              ],
+              [
+                0.7777777777777778,
+                "#6ece58"
+              ],
+              [
+                0.8888888888888888,
+                "#b5de2b"
+              ],
+              [
+                1.0,
+                "#fde725"
+              ]
+            ],
+            "line": {
+              "color": "black",
+              "width": 2
+            },
+            "size": 15
+          },
+          "mode": "markers+text",
+          "name": "Documents",
+          "text": [
+            "short_story.txt",
+            "novel.txt",
+            "doc1.txt"
+          ],
+          "textfont": {
+            "size": 10
+          },
+          "textposition": "top center",
+          "x": [
+            4.092618618273298,
+            -1.8355238302167747,
+            -2.2705130540419005
+          ],
+          "y": [
+            -0.18611649982949674,
+            1.8256996526331675,
+            -1.6274987194994257
+          ],
+          "type": "scatter",
+          "xaxis": "x",
+          "yaxis": "y"
+        },
+        {
+          "hovertemplate": "<b>%{x}</b><br>Word Count: %{y:.2f}<extra></extra>",
+          "name": "Word Count",
+          "opacity": 0.7,
+          "visible": true,
+          "x": [
+            "short_story.txt",
+            "novel.txt",
+            "doc1.txt"
+          ],
+          "y": [
+            0.009,
+            0.163,
+            0.011
+          ],
+          "type": "bar",
+          "xaxis": "x2",
+          "yaxis": "y2"
+        },
+        {
+          "hovertemplate": "<b>%{x}</b><br>Sentence Count: %{y:.2f}<extra></extra>",
+          "name": "Sentence Count",
+          "opacity": 0.7,
+          "visible": true,
+          "x": [
+            "short_story.txt",
+            "novel.txt",
+            "doc1.txt"
+          ],
+          "y": [
+            0.2,
+            1.2,
+            0.2
+          ],
+          "type": "bar",
+          "xaxis": "x2",
+          "yaxis": "y2"
+        },
+        {
+          "hovertemplate": "<b>%{x}</b><br>Avg Word Length: %{y:.2f}<extra></extra>",
+          "name": "Avg Word Length",
+          "opacity": 0.7,
+          "visible": true,
+          "x": [
+            "short_story.txt",
+            "novel.txt",
+            "doc1.txt"
+          ],
+          "y": [
+            3.1,
+            6.134146341463414,
+            5.666666666666667
+          ],
+          "type": "bar",
+          "xaxis": "x2",
+          "yaxis": "y2"
+        },
+        {
+          "hovertemplate": "<b>%{x}</b><br>Readability: %{y:.2f}<extra></extra>",
+          "name": "Readability",
+          "opacity": 0.7,
+          "visible": "legendonly",
+          "x": [
+            "short_story.txt",
+            "novel.txt",
+            "doc1.txt"
+          ],
+          "y": [
+            1.0,
+            0.4012138888888893,
+            0.5512522727272727
+          ],
+          "type": "bar",
+          "xaxis": "x2",
+          "yaxis": "y2"
+        },
+        {
+          "hovertemplate": "<b>%{x}</b><br>Lexical Diversity: %{y:.2f}<extra></extra>",
+          "name": "Lexical Diversity",
+          "opacity": 0.7,
+          "visible": "legendonly",
+          "x": [
+            "short_story.txt",
+            "novel.txt",
+            "doc1.txt"
+          ],
+          "y": [
+            0.8888888888888888,
+            0.7407407407407407,
+            1.0
+          ],
+          "type": "bar",
+          "xaxis": "x2",
+          "yaxis": "y2"
+        },
+        {
+          "hovertemplate": "<b>%{x}</b><br>Size: %{y}<br>%{text}<extra></extra>",
+          "marker": {
+            "color": "lightblue"
+          },
+          "name": "Cluster Size",
+          "text": [
+            "Documents: novel.txt, doc1.txt",
+            "Documents: short_story.txt"
+          ],
+          "textposition": "outside",
+          "x": [
+            "Cluster 0",
+            "Cluster 1"
+          ],
+          "y": [
+            2,
+            1
+          ],
+          "type": "bar",
+          "xaxis": "x3",
+          "yaxis": "y3"
+        },
+        {
+          "colorscale": [
+            [
+              0.0,
+              "rgb(247,251,255)"
+            ],
+            [
+              0.125,
+              "rgb(222,235,247)"
+            ],
+            [
+              0.25,
+              "rgb(198,219,239)"
+            ],
+            [
+              0.375,
+              "rgb(158,202,225)"
+            ],
+            [
+              0.5,
+              "rgb(107,174,214)"
+            ],
+            [
+              0.625,
+              "rgb(66,146,198)"
+            ],
+            [
+              0.75,
+              "rgb(33,113,181)"
+            ],
+            [
+              0.875,
+              "rgb(8,81,156)"
+            ],
+            [
+              1.0,
+              "rgb(8,48,107)"
+            ]
+          ],
+          "name": "Similarity",
+          "x": [
+            "short_story.txt",
+            "novel.txt",
+            "doc1.txt"
+          ],
+          "y": [
+            "short_story.txt",
+            "novel.txt",
+            "doc1.txt"
+          ],
+          "z": [
+            [
+              28.056028366088867,
+              -1.4014619588851929,
+              0.8496690988540649
+            ],
+            [
+              -1.4014619588851929,
+              7.936483383178711,
+              6.553284168243408
+            ],
+            [
+              0.8496690988540649,
+              6.553284168243408,
+              17.557058334350586
+            ]
+          ],
+          "type": "heatmap",
+          "xaxis": "x4",
+          "yaxis": "y4"
+        }
+      ],
+      "layout": {
+        "template": {
+          "data": {
+            "histogram2dcontour": [
+              {
+                "type": "histogram2dcontour",
+                "colorbar": {
+                  "outlinewidth": 0,
+                  "ticks": ""
+                },
+                "colorscale": [
+                  [
+                    0.0,
+                    "#0d0887"
+                  ],
+                  [
+                    0.1111111111111111,
+                    "#46039f"
+                  ],
+                  [
+                    0.2222222222222222,
+                    "#7201a8"
+                  ],
+                  [
+                    0.3333333333333333,
+                    "#9c179e"
+                  ],
+                  [
+                    0.4444444444444444,
+                    "#bd3786"
+                  ],
+                  [
+                    0.5555555555555556,
+                    "#d8576b"
+                  ],
+                  [
+                    0.6666666666666666,
+                    "#ed7953"
+                  ],
+                  [
+                    0.7777777777777778,
+                    "#fb9f3a"
+                  ],
+                  [
+                    0.8888888888888888,
+                    "#fdca26"
+                  ],
+                  [
+                    1.0,
+                    "#f0f921"
+                  ]
+                ]
+              }
+            ],
+            "choropleth": [
+              {
+                "type": "choropleth",
+                "colorbar": {
+                  "outlinewidth": 0,
+                  "ticks": ""
+                }
+              }
+            ],
+            "histogram2d": [
+              {
+                "type": "histogram2d",
+                "colorbar": {
+                  "outlinewidth": 0,
+                  "ticks": ""
+                },
+                "colorscale": [
+                  [
+                    0.0,
+                    "#0d0887"
+                  ],
+                  [
+                    0.1111111111111111,
+                    "#46039f"
+                  ],
+                  [
+                    0.2222222222222222,
+                    "#7201a8"
+                  ],
+                  [
+                    0.3333333333333333,
+                    "#9c179e"
+                  ],
+                  [
+                    0.4444444444444444,
+                    "#bd3786"
+                  ],
+                  [
+                    0.5555555555555556,
+                    "#d8576b"
+                  ],
+                  [
+                    0.6666666666666666,
+                    "#ed7953"
+                  ],
+                  [
+                    0.7777777777777778,
+                    "#fb9f3a"
+                  ],
+                  [
+                    0.8888888888888888,
+                    "#fdca26"
+                  ],
+                  [
+                    1.0,
+                    "#f0f921"
+                  ]
+                ]
+              }
+            ],
+            "heatmap": [
+              {
+                "type": "heatmap",
+                "colorbar": {
+                  "outlinewidth": 0,
+                  "ticks": ""
+                },
+                "colorscale": [
+                  [
+                    0.0,
+                    "#0d0887"
+                  ],
+                  [
+                    0.1111111111111111,
+                    "#46039f"
+                  ],
+                  [
+                    0.2222222222222222,
+                    "#7201a8"
+                  ],
+                  [
+                    0.3333333333333333,
+                    "#9c179e"
+                  ],
+                  [
+                    0.4444444444444444,
+                    "#bd3786"
+                  ],
+                  [
+                    0.5555555555555556,
+                    "#d8576b"
+                  ],
+                  [
+                    0.6666666666666666,
+                    "#ed7953"
+                  ],
+                  [
+                    0.7777777777777778,
+                    "#fb9f3a"
+                  ],
+                  [
+                    0.8888888888888888,
+                    "#fdca26"
+                  ],
+                  [
+                    1.0,
+                    "#f0f921"
+                  ]
+                ]
+              }
+            ],
+            "contourcarpet": [
+              {
+                "type": "contourcarpet",
+                "colorbar": {
+                  "outlinewidth": 0,
+                  "ticks": ""
+                }
+              }
+            ],
+            "contour": [
+              {
+                "type": "contour",
+                "colorbar": {
+                  "outlinewidth": 0,
+                  "ticks": ""
+                },
+                "colorscale": [
+                  [
+                    0.0,
+                    "#0d0887"
+                  ],
+                  [
+                    0.1111111111111111,
+                    "#46039f"
+                  ],
+                  [
+                    0.2222222222222222,
+                    "#7201a8"
+                  ],
+                  [
+                    0.3333333333333333,
+                    "#9c179e"
+                  ],
+                  [
+                    0.4444444444444444,
+                    "#bd3786"
+                  ],
+                  [
+                    0.5555555555555556,
+                    "#d8576b"
+                  ],
+                  [
+                    0.6666666666666666,
+                    "#ed7953"
+                  ],
+                  [
+                    0.7777777777777778,
+                    "#fb9f3a"
+                  ],
+                  [
+                    0.8888888888888888,
+                    "#fdca26"
+                  ],
+                  [
+                    1.0,
+                    "#f0f921"
+                  ]
+                ]
+              }
+            ],
+            "surface": [
+              {
+                "type": "surface",
+                "colorbar": {
+                  "outlinewidth": 0,
+                  "ticks": ""
+                },
+                "colorscale": [
+                  [
+                    0.0,
+                    "#0d0887"
+                  ],
+                  [
+                    0.1111111111111111,
+                    "#46039f"
+                  ],
+                  [
+                    0.2222222222222222,
+                    "#7201a8"
+                  ],
+                  [
+                    0.3333333333333333,
+                    "#9c179e"
+                  ],
+                  [
+                    0.4444444444444444,
+                    "#bd3786"
+                  ],
+                  [
+                    0.5555555555555556,
+                    "#d8576b"
+                  ],
+                  [
+                    0.6666666666666666,
+                    "#ed7953"
+                  ],
+                  [
+                    0.7777777777777778,
+                    "#fb9f3a"
+                  ],
+                  [
+                    0.8888888888888888,
+                    "#fdca26"
+                  ],
+                  [
+                    1.0,
+                    "#f0f921"
+                  ]
+                ]
+              }
+            ],
+            "mesh3d": [
+              {
+                "type": "mesh3d",
+                "colorbar": {
+                  "outlinewidth": 0,
+                  "ticks": ""
+                }
+              }
+            ],
+            "scatter": [
+              {
+                "fillpattern": {
+                  "fillmode": "overlay",
+                  "size": 10,
+                  "solidity": 0.2
+                },
+                "type": "scatter"
+              }
+            ],
+            "parcoords": [
+              {
+                "type": "parcoords",
+                "line": {
+                  "colorbar": {
+                    "outlinewidth": 0,
+                    "ticks": ""
+                  }
+                }
+              }
+            ],
+            "scatterpolargl": [
+              {
+                "type": "scatterpolargl",
+                "marker": {
+                  "colorbar": {
+                    "outlinewidth": 0,
+                    "ticks": ""
+                  }
+                }
+              }
+            ],
+            "bar": [
+              {
+                "error_x": {
+                  "color": "#2a3f5f"
+                },
+                "error_y": {
+                  "color": "#2a3f5f"
+                },
+                "marker": {
+                  "line": {
+                    "color": "#E5ECF6",
+                    "width": 0.5
+                  },
+                  "pattern": {
+                    "fillmode": "overlay",
+                    "size": 10,
+                    "solidity": 0.2
+                  }
+                },
+                "type": "bar"
+              }
+            ],
+            "scattergeo": [
+              {
+                "type": "scattergeo",
+                "marker": {
+                  "colorbar": {
+                    "outlinewidth": 0,
+                    "ticks": ""
+                  }
+                }
+              }
+            ],
+            "scatterpolar": [
+              {
+                "type": "scatterpolar",
+                "marker": {
+                  "colorbar": {
+                    "outlinewidth": 0,
+                    "ticks": ""
+                  }
+                }
+              }
+            ],
+            "histogram": [
+              {
+                "marker": {
+                  "pattern": {
+                    "fillmode": "overlay",
+                    "size": 10,
+                    "solidity": 0.2
+                  }
+                },
+                "type": "histogram"
+              }
+            ],
+            "scattergl": [
+              {
+                "type": "scattergl",
+                "marker": {
+                  "colorbar": {
+                    "outlinewidth": 0,
+                    "ticks": ""
+                  }
+                }
+              }
+            ],
+            "scatter3d": [
+              {
+                "type": "scatter3d",
+                "line": {
+                  "colorbar": {
+                    "outlinewidth": 0,
+                    "ticks": ""
+                  }
+                },
+                "marker": {
+                  "colorbar": {
+                    "outlinewidth": 0,
+                    "ticks": ""
+                  }
+                }
+              }
+            ],
+            "scattermap": [
+              {
+                "type": "scattermap",
+                "marker": {
+                  "colorbar": {
+                    "outlinewidth": 0,
+                    "ticks": ""
+                  }
+                }
+              }
+            ],
+            "scattermapbox": [
+              {
+                "type": "scattermapbox",
+                "marker": {
+                  "colorbar": {
+                    "outlinewidth": 0,
+                    "ticks": ""
+                  }
+                }
+              }
+            ],
+            "scatterternary": [
+              {
+                "type": "scatterternary",
+                "marker": {
+                  "colorbar": {
+                    "outlinewidth": 0,
+                    "ticks": ""
+                  }
+                }
+              }
+            ],
+            "scattercarpet": [
+              {
+                "type": "scattercarpet",
+                "marker": {
+                  "colorbar": {
+                    "outlinewidth": 0,
+                    "ticks": ""
+                  }
+                }
+              }
+            ],
+            "carpet": [
+              {
+                "aaxis": {
+                  "endlinecolor": "#2a3f5f",
+                  "gridcolor": "white",
+                  "linecolor": "white",
+                  "minorgridcolor": "white",
+                  "startlinecolor": "#2a3f5f"
+                },
+                "baxis": {
+                  "endlinecolor": "#2a3f5f",
+                  "gridcolor": "white",
+                  "linecolor": "white",
+                  "minorgridcolor": "white",
+                  "startlinecolor": "#2a3f5f"
+                },
+                "type": "carpet"
+              }
+            ],
+            "table": [
+              {
+                "cells": {
+                  "fill": {
+                    "color": "#EBF0F8"
+                  },
+                  "line": {
+                    "color": "white"
+                  }
+                },
+                "header": {
+                  "fill": {
+                    "color": "#C8D4E3"
+                  },
+                  "line": {
+                    "color": "white"
+                  }
+                },
+                "type": "table"
+              }
+            ],
+            "barpolar": [
+              {
+                "marker": {
+                  "line": {
+                    "color": "#E5ECF6",
+                    "width": 0.5
+                  },
+                  "pattern": {
+                    "fillmode": "overlay",
+                    "size": 10,
+                    "solidity": 0.2
+                  }
+                },
+                "type": "barpolar"
+              }
+            ],
+            "pie": [
+              {
+                "automargin": true,
+                "type": "pie"
+              }
+            ]
+          },
+          "layout": {
+            "autotypenumbers": "strict",
+            "colorway": [
+              "#636efa",
+              "#EF553B",
+              "#00cc96",
+              "#ab63fa",
+              "#FFA15A",
+              "#19d3f3",
+              "#FF6692",
+              "#B6E880",
+              "#FF97FF",
+              "#FECB52"
+            ],
+            "font": {
+              "color": "#2a3f5f"
+            },
+            "hovermode": "closest",
+            "hoverlabel": {
+              "align": "left"
+            },
+            "paper_bgcolor": "white",
+            "plot_bgcolor": "#E5ECF6",
+            "polar": {
+              "bgcolor": "#E5ECF6",
+              "angularaxis": {
+                "gridcolor": "white",
+                "linecolor": "white",
+                "ticks": ""
+              },
+              "radialaxis": {
+                "gridcolor": "white",
+                "linecolor": "white",
+                "ticks": ""
+              }
+            },
+            "ternary": {
+              "bgcolor": "#E5ECF6",
+              "aaxis": {
+                "gridcolor": "white",
+                "linecolor": "white",
+                "ticks": ""
+              },
+              "baxis": {
+                "gridcolor": "white",
+                "linecolor": "white",
+                "ticks": ""
+              },
+              "caxis": {
+                "gridcolor": "white",
+                "linecolor": "white",
+                "ticks": ""
+              }
+            },
+            "coloraxis": {
+              "colorbar": {
+                "outlinewidth": 0,
+                "ticks": ""
+              }
+            },
+            "colorscale": {
+              "sequential": [
+                [
+                  0.0,
+                  "#0d0887"
+                ],
+                [
+                  0.1111111111111111,
+                  "#46039f"
+                ],
+                [
+                  0.2222222222222222,
+                  "#7201a8"
+                ],
+                [
+                  0.3333333333333333,
+                  "#9c179e"
+                ],
+                [
+                  0.4444444444444444,
+                  "#bd3786"
+                ],
+                [
+                  0.5555555555555556,
+                  "#d8576b"
+                ],
+                [
+                  0.6666666666666666,
+                  "#ed7953"
+                ],
+                [
+                  0.7777777777777778,
+                  "#fb9f3a"
+                ],
+                [
+                  0.8888888888888888,
+                  "#fdca26"
+                ],
+                [
+                  1.0,
+                  "#f0f921"
+                ]
+              ],
+              "sequentialminus": [
+                [
+                  0.0,
+                  "#0d0887"
+                ],
+                [
+                  0.1111111111111111,
+                  "#46039f"
+                ],
+                [
+                  0.2222222222222222,
+                  "#7201a8"
+                ],
+                [
+                  0.3333333333333333,
+                  "#9c179e"
+                ],
+                [
+                  0.4444444444444444,
+                  "#bd3786"
+                ],
+                [
+                  0.5555555555555556,
+                  "#d8576b"
+                ],
+                [
+                  0.6666666666666666,
+                  "#ed7953"
+                ],
+                [
+                  0.7777777777777778,
+                  "#fb9f3a"
+                ],
+                [
+                  0.8888888888888888,
+                  "#fdca26"
+                ],
+                [
+                  1.0,
+                  "#f0f921"
+                ]
+              ],
+              "diverging": [
+                [
+                  0,
+                  "#8e0152"
+                ],
+                [
+                  0.1,
+                  "#c51b7d"
+                ],
+                [
+                  0.2,
+                  "#de77ae"
+                ],
+                [
+                  0.3,
+                  "#f1b6da"
+                ],
+                [
+                  0.4,
+                  "#fde0ef"
+                ],
+                [
+                  0.5,
+                  "#f7f7f7"
+                ],
+                [
+                  0.6,
+                  "#e6f5d0"
+                ],
+                [
+                  0.7,
+                  "#b8e186"
+                ],
+                [
+                  0.8,
+                  "#7fbc41"
+                ],
+                [
+                  0.9,
+                  "#4d9221"
+                ],
+                [
+                  1,
+                  "#276419"
+                ]
+              ]
+            },
+            "xaxis": {
+              "gridcolor": "white",
+              "linecolor": "white",
+              "ticks": "",
+              "title": {
+                "standoff": 15
+              },
+              "zerolinecolor": "white",
+              "automargin": true,
+              "zerolinewidth": 2
+            },
+            "yaxis": {
+              "gridcolor": "white",
+              "linecolor": "white",
+              "ticks": "",
+              "title": {
+                "standoff": 15
+              },
+              "zerolinecolor": "white",
+              "automargin": true,
+              "zerolinewidth": 2
+            },
+            "scene": {
+              "xaxis": {
+                "backgroundcolor": "#E5ECF6",
+                "gridcolor": "white",
+                "linecolor": "white",
+                "showbackground": true,
+                "ticks": "",
+                "zerolinecolor": "white",
+                "gridwidth": 2
+              },
+              "yaxis": {
+                "backgroundcolor": "#E5ECF6",
+                "gridcolor": "white",
+                "linecolor": "white",
+                "showbackground": true,
+                "ticks": "",
+                "zerolinecolor": "white",
+                "gridwidth": 2
+              },
+              "zaxis": {
+                "backgroundcolor": "#E5ECF6",
+                "gridcolor": "white",
+                "linecolor": "white",
+                "showbackground": true,
+                "ticks": "",
+                "zerolinecolor": "white",
+                "gridwidth": 2
+              }
+            },
+            "shapedefaults": {
+              "line": {
+                "color": "#2a3f5f"
+              }
+            },
+            "annotationdefaults": {
+              "arrowcolor": "#2a3f5f",
+              "arrowhead": 0,
+              "arrowwidth": 1
+            },
+            "geo": {
+              "bgcolor": "white",
+              "landcolor": "#E5ECF6",
+              "subunitcolor": "white",
+              "showland": true,
+              "showlakes": true,
+              "lakecolor": "white"
+            },
+            "title": {
+              "x": 0.05
+            },
+            "mapbox": {
+              "style": "light"
+            }
+          }
+        },
+        "xaxis": {
+          "anchor": "y",
+          "domain": [
+            0.0,
+            0.45
+          ],
+          "title": {
+            "text": "Component 1"
+          }
+        },
+        "yaxis": {
+          "anchor": "x",
+          "domain": [
+            0.625,
+            1.0
+          ],
+          "title": {
+            "text": "Component 2"
+          }
+        },
+        "xaxis2": {
+          "anchor": "y2",
+          "domain": [
+            0.55,
+            1.0
+          ],
+          "title": {
+            "text": "Documents"
+          }
+        },
+        "yaxis2": {
+          "anchor": "x2",
+          "domain": [
+            0.625,
+            1.0
+          ],
+          "title": {
+            "text": "Normalized Values"
+          }
+        },
+        "xaxis3": {
+          "anchor": "y3",
+          "domain": [
+            0.0,
+            0.45
+          ],
+          "title": {
+            "text": "Clusters"
+          }
+        },
+        "yaxis3": {
+          "anchor": "x3",
+          "domain": [
+            0.0,
+            0.375
+          ],
+          "title": {
+            "text": "Number of Documents"
+          }
+        },
+        "xaxis4": {
+          "anchor": "y4",
+          "domain": [
+            0.55,
+            1.0
+          ],
+          "title": {
+            "text": "Documents"
+          }
+        },
+        "yaxis4": {
+          "anchor": "x4",
+          "domain": [
+            0.0,
+            0.375
+          ],
+          "title": {
+            "text": "Documents"
+          }
+        },
+        "annotations": [
+          {
+            "font": {
+              "size": 16
+            },
+            "showarrow": false,
+            "text": "Document Embeddings",
+            "x": 0.225,
+            "xanchor": "center",
+            "xref": "paper",
+            "y": 1.0,
+            "yanchor": "bottom",
+            "yref": "paper"
+          },
+          {
+            "font": {
+              "size": 16
+            },
+            "showarrow": false,
+            "text": "Text Features",
+            "x": 0.775,
+            "xanchor": "center",
+            "xref": "paper",
+            "y": 1.0,
+            "yanchor": "bottom",
+            "yref": "paper"
+          },
+          {
+            "font": {
+              "size": 16
+            },
+            "showarrow": false,
+            "text": "Cluster Analysis",
+            "x": 0.225,
+            "xanchor": "center",
+            "xref": "paper",
+            "y": 0.375,
+            "yanchor": "bottom",
+            "yref": "paper"
+          },
+          {
+            "font": {
+              "size": 16
+            },
+            "showarrow": false,
+            "text": "Similarity Matrix",
+            "x": 0.775,
+            "xanchor": "center",
+            "xref": "paper",
+            "y": 0.375,
+            "yanchor": "bottom",
+            "yref": "paper"
+          }
+        ],
+        "title": {
+          "text": "Comprehensive Document Analysis (sentence_transformer, PCA)"
+        },
+        "legend": {
+          "orientation": "h",
+          "yanchor": "bottom",
+          "y": 1.02,
+          "xanchor": "right",
+          "x": 1
+        },
+        "height": 800,
+        "showlegend": true,
+        "hovermode": "closest",
+        "dragmode": "pan",
+        "updatemenus": [
+          {
+            "buttons": [
+              {
+                "args": [
+                  "mode",
+                  "markers+text"
+                ],
+                "label": "Show Labels",
+                "method": "restyle"
+              },
+              {
+                "args": [
+                  "mode",
+                  "markers"
+                ],
+                "label": "Hide Labels",
+                "method": "restyle"
+              }
+            ],
+            "direction": "left",
+            "pad": {
+              "r": 10,
+              "t": 10
+            },
+            "showactive": true,
+            "type": "buttons",
+            "x": 0.01,
+            "xanchor": "left",
+            "y": 1.02,
+            "yanchor": "top"
+          }
+        ]
+      }
+    },
+    "embeddings": {
+      "short_story.txt": [
+        0.26893290877342224,
+        0.1453942209482193,
+        0.05507267639040947,
+        0.3542769253253937,
+        -0.3074488341808319,
+        -0.07025612145662308,
+        0.5044868588447571,
+        0.20403869450092316,
+        0.11282939463853836,
+        0.0802992507815361,
+        0.20231445133686066,
+        -0.040672946721315384,
+        -0.11816143244504929,
+        0.3409672677516937,
+        -0.3619004189968109,
+        -0.21899741888046265,
+        0.25542154908180237,
+        -0.47948750853538513,
+        -0.18610484898090363,
+        0.22238700091838837,
+        0.237596333026886,
+        -0.15613000094890594,
+        -0.21750104427337646,
+        -0.16479958593845367,
+        -0.019062470644712448,
+        -0.6788179874420166,
+        -0.5431327223777771,
+        0.006168936844915152,
+        -0.21519280970096588,
+        0.11169832944869995,
+        -0.2802640199661255,
+        -0.2280840128660202,
+        0.20334215462207794,
+        0.48426294326782227,
+        -0.3170858919620514,
+        0.09424523264169693,
+        -0.08391521126031876,
+        -0.04332636296749115,
+        -0.31871309876441956,
+        0.044279132038354874,
+        0.14352907240390778,
+        -0.05669296160340309,
+        -0.12063293904066086,
+        0.4366734027862549,
+        -0.17036955058574677,
+        -0.2369045466184616,
+        0.23803319036960602,
+        -0.36802831292152405,
+        -0.07274351269006729,
+        -0.22296138107776642,
+        -0.4756745994091034,
+        0.15969642996788025,
+        -0.44106659293174744,
+        -0.1334395408630371,
+        0.009587417356669903,
+        -0.041489508002996445,
+        0.15434278547763824,
+        0.027526574209332466,
+        0.2644295394420624,
+        -0.10655129700899124,
+        0.14031873643398285,
+        -0.03905871510505676,
+        -0.4351078271865845,
+        0.24640090763568878,
+        0.5242111086845398,
+        -0.36448952555656433,
+        -0.242544487118721,
+        -0.18235646188259125,
+        0.1305292397737503,
+        -0.07534394413232803,
+        0.08606676012277603,
+        0.2754599153995514,
+        -0.30412545800209045,
+        0.047919441014528275,
+        0.03967996686697006,
+        0.3652545213699341,
+        0.3305913209915161,
+        0.5188093781471252,
+        -0.199363112449646,
+        -0.41046229004859924,
+        0.02747495472431183,
+        0.27419599890708923,
+        -0.06554994732141495,
+        0.113666832447052,
+        -0.2932853400707245,
+        0.42850685119628906,
+        0.16237981617450714,
+        -0.2019684910774231,
+        -0.376748651266098,
+        -0.1471409946680069,
+        -0.1290278434753418,
+        0.03399018570780754,
+        0.7917672991752625,
+        0.13828817009925842,
+        0.12083645910024643,
+        -0.017136406153440475,
+        0.6512885689735413,
+        -0.5745357871055603,
+        -0.25522634387016296,
+        0.0742058977484703,
+        0.5125874876976013,
+        0.43792495131492615,
+        0.22567160427570343,
+        0.310212105512619,
+        0.05386801436543465,
+        -0.2739753723144531,
+        0.09702347964048386,
+        -0.14599455893039703,
+        0.07438523322343826,
+        -0.24265770614147186,
+        0.134904146194458,
+        0.19384795427322388,
+        -0.064171202480793,
+        -0.038057100027799606,
+        0.08827752619981766,
+        -0.1494617462158203,
+        -0.003980936948210001,
+        0.02730773575603962,
+        0.28103819489479065,
+        0.33693066239356995,
+        -0.3185877203941345,
+        -0.21218562126159668,
+        0.055353786796331406,
+        -0.21614830195903778,
+        -0.25999748706817627,
+        -0.20177684724330902,
+        0.21891367435455322,
+        0.2928379774093628,
+        0.054607540369033813,
+        0.05284726619720459,
+        -0.09699045866727829,
+        0.17096500098705292,
+        0.3626791536808014,
+        -0.18008148670196533,
+        -0.06558256596326828,
+        0.2789582908153534,
+        -0.13651110231876373,
+        0.16554783284664154,
+        -0.2300982028245926,
+        -0.39111408591270447,
+        -0.05722964182496071,
+        -0.030099965631961823,
+        -0.5352689623832703,
+        0.14514251053333282,
+        -0.1342991590499878,
+        0.056025322526693344,
+        -0.0062601566314697266,
+        -0.17847371101379395,
+        0.08419320732355118,
+        0.49789750576019287,
+        0.1960328072309494,
+        -0.5135409235954285,
+        0.31529951095581055,
+        0.23914594948291779,
+        -0.2788415253162384,
+        -0.31609046459198,
+        -0.4193606376647949,
+        0.492779403924942,
+        -0.20108474791049957,
+        0.07263887673616409,
+        0.02646590769290924,
+        0.06380672007799149,
+        -0.264852374792099,
+        0.028634728863835335,
+        0.11163119226694107,
+        0.07637705653905869,
+        0.08221933245658875,
+        0.20114557445049286,
+        0.14160624146461487,
+        0.0868799090385437,
+        0.22974704205989838,
+        -0.45485711097717285,
+        0.12840433418750763,
+        -0.04485176131129265,
+        -0.34624341130256653,
+        -0.09343189001083374,
+        -0.5066869258880615,
+        -0.17037008702754974,
+        0.2901191711425781,
+        -0.07457888126373291,
+        0.21800856292247772,
+        0.309318870306015,
+        -0.34898844361305237,
+        0.3198281526565552,
+        -0.3114526569843292,
+        -0.21400325000286102,
+        -0.11845312267541885,
+        0.1532362848520279,
+        0.6108419895172119,
+        -0.10479112714529037,
+        0.2869708836078644,
+        0.1383368819952011,
+        0.3134022057056427,
+        -0.04936177656054497,
+        -0.14854709804058075,
+        -0.1250922828912735,
+        0.348740816116333,
+        0.14168108999729156,
+        -0.2585192024707794,
+        -0.12966148555278778,
+        -0.18322515487670898,
+        -0.5543386340141296,
+        0.12063034623861313,
+        0.16092748939990997,
+        0.04546060785651207,
+        -0.5592451691627502,
+        -0.15601462125778198,
+        -0.24425144493579865,
+        0.1803908348083496,
+        0.08808176964521408,
+        -0.08655483275651932,
+        -0.17207618057727814,
+        -0.3034186065196991,
+        -0.030331047251820564,
+        0.3128664195537567,
+        -0.35721588134765625,
+        -0.2694478929042816,
+        0.259738951921463,
+        -0.29523181915283203,
+        -0.14683927595615387,
+        0.17760853469371796,
+        -0.16446423530578613,
+        0.38010987639427185,
+        -0.48357048630714417,
+        0.21940863132476807,
+        -0.19051438570022583,
+        0.042004507035017014,
+        -0.17121310532093048,
+        -0.1972997635602951,
+        -0.11616802960634232,
+        -0.09696584194898605,
+        0.25094160437583923,
+        0.007944057695567608,
+        -0.056097108870744705,
+        -0.45872315764427185,
+        0.35162481665611267,
+        0.09244581311941147,
+        -0.1616363525390625,
+        0.48183682560920715,
+        0.6109395623207092,
+        -0.03868480771780014,
+        -0.11302223056554794,
+        0.011705857701599598,
+        0.14568082988262177,
+        0.028920523822307587,
+        -0.05674699321389198,
+        -0.18536071479320526,
+        0.2409658432006836,
+        0.22923417389392853,
+        0.35669276118278503,
+        0.5422812104225159,
+        0.041669029742479324,
+        -0.2240934818983078,
+        -0.0532187782227993,
+        -0.029279539361596107,
+        -0.1285066455602646,
+        -0.1308622807264328,
+        0.10720816254615784,
+        0.3761172592639923,
+        0.013437849469482899,
+        0.004885021131485701,
+        -0.07165096700191498,
+        0.19596974551677704,
+        -0.5330116748809814,
+        0.043864935636520386,
+        -0.20783670246601105,
+        0.1675499677658081,
+        0.3508088290691376,
+        0.08627528697252274,
+        -0.1533043533563614,
+        0.16241586208343506,
+        -0.08791088312864304,
+        -0.2769941985607147,
+        0.18393726646900177,
+        0.7861449122428894,
+        -0.4395989179611206,
+        -0.03812183067202568,
+        0.10439854860305786,
+        -0.1760832667350769,
+        0.3699301481246948,
+        -0.27347269654273987,
+        0.16077153384685516,
+        0.12062601000070572,
+        0.1975957155227661,
+        -0.3584665060043335,
+        0.0028262019623070955,
+        -0.20857371389865875,
+        0.03974653780460358,
+        0.15097112953662872,
+        -0.0472753532230854,
+        -0.05719402804970741,
+        0.19515512883663177,
+        0.04012083634734154,
+        -0.31219732761383057,
+        0.2993215322494507,
+        0.4950515329837799,
+        -0.36955806612968445,
+        -0.174939826130867,
+        -0.11218076944351196,
+        0.2742782533168793,
+        0.20323783159255981,
+        -0.35528942942619324,
+        -0.8321914672851562,
+        0.07421781867742538,
+        -0.10387089103460312,
+        -0.19021309912204742,
+        0.3247798979282379,
+        0.18694554269313812,
+        0.00350848026573658,
+        -0.5410894751548767,
+        -0.024910837411880493,
+        0.5638740062713623,
+        -0.06099836155772209,
+        0.062149226665496826,
+        0.45396342873573303,
+        0.26400992274284363,
+        0.424915075302124,
+        -0.004911328200250864,
+        -0.1863321214914322,
+        -0.39292994141578674,
+        -0.17695601284503937,
+        -0.328952819108963,
+        -0.5641371607780457,
+        0.20458972454071045,
+        0.01584411971271038,
+        0.037090834230184555,
+        0.09209442138671875,
+        -0.25627264380455017,
+        -0.26732996106147766,
+        0.06105487048625946,
+        -0.4932854175567627,
+        -0.06932763010263443,
+        -0.11751987785100937,
+        0.07712627202272415,
+        0.1791747808456421,
+        0.06657430529594421,
+        -0.004396568983793259,
+        -0.24623443186283112,
+        -0.173282191157341,
+        0.23458032310009003,
+        -0.16438107192516327,
+        0.04579402878880501,
+        -0.29757532477378845,
+        -0.14917683601379395,
+        -0.18973402678966522,
+        -0.27590134739875793,
+        -0.07409082353115082,
+        0.09963608533143997,
+        0.1521715372800827,
+        0.19700300693511963,
+        0.12542365491390228,
+        0.5961280465126038,
+        -0.6151211261749268,
+        0.19312016665935516,
+        0.09027055650949478,
+        0.1297253519296646,
+        0.5162723660469055,
+        0.07498904317617416,
+        0.501345157623291,
+        -0.37419643998146057,
+        0.12034908682107925,
+        -0.4194551408290863,
+        0.19194085896015167,
+        0.6526270508766174,
+        -0.387357622385025,
+        0.14052660763263702,
+        -0.40172886848449707,
+        -0.6599841117858887,
+        0.3138135075569153,
+        0.00864435639232397,
+        0.10630381107330322,
+        0.024493316188454628,
+        0.21556013822555542,
+        -0.3181452751159668,
+        -0.4004795551300049,
+        0.1501784473657608,
+        0.16245874762535095,
+        0.32476451992988586,
+        0.11476653814315796,
+        0.05039243772625923,
+        0.2165818214416504,
+        0.15452872216701508,
+        -0.04229874536395073,
+        0.22641341388225555
+      ],
+      "novel.txt": [
+        -0.14218038320541382,
+        -0.13393503427505493,
+        -0.1650092452764511,
+        -0.13374190032482147,
+        -0.13621999323368073,
+        -0.01295375544577837,
+        -0.1153263971209526,
+        -0.09485537558794022,
+        0.06485031545162201,
+        0.16613231599330902,
+        0.10970025509595871,
+        0.17929762601852417,
+        0.04580795392394066,
+        -0.06061192974448204,
+        -0.081492118537426,
+        0.05866650491952896,
+        -0.17770947515964508,
+        -0.01356535591185093,
+        -0.10592705756425858,
+        -0.0691169872879982,
+        -0.04227500781416893,
+        -0.0922408327460289,
+        0.0652504712343216,
+        -0.08171269297599792,
+        -0.130290687084198,
+        0.11615180224180222,
+        -0.02315567247569561,
+        -0.05970802530646324,
+        0.02994239330291748,
+        -0.20146532356739044,
+        0.20991559326648712,
+        0.04794987291097641,
+        0.3573248088359833,
+        0.11979904025793076,
+        -0.32849133014678955,
+        0.14060333371162415,
+        -0.0011959902476519346,
+        0.04057670757174492,
+        0.09148571640253067,
+        -0.17587141692638397,
+        -0.17410224676132202,
+        -0.08276093751192093,
+        0.13993237912654877,
+        -0.07284903526306152,
+        0.12331447005271912,
+        0.09559225291013718,
+        -0.10497739166021347,
+        -0.0245846975594759,
+        -0.12006895244121552,
+        -0.17559276521205902,
+        -0.23306474089622498,
+        -0.275819331407547,
+        -0.040279995650053024,
+        0.0043268753215670586,
+        0.12550663948059082,
+        0.06395097076892853,
+        0.0763523280620575,
+        -0.16014812886714935,
+        -0.10184311866760254,
+        -0.08237188309431076,
+        0.16207166016101837,
+        -0.14526773989200592,
+        0.23469918966293335,
+        0.20288890600204468,
+        0.20783337950706482,
+        0.10057501494884491,
+        0.09394732117652893,
+        0.035517219454050064,
+        -0.04656081274151802,
+        -0.06953776627779007,
+        -0.14746539294719696,
+        -0.114985391497612,
+        -0.07694371044635773,
+        -0.09640751034021378,
+        0.16561341285705566,
+        0.1158507838845253,
+        -0.10603217780590057,
+        -0.2055104374885559,
+        0.29220589995384216,
+        0.15107351541519165,
+        0.28077232837677,
+        0.05155660957098007,
+        0.154264897108078,
+        0.2532154619693756,
+        -0.09085552394390106,
+        0.08603919297456741,
+        -0.006723655853420496,
+        -0.30168941617012024,
+        -0.04095624387264252,
+        -0.05015966668725014,
+        -0.036527231335639954,
+        0.0677277222275734,
+        -0.09664639830589294,
+        -0.18518996238708496,
+        0.14914000034332275,
+        0.010033129714429379,
+        -0.12817543745040894,
+        -0.26378333568573,
+        0.055405378341674805,
+        0.12371578812599182,
+        -0.21602708101272583,
+        0.021633537486195564,
+        -0.16855356097221375,
+        -0.3658001720905304,
+        0.12503717839717865,
+        -0.05680808797478676,
+        0.06299436092376709,
+        -0.2807294726371765,
+        0.018619678914546967,
+        -0.023576520383358,
+        0.049636997282505035,
+        -0.04763603210449219,
+        0.0024720998480916023,
+        0.205452099442482,
+        0.24659308791160583,
+        0.11370909959077835,
+        0.010324588976800442,
+        -0.025998305529356003,
+        0.11823932826519012,
+        -0.008913446217775345,
+        0.03325112164020538,
+        0.028394145891070366,
+        0.11549586802721024,
+        0.09880419075489044,
+        0.33438795804977417,
+        0.0508495531976223,
+        -0.10498616844415665,
+        -0.036386553198099136,
+        -0.09989771246910095,
+        0.022935720160603523,
+        0.2779894769191742,
+        -0.017508642747998238,
+        -0.09737367182970047,
+        0.04357241094112396,
+        0.1523689329624176,
+        -0.04784557595849037,
+        0.05166280269622803,
+        -0.12953108549118042,
+        -0.25505712628364563,
+        0.1924138069152832,
+        0.09170791506767273,
+        0.43285706639289856,
+        0.3791294991970062,
+        -0.01859808713197708,
+        0.05345693975687027,
+        0.18259872496128082,
+        -0.005702000577002764,
+        -0.06912385672330856,
+        0.19652198255062103,
+        -0.2352345883846283,
+        0.2056112140417099,
+        -0.10476198047399521,
+        0.24755334854125977,
+        0.03299640119075775,
+        0.1130116730928421,
+        0.09994938224554062,
+        0.20147432386875153,
+        -0.11703003197908401,
+        -0.26623693108558655,
+        0.09317798167467117,
+        -0.11739883571863174,
+        0.08211556822061539,
+        0.027950268238782883,
+        -0.013093444518744946,
+        -0.06811072677373886,
+        -0.12513107061386108,
+        0.13138891756534576,
+        -0.010981002822518349,
+        0.14412821829319,
+        0.22925323247909546,
+        0.11410872638225555,
+        -0.12580353021621704,
+        -0.18726657330989838,
+        0.06513622403144836,
+        0.07044672966003418,
+        -0.02959168516099453,
+        -0.19143524765968323,
+        -0.020136795938014984,
+        0.06739573925733566,
+        -0.14272010326385498,
+        0.14685191214084625,
+        -0.22276347875595093,
+        0.21128398180007935,
+        0.006200081203132868,
+        0.04863441362977028,
+        -0.011335985735058784,
+        -0.07138784974813461,
+        0.08216971904039383,
+        -0.2407054901123047,
+        0.14299608767032623,
+        -0.06809891015291214,
+        0.2503632605075836,
+        0.17242449522018433,
+        0.04044902324676514,
+        0.10750575363636017,
+        -0.13649344444274902,
+        0.33101823925971985,
+        0.11224890500307083,
+        -0.15681613981723785,
+        -0.023634260520339012,
+        -0.28848135471343994,
+        -0.09319410473108292,
+        -0.3338237404823303,
+        -0.12895287573337555,
+        -0.12206823378801346,
+        -0.15328282117843628,
+        -0.011316009797155857,
+        0.19784189760684967,
+        -0.11441449820995331,
+        0.2677135169506073,
+        -0.11673268675804138,
+        0.041231706738471985,
+        0.02505326271057129,
+        -0.026934118941426277,
+        -0.08571913838386536,
+        -0.09713022410869598,
+        -0.0817040428519249,
+        -0.006237536668777466,
+        0.014593428932130337,
+        -0.0926462858915329,
+        -0.10894470661878586,
+        0.10951638221740723,
+        -0.18416911363601685,
+        -0.06945328414440155,
+        -0.31638315320014954,
+        -0.2249678522348404,
+        -0.26676690578460693,
+        0.1495153158903122,
+        -0.08545944094657898,
+        -0.056540511548519135,
+        -0.1927979439496994,
+        -0.008590041659772396,
+        0.1398693472146988,
+        0.034150395542383194,
+        -0.15838265419006348,
+        -0.04200945794582367,
+        0.0696054995059967,
+        0.13222342729568481,
+        -0.014883562922477722,
+        -0.10093116015195847,
+        -0.011429884470999241,
+        -0.08863738179206848,
+        0.026524780318140984,
+        -0.0455305315554142,
+        0.31226846575737,
+        0.33515840768814087,
+        -0.08052534610033035,
+        -0.24251632392406464,
+        0.00481785973533988,
+        0.2735292613506317,
+        -0.2164357751607895,
+        -0.08605415374040604,
+        0.06777750700712204,
+        -0.17729038000106812,
+        -0.10258816927671432,
+        -0.12503796815872192,
+        -0.054097291082143784,
+        0.10024379938840866,
+        0.0024300143122673035,
+        0.2424907088279724,
+        0.18969915807247162,
+        -0.2003016471862793,
+        0.13487505912780762,
+        0.018659301102161407,
+        0.08175747841596603,
+        0.02586505003273487,
+        -0.3268176019191742,
+        0.06933889538049698,
+        0.0699467882514,
+        0.09501229971647263,
+        -0.12922480702400208,
+        0.24727793037891388,
+        0.03162800893187523,
+        0.022781439125537872,
+        0.03720521554350853,
+        -0.11877651512622833,
+        -0.0800049901008606,
+        -0.24740582704544067,
+        -0.12285361438989639,
+        0.06088540703058243,
+        0.05386253818869591,
+        0.033052608370780945,
+        -0.15813368558883667,
+        0.12485554814338684,
+        -0.14329348504543304,
+        -0.20607414841651917,
+        0.1412278264760971,
+        0.10493224114179611,
+        -0.22324243187904358,
+        -0.01037177536636591,
+        0.10752583295106888,
+        -0.04436134919524193,
+        -0.14529384672641754,
+        -0.06117497757077217,
+        0.19788308441638947,
+        0.09729525446891785,
+        0.08120819926261902,
+        0.09289932996034622,
+        -0.22991737723350525,
+        0.06396389752626419,
+        -0.05638163909316063,
+        0.1276712715625763,
+        -0.008744017221033573,
+        -0.000537284417077899,
+        -0.0008773600566200912,
+        -0.06546347588300705,
+        0.24319958686828613,
+        0.07309090346097946,
+        -0.15038500726222992,
+        0.2280636876821518,
+        -0.11773168295621872,
+        -0.28432637453079224,
+        -0.0029132766649127007,
+        -0.005956262815743685,
+        -0.19846127927303314,
+        -0.14700573682785034,
+        -0.2789948582649231,
+        0.03153897821903229,
+        -0.11879363656044006,
+        -0.027366358786821365,
+        0.02132374607026577,
+        0.11279353499412537,
+        0.0661541223526001,
+        0.14138273894786835,
+        -0.03889669477939606,
+        -0.0809815376996994,
+        -0.1585369110107422,
+        0.24920488893985748,
+        -0.037820927798748016,
+        -0.25594523549079895,
+        0.095323845744133,
+        0.130021870136261,
+        0.08428215235471725,
+        0.18019308149814606,
+        0.20066618919372559,
+        0.13293775916099548,
+        0.04561150446534157,
+        0.22715473175048828,
+        0.005294722504913807,
+        -0.08610647171735764,
+        0.29471445083618164,
+        0.03491635248064995,
+        -0.25960832834243774,
+        0.07444152981042862,
+        -0.009409952908754349,
+        0.03745546564459801,
+        0.0248706117272377,
+        0.18407319486141205,
+        -0.16137062013149261,
+        0.06030925735831261,
+        -0.04785279184579849,
+        -0.007948591373860836,
+        0.03370799124240875,
+        0.05369104444980621,
+        0.24725300073623657,
+        0.017924685031175613,
+        -0.17403623461723328,
+        -0.04618939384818077,
+        0.020986057817935944,
+        -0.10699717700481415,
+        -0.16086527705192566,
+        0.011402014642953873,
+        -0.1894635111093521,
+        -0.02678116038441658,
+        0.049165382981300354,
+        0.07322225719690323,
+        0.0758456289768219,
+        -0.1997946798801422,
+        0.016381895169615746,
+        -0.019728919491171837,
+        -0.14210624992847443,
+        0.02518126182258129,
+        0.00408646697178483,
+        0.11673479527235031,
+        0.1369006484746933,
+        0.16083897650241852,
+        0.09319610148668289,
+        -0.050657179206609726,
+        -0.017615145072340965,
+        0.1520129293203354,
+        0.01572786457836628,
+        0.1382371336221695,
+        0.10677078366279602,
+        -0.19127298891544342
+      ],
+      "doc1.txt": [
+        -0.31359919905662537,
+        0.08411816507577896,
+        -0.33278363943099976,
+        -0.15912209451198578,
+        -0.06162155047059059,
+        0.06256850063800812,
+        -0.2977997660636902,
+        0.3562503159046173,
+        0.07116729766130447,
+        0.21906760334968567,
+        0.12437883764505386,
+        0.05894925445318222,
+        0.13118506968021393,
+        -0.03138475492596626,
+        -0.451971173286438,
+        -0.11475369334220886,
+        -0.3610096871852875,
+        0.1357223391532898,
+        0.2852519452571869,
+        -0.29238441586494446,
+        0.28399550914764404,
+        -0.17780444025993347,
+        0.17649385333061218,
+        -0.14258046448230743,
+        0.107877217233181,
+        0.03780506178736687,
+        0.23682911694049835,
+        0.09635140001773834,
+        0.01799417845904827,
+        -0.3691152036190033,
+        0.3386569619178772,
+        -0.13207480311393738,
+        0.709179699420929,
+        0.48614248633384705,
+        -0.22281856834888458,
+        0.3122209906578064,
+        0.135196715593338,
+        0.10360646992921829,
+        0.012437369674444199,
+        -0.1579144150018692,
+        0.0503152497112751,
+        -0.16802877187728882,
+        0.2132757008075714,
+        0.2845878601074219,
+        0.28610384464263916,
+        0.1664297729730606,
+        -0.06201021000742912,
+        -0.1629103720188141,
+        0.010064414702355862,
+        -0.450047105550766,
+        0.06630738079547882,
+        -0.1630694419145584,
+        0.06114763393998146,
+        -0.2756476104259491,
+        0.2500172257423401,
+        0.0829603374004364,
+        0.28354451060295105,
+        -0.3080677092075348,
+        -0.24041563272476196,
+        -0.024657953530550003,
+        -0.16728544235229492,
+        -0.03721187263727188,
+        0.006745242979377508,
+        0.5925762057304382,
+        0.33986520767211914,
+        0.07498977333307266,
+        -0.025093598291277885,
+        -0.18162593245506287,
+        -0.013364928774535656,
+        -0.019227735698223114,
+        -0.12670333683490753,
+        -0.05957021936774254,
+        0.09354820102453232,
+        -0.06607063114643097,
+        0.18793557584285736,
+        0.22425483167171478,
+        -0.010754762217402458,
+        0.016750164330005646,
+        0.23296381533145905,
+        0.28165194392204285,
+        0.22528839111328125,
+        0.24970631301403046,
+        0.3088281452655792,
+        0.37273991107940674,
+        -0.363157719373703,
+        0.03927573189139366,
+        0.13774485886096954,
+        -0.40856996178627014,
+        -0.4684053063392639,
+        -0.1625930219888687,
+        0.026528427377343178,
+        0.06981023401021957,
+        -0.021503781899809837,
+        0.015597926452755928,
+        0.14368972182273865,
+        -0.06454161554574966,
+        -0.3060995638370514,
+        -0.4245012104511261,
+        0.1966475546360016,
+        0.10293377190828323,
+        -0.3358786702156067,
+        -0.1573677808046341,
+        -0.0686221644282341,
+        -0.2969997525215149,
+        0.12128632515668869,
+        -0.29613977670669556,
+        0.20793765783309937,
+        -0.5584238767623901,
+        0.03138371556997299,
+        -0.18750588595867157,
+        0.03198154643177986,
+        -0.19565296173095703,
+        0.017900409176945686,
+        0.1516408920288086,
+        0.2900383174419403,
+        -0.011847104877233505,
+        0.2658330202102661,
+        0.10498854517936707,
+        0.11994539946317673,
+        0.021595660597085953,
+        -0.07169654965400696,
+        0.09852002561092377,
+        -0.01869470253586769,
+        -0.017087038606405258,
+        0.1431494504213333,
+        -0.33778345584869385,
+        -0.14931125938892365,
+        -0.03772042319178581,
+        0.04794979840517044,
+        -0.33221161365509033,
+        0.14133574068546295,
+        -0.4195549786090851,
+        0.04177067428827286,
+        -0.13217921555042267,
+        0.40693023800849915,
+        0.08348582684993744,
+        -0.3553442656993866,
+        -0.03017522022128105,
+        -0.13312236964702606,
+        0.07288762181997299,
+        0.011113983578979969,
+        0.4993145763874054,
+        -0.10271615535020828,
+        0.029549241065979004,
+        -0.13404281437397003,
+        0.10105205327272415,
+        0.06297563016414642,
+        -0.015186067670583725,
+        0.060282181948423386,
+        -0.04331313073635101,
+        0.3381984531879425,
+        -0.24503526091575623,
+        0.14808160066604614,
+        0.08633431047201157,
+        0.13301879167556763,
+        0.030470814555883408,
+        0.2095295935869217,
+        0.17273429036140442,
+        -0.2789919674396515,
+        -0.23282045125961304,
+        -0.22803783416748047,
+        0.04267378896474838,
+        0.0830276757478714,
+        0.14329080283641815,
+        0.2821493148803711,
+        -0.2874281108379364,
+        0.2669270932674408,
+        -0.13819758594036102,
+        0.09909690171480179,
+        0.08672084659337997,
+        0.19749628007411957,
+        -0.2763597071170807,
+        -0.28546810150146484,
+        0.3020685315132141,
+        0.006974826101213694,
+        0.05915294587612152,
+        0.36044609546661377,
+        -0.1385982185602188,
+        -0.16985051333904266,
+        -0.10116581618785858,
+        0.05340125039219856,
+        -0.06256403028964996,
+        0.08587972819805145,
+        -0.040153104811906815,
+        -0.10744369775056839,
+        0.025039877742528915,
+        -0.19040663540363312,
+        -0.03720720484852791,
+        -0.39365413784980774,
+        0.4749278724193573,
+        -0.16532377898693085,
+        0.04476908966898918,
+        0.2992439866065979,
+        0.0952606275677681,
+        0.01746622659265995,
+        -0.03762450069189072,
+        0.47721484303474426,
+        -0.017744410783052444,
+        -0.2322908341884613,
+        -0.2633689045906067,
+        -0.36443957686424255,
+        -0.12869827449321747,
+        -0.2632315754890442,
+        -0.03092704527080059,
+        -0.10667988657951355,
+        -0.45863983035087585,
+        -0.20992985367774963,
+        0.002663083840161562,
+        -0.05506088212132454,
+        0.13534341752529144,
+        0.022070366889238358,
+        -0.007011218927800655,
+        -0.2769269347190857,
+        -0.048874370753765106,
+        0.14874741435050964,
+        0.3207615911960602,
+        -0.11317566782236099,
+        -0.05367613956332207,
+        -0.0960501953959465,
+        0.03159323334693909,
+        -0.037261467427015305,
+        0.16960331797599792,
+        -0.0446835421025753,
+        -0.08929239958524704,
+        -0.33612459897994995,
+        -0.15847031772136688,
+        -0.2456018328666687,
+        0.12085240334272385,
+        0.21837632358074188,
+        0.20569966733455658,
+        0.024737389758229256,
+        -0.0897090807557106,
+        0.11573198437690735,
+        0.21420931816101074,
+        0.016555972397327423,
+        -0.08151780068874359,
+        -0.0817296952009201,
+        0.09873292595148087,
+        0.10031530261039734,
+        0.11733579635620117,
+        -0.08697710931301117,
+        -0.007723929360508919,
+        0.23436695337295532,
+        0.24657441675662994,
+        0.08613260835409164,
+        0.3568865656852722,
+        -0.19008029997348785,
+        -0.22580361366271973,
+        -0.024408893659710884,
+        0.05923989787697792,
+        -0.05924510955810547,
+        0.266936331987381,
+        0.028595590963959694,
+        -0.21464155614376068,
+        0.23193004727363586,
+        -0.27423155307769775,
+        -0.0014974117511883378,
+        0.08705220371484756,
+        -0.23954150080680847,
+        0.1138020008802414,
+        0.16143955290317535,
+        -0.6080683469772339,
+        0.23809003829956055,
+        -0.0942726656794548,
+        0.0645090714097023,
+        0.18612393736839294,
+        -0.38474705815315247,
+        -0.08544516563415527,
+        -0.24481262266635895,
+        -0.2566218972206116,
+        -0.14404426515102386,
+        0.48528432846069336,
+        0.2891741991043091,
+        0.26753780245780945,
+        -0.06127011775970459,
+        0.005766868591308594,
+        0.032022468745708466,
+        -0.03468230739235878,
+        -0.15309348702430725,
+        -0.10907270014286041,
+        -0.33252379298210144,
+        0.22052432596683502,
+        -0.09826779365539551,
+        0.05155827850103378,
+        -0.1244749054312706,
+        0.08481253683567047,
+        -0.02972017601132393,
+        0.09875797480344772,
+        -0.32375457882881165,
+        0.07989314198493958,
+        -0.027412351220846176,
+        0.15482063591480255,
+        -0.17588859796524048,
+        0.22709235548973083,
+        0.11307484656572342,
+        0.40932750701904297,
+        0.18968825042247772,
+        0.10519503057003021,
+        -0.023339299485087395,
+        0.2525711953639984,
+        -0.05868471786379814,
+        -0.17396727204322815,
+        -0.07861431688070297,
+        -0.05894786864519119,
+        -0.09196562319993973,
+        0.026247700676321983,
+        -0.11026191711425781,
+        0.2242242842912674,
+        -0.10835776478052139,
+        0.19955961406230927,
+        -0.08602046221494675,
+        -0.13406024873256683,
+        0.2358163446187973,
+        0.10536729544401169,
+        -0.023516710847616196,
+        -0.24973779916763306,
+        0.029265588149428368,
+        -0.007745408918708563,
+        -0.3567390441894531,
+        -0.35045039653778076,
+        0.0286861602216959,
+        0.016218356788158417,
+        0.5665549039840698,
+        0.2001439779996872,
+        -0.012054878287017345,
+        0.1196933463215828,
+        -0.3836892545223236,
+        0.10646498203277588,
+        -0.2798241674900055,
+        -0.46299561858177185,
+        0.08795959502458572,
+        -0.12268123775720596,
+        -0.29135411977767944,
+        0.02583843097090721,
+        -0.2265593558549881,
+        -0.014592242427170277,
+        0.351576030254364,
+        0.06601910293102264,
+        0.0862310454249382,
+        -0.2984732985496521,
+        0.13466587662696838,
+        -0.10001850128173828,
+        -0.4754384458065033,
+        -0.2521863877773285,
+        0.2921406328678131,
+        0.020571403205394745,
+        0.12132816761732101,
+        0.20013202726840973,
+        -0.10032936930656433,
+        0.14149662852287292,
+        -0.008777344599366188,
+        0.12146703153848648,
+        0.227691650390625,
+        0.1787388026714325,
+        0.21213236451148987,
+        0.12773314118385315,
+        -0.15862445533275604,
+        -0.10559369623661041,
+        -0.12886148691177368,
+        -0.2404251992702484,
+        -0.19591474533081055,
+        0.2353333830833435,
+        0.13610316812992096,
+        -0.2988247871398926,
+        0.2197553962469101,
+        0.5187673568725586,
+        -0.0589090995490551,
+        -0.45526090264320374,
+        0.043430767953395844,
+        -0.3356647491455078,
+        0.01160694845020771,
+        -0.2305283397436142,
+        0.17295697331428528,
+        0.1682213842868805,
+        0.395870178937912,
+        0.4154701828956604,
+        -0.06244777888059616,
+        -0.18274173140525818,
+        0.05734178051352501,
+        0.07281344383955002,
+        -0.14486780762672424,
+        0.12119022756814957,
+        0.14093062281608582,
+        -0.137599915266037
+      ]
+    },
+    "features": {
+      "short_story.txt": {
+        "word_count": 9,
+        "sentence_count": 2,
+        "avg_word_length": 3.1,
+        "readability_score": 100,
+        "lexical_diversity": 0.8888888888888888,
+        "pos_distribution": {
+          "X": 7,
+          "NOUN": 2,
+          "SPACE": 1
+        }
+      },
+      "novel.txt": {
+        "word_count": 163,
+        "sentence_count": 12,
+        "avg_word_length": 6.134146341463414,
+        "readability_score": 40.12138888888893,
+        "lexical_diversity": 0.7407407407407407,
+        "pos_distribution": {
+          "X": 140,
+          "NOUN": 12,
+          "ADJ": 4,
+          "ADV": 4,
+          "SPACE": 2,
+          "PROPN": 1,
+          "PRON": 1
+        }
+      },
+      "doc1.txt": {
+        "word_count": 11,
+        "sentence_count": 2,
+        "avg_word_length": 5.666666666666667,
+        "readability_score": 55.12522727272727,
+        "lexical_diversity": 1.0,
+        "pos_distribution": {
+          "X": 10,
+          "ADJ": 1,
+          "SPACE": 1
+        }
+      }
+    },
+    "clusters": {
+      "short_story.txt": 1,
+      "novel.txt": 0,
+      "doc1.txt": 0
+    },
+    "similarity_matrix": [
+      [
+        28.056028366088867,
+        -1.4014619588851929,
+        0.8496690988540649
+      ],
+      [
+        -1.4014619588851929,
+        7.936483383178711,
+        6.553284168243408
+      ],
+      [
+        0.8496690988540649,
+        6.553284168243408,
+        17.557058334350586
+      ]
+    ],
+    "filenames": [
+      "short_story.txt",
+      "novel.txt",
+      "doc1.txt"
+    ]
+  },
+  "stats": {
+    "total_documents": 3,
+    "total_entities": 0,
+    "num_communities": 0,
+    "avg_degree": 0
+  },
+  "analysis_id": "34d0f715-1abe-4a1b-bc8e-28335c039c9e",
+  "analysis_type": "enhanced_embeddings"
+}

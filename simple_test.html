@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Simple Plotly Test</title>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body>
+    <h1>Simple Plotly Test</h1>
+    <div id="chart" style="width: 100%; height: 400px;"></div>
+    <button onclick="createChart()">Create Chart</button>
+    <div id="debug"></div>
+
+    <script>
+        function createChart() {
+            const data = [{
+                x: ['A', 'B', 'C'],
+                y: [1, 3, 2],
+                type: 'bar'
+            }];
+            
+            const layout = {
+                title: 'Simple Test Chart'
+            };
+            
+            try {
+                Plotly.newPlot('chart', data, layout, {responsive: true});
+                document.getElementById('debug').innerHTML = '<p style="color: green;">✅ Chart created successfully!</p>';
+            } catch (error) {
+                document.getElementById('debug').innerHTML = '<p style="color: red;">❌ Error: ' + error.message + '</p>';
+            }
+        }
+        
+        // Test if Plotly is loaded
+        if (typeof Plotly !== 'undefined') {
+            document.getElementById('debug').innerHTML = '<p style="color: green;">✅ Plotly.js loaded successfully</p>';
+        } else {
+            document.getElementById('debug').innerHTML = '<p style="color: red;">❌ Plotly.js not loaded</p>';
+        }
+    </script>
+</body>
+</html>
+
+
+

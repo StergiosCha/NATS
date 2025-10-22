@@ -1,0 +1,1490 @@
+{
+  "network": {
+    "vatsnies.txt": {
+      "network_path": "network_0.html",
+      "entities": {
+        "Βαλκάνια\n \n": "GPE",
+        "Βαλκανίων": "GPE",
+        "Ελλάδα": "GPE",
+        "Αθήνας": "GPE",
+        "ημικοντέινερ": "GPE",
+        "Γιώργο": "PERSON",
+        "Γιώργος": "PERSON",
+        "επαρχίας": "GPE",
+        "Κωστίκας": "PERSON",
+        "Αφγανιστάν": "GPE",
+        "Περσία": "GPE",
+        "Μαύρης Θάλασσας": "GPE",
+        "Γιωρίκας": "PERSON",
+        "Νεπέ": "GPE",
+        "Γιωρίκα αφορισμένε": "PERSON",
+        "Κώστα": "PERSON",
+        "Γιωργάκης": "PERSON",
+        "Γιωργάκη": "PERSON",
+        "Λάζος": "PERSON",
+        "Ισούζου": "GPE",
+        "Κωστίκα": "PERSON",
+        "Κώστας": "PERSON",
+        "ντέσκτοπ": "PERSON",
+        "Μπραντ Πιτ": "PERSON",
+        "Δαμιανός": "PERSON",
+        "Ν. Λάρισας": "GPE",
+        "νυχτούλα": "PERSON",
+        "συνεχίσανε": "PERSON",
+        "Χαρτοπετσέτα": "PERSON",
+        "πέλφε δίλιτρη": "PERSON",
+        "δίλιτρη Πέλφε": "GPE",
+        "Σάββας": "PERSON",
+        "Πανίκας": "PERSON",
+        "προκαλέσανε": "PERSON",
+        "Παναγιώτης": "PERSON",
+        "IΣΟΥΖΟΥ ΕΙΝΑΙ ΓΑΜΩ": "ORG",
+        "Νικολάκης": "PERSON",
+        "Νότια Βαλκάνια": "GPE",
+        "Νικολάκη": "PERSON",
+        "Νικόλάκη": "PERSON",
+        "Φοίνικας": "ORG",
+        "Μόργκαν": "PERSON",
+        "μπαργουμάνα": "PERSON",
+        "Εδιμβούργου": "GPE",
+        "ξαναχώρισε": "PERSON",
+        "ξαναγαμώντας": "ORG",
+        "Βαλκάνια": "GPE"
+      },
+      "relationships": 53,
+      "communities": {
+        "Βαλκάνια\n \n": 7,
+        "Βαλκανίων": 1,
+        "Ελλάδα": 7,
+        "Αθήνας": 3,
+        "ημικοντέινερ": 4,
+        "Γιώργο": 6,
+        "Γιώργος": 6,
+        "επαρχίας": 6,
+        "Κωστίκας": 6,
+        "Αφγανιστάν": 10,
+        "Περσία": 10,
+        "Μαύρης Θάλασσας": 10,
+        "Γιωρίκας": 17,
+        "Νεπέ": 14,
+        "Γιωρίκα αφορισμένε": 14,
+        "Κώστα": 13,
+        "Γιωργάκης": 17,
+        "Γιωργάκη": 17,
+        "Λάζος": 17,
+        "Ισούζου": 17,
+        "Κωστίκα": 6,
+        "Κώστας": 13,
+        "ντέσκτοπ": 17,
+        "Μπραντ Πιτ": 15,
+        "Δαμιανός": 15,
+        "Ν. Λάρισας": 17,
+        "νυχτούλα": 17,
+        "συνεχίσανε": 16,
+        "Χαρτοπετσέτα": 18,
+        "πέλφε δίλιτρη": 18,
+        "δίλιτρη Πέλφε": 19,
+        "Σάββας": 20,
+        "Πανίκας": 0,
+        "προκαλέσανε": 0,
+        "Παναγιώτης": 2,
+        "IΣΟΥΖΟΥ ΕΙΝΑΙ ΓΑΜΩ": 5,
+        "Νικολάκης": 7,
+        "Νότια Βαλκάνια": 7,
+        "Νικολάκη": 7,
+        "Νικόλάκη": 8,
+        "Φοίνικας": 9,
+        "Μόργκαν": 11,
+        "μπαργουμάνα": 12,
+        "Εδιμβούργου": 7,
+        "ξαναχώρισε": 7,
+        "ξαναγαμώντας": 7,
+        "Βαλκάνια": 7
+      },
+      "centrality": {
+        "Βαλκάνια\n \n": {
+          "degree": 2,
+          "betweenness": 0.0,
+          "pagerank": 0.009554650542497477
+        },
+        "Βαλκανίων": {
+          "degree": 0,
+          "betweenness": 0.0,
+          "pagerank": 0.00407608695652174
+        },
+        "Ελλάδα": {
+          "degree": 1,
+          "betweenness": 0.0,
+          "pagerank": 0.0074278198749950074
+        },
+        "Αθήνας": {
+          "degree": 0,
+          "betweenness": 0.0,
+          "pagerank": 0.00407608695652174
+        },
+        "ημικοντέινερ": {
+          "degree": 0,
+          "betweenness": 0.0,
+          "pagerank": 0.00407608695652174
+        },
+        "Γιώργο": {
+          "degree": 6,
+          "betweenness": 0.07342995169082125,
+          "pagerank": 0.03208285149081214
+        },
+        "Γιώργος": {
+          "degree": 4,
+          "betweenness": 0.0,
+          "pagerank": 0.026815854156205413
+        },
+        "επαρχίας": {
+          "degree": 4,
+          "betweenness": 0.0,
+          "pagerank": 0.019626113286456408
+        },
+        "Κωστίκας": {
+          "degree": 4,
+          "betweenness": 0.0,
+          "pagerank": 0.019626113286456408
+        },
+        "Αφγανιστάν": {
+          "degree": 2,
+          "betweenness": 0.0,
+          "pagerank": 0.027173913043478267
+        },
+        "Περσία": {
+          "degree": 2,
+          "betweenness": 0.0,
+          "pagerank": 0.027173913043478267
+        },
+        "Μαύρης Θάλασσας": {
+          "degree": 2,
+          "betweenness": 0.0,
+          "pagerank": 0.027173913043478267
+        },
+        "Γιωρίκας": {
+          "degree": 1,
+          "betweenness": 0.0,
+          "pagerank": 0.0062029176240242095
+        },
+        "Νεπέ": {
+          "degree": 1,
+          "betweenness": 0.0,
+          "pagerank": 0.027173913043478267
+        },
+        "Γιωρίκα αφορισμένε": {
+          "degree": 1,
+          "betweenness": 0.0,
+          "pagerank": 0.027173913043478267
+        },
+        "Κώστα": {
+          "degree": 4,
+          "betweenness": 0.04106280193236715,
+          "pagerank": 0.0356919901382421
+        },
+        "Γιωργάκης": {
+          "degree": 3,
+          "betweenness": 0.0,
+          "pagerank": 0.0573688840157588
+        },
+        "Γιωργάκη": {
+          "degree": 5,
+          "betweenness": 0.006763285024154589,
+          "pagerank": 0.07390358879487319
+        },
+        "Λάζος": {
+          "degree": 1,
+          "betweenness": 0.0,
+          "pagerank": 0.0062029176240242095
+        },
+        "Ισούζου": {
+          "degree": 11,
+          "betweenness": 0.17294685990338163,
+          "pagerank": 0.08007432826413229
+        },
+        "Κωστίκα": {
+          "degree": 4,
+          "betweenness": 0.0,
+          "pagerank": 0.019626113286456408
+        },
+        "Κώστας": {
+          "degree": 4,
+          "betweenness": 0.04106280193236715,
+          "pagerank": 0.029281168602150732
+        },
+        "ντέσκτοπ": {
+          "degree": 1,
+          "betweenness": 0.0,
+          "pagerank": 0.0062029176240242095
+        },
+        "Μπραντ Πιτ": {
+          "degree": 1,
+          "betweenness": 0.0,
+          "pagerank": 0.027173913043478267
+        },
+        "Δαμιανός": {
+          "degree": 1,
+          "betweenness": 0.0,
+          "pagerank": 0.027173913043478267
+        },
+        "Ν. Λάρισας": {
+          "degree": 1,
+          "betweenness": 0.0,
+          "pagerank": 0.0062029176240242095
+        },
+        "νυχτούλα": {
+          "degree": 3,
+          "betweenness": 0.0,
+          "pagerank": 0.009689102686930181
+        },
+        "συνεχίσανε": {
+          "degree": 0,
+          "betweenness": 0.0,
+          "pagerank": 0.00407608695652174
+        },
+        "Χαρτοπετσέτα": {
+          "degree": 1,
+          "betweenness": 0.0,
+          "pagerank": 0.027173913043478267
+        },
+        "πέλφε δίλιτρη": {
+          "degree": 1,
+          "betweenness": 0.0,
+          "pagerank": 0.027173913043478267
+        },
+        "δίλιτρη Πέλφε": {
+          "degree": 0,
+          "betweenness": 0.0,
+          "pagerank": 0.00407608695652174
+        },
+        "Σάββας": {
+          "degree": 0,
+          "betweenness": 0.0,
+          "pagerank": 0.00407608695652174
+        },
+        "Πανίκας": {
+          "degree": 1,
+          "betweenness": 0.0,
+          "pagerank": 0.027173913043478267
+        },
+        "προκαλέσανε": {
+          "degree": 1,
+          "betweenness": 0.0,
+          "pagerank": 0.027173913043478267
+        },
+        "Παναγιώτης": {
+          "degree": 0,
+          "betweenness": 0.0,
+          "pagerank": 0.00407608695652174
+        },
+        "IΣΟΥΖΟΥ ΕΙΝΑΙ ΓΑΜΩ": {
+          "degree": 0,
+          "betweenness": 0.0,
+          "pagerank": 0.00407608695652174
+        },
+        "Νικολάκης": {
+          "degree": 6,
+          "betweenness": 0.02753623188405797,
+          "pagerank": 0.047236303261568066
+        },
+        "Νότια Βαλκάνια": {
+          "degree": 3,
+          "betweenness": 0.0,
+          "pagerank": 0.02313447566886135
+        },
+        "Νικολάκη": {
+          "degree": 6,
+          "betweenness": 0.02753623188405797,
+          "pagerank": 0.047236303261568066
+        },
+        "Νικόλάκη": {
+          "degree": 0,
+          "betweenness": 0.0,
+          "pagerank": 0.00407608695652174
+        },
+        "Φοίνικας": {
+          "degree": 0,
+          "betweenness": 0.0,
+          "pagerank": 0.00407608695652174
+        },
+        "Μόργκαν": {
+          "degree": 0,
+          "betweenness": 0.0,
+          "pagerank": 0.00407608695652174
+        },
+        "μπαργουμάνα": {
+          "degree": 0,
+          "betweenness": 0.0,
+          "pagerank": 0.00407608695652174
+        },
+        "Εδιμβούργου": {
+          "degree": 4,
+          "betweenness": 0.0,
+          "pagerank": 0.017833029183453895
+        },
+        "ξαναχώρισε": {
+          "degree": 4,
+          "betweenness": 0.0,
+          "pagerank": 0.017833029183453895
+        },
+        "ξαναγαμώντας": {
+          "degree": 4,
+          "betweenness": 0.0,
+          "pagerank": 0.017833029183453895
+        },
+        "Βαλκάνια": {
+          "degree": 6,
+          "betweenness": 0.11400966183574879,
+          "pagerank": 0.03548749437905556
+        }
+      },
+      "visualizations": {
+        "analytics_plot": {
+          "data": [
+            {
+              "hovertemplate": "<b>%{y}</b><br>Connections: %{x}<extra></extra>",
+              "marker": {
+                "color": "#4ECDC4",
+                "line": {
+                  "color": "white",
+                  "width": 1
+                }
+              },
+              "orientation": "h",
+              "text": [
+                "11",
+                "6",
+                "6",
+                "6",
+                "6",
+                "5",
+                "4",
+                "4",
+                "4",
+                "4"
+              ],
+              "textposition": "auto",
+              "x": [
+                11,
+                6,
+                6,
+                6,
+                6,
+                5,
+                4,
+                4,
+                4,
+                4
+              ],
+              "y": [
+                "Ισούζου",
+                "Γιώργο",
+                "Νικολάκης",
+                "Νικολάκη",
+                "Βαλκάνια",
+                "Γιωργάκη",
+                "Γιώργος",
+                "επαρχίας",
+                "Κωστίκας",
+                "Κώστα"
+              ],
+              "type": "bar",
+              "xaxis": "x",
+              "yaxis": "y"
+            },
+            {
+              "hovertemplate": "<b>%{y}</b><br>PageRank: %{x:.4f}<extra></extra>",
+              "marker": {
+                "color": "#FF6B6B",
+                "line": {
+                  "color": "white",
+                  "width": 1
+                }
+              },
+              "orientation": "h",
+              "text": [
+                "0.0801",
+                "0.0739",
+                "0.0574",
+                "0.0472",
+                "0.0472",
+                "0.0357",
+                "0.0355",
+                "0.0321",
+                "0.0293",
+                "0.0272"
+              ],
+              "textposition": "auto",
+              "x": [
+                0.08007432826413229,
+                0.07390358879487319,
+                0.0573688840157588,
+                0.047236303261568066,
+                0.047236303261568066,
+                0.0356919901382421,
+                0.03548749437905556,
+                0.03208285149081214,
+                0.029281168602150732,
+                0.027173913043478267
+              ],
+              "y": [
+                "Ισούζου",
+                "Γιωργάκη",
+                "Γιωργάκης",
+                "Νικολάκης",
+                "Νικολάκη",
+                "Κώστα",
+                "Βαλκάνια",
+                "Γιώργο",
+                "Κώστας",
+                "Αφγανιστάν"
+              ],
+              "type": "bar",
+              "xaxis": "x2",
+              "yaxis": "y2"
+            },
+            {
+              "hole": 0.3,
+              "labels": [
+                "Community 0",
+                "Community 1",
+                "Community 2",
+                "Community 3",
+                "Community 4",
+                "Community 5",
+                "Community 6",
+                "Community 7",
+                "Community 8",
+                "Community 9",
+                "Community 10",
+                "Community 11",
+                "Community 12",
+                "Community 13",
+                "Community 14",
+                "Community 15",
+                "Community 16",
+                "Community 17",
+                "Community 18",
+                "Community 19",
+                "Community 20"
+              ],
+              "marker": {
+                "colors": [
+                  "#FF6B6B",
+                  "#4ECDC4",
+                  "#45B7D1",
+                  "#96CEB4",
+                  "#FFEAA7"
+                ]
+              },
+              "textinfo": "label+value",
+              "values": [
+                2,
+                1,
+                1,
+                1,
+                1,
+                1,
+                5,
+                9,
+                1,
+                1,
+                3,
+                1,
+                1,
+                2,
+                2,
+                2,
+                1,
+                8,
+                2,
+                1,
+                1
+              ],
+              "type": "pie",
+              "domain": {
+                "x": [
+                  0.0,
+                  0.44
+                ],
+                "y": [
+                  0.0,
+                  0.425
+                ]
+              }
+            },
+            {
+              "domain": {
+                "x": [
+                  0.56,
+                  1.0
+                ],
+                "y": [
+                  0.0,
+                  0.425
+                ]
+              },
+              "mode": "number",
+              "number": {
+                "font": {
+                  "color": "#2c3e50",
+                  "size": 48
+                }
+              },
+              "title": {
+                "text": "Total Entities<br><span style='font-size:0.7em'>Avg Connections: 2.3</span>"
+              },
+              "value": 47,
+              "type": "indicator"
+            }
+          ],
+          "layout": {
+            "template": {
+              "data": {
+                "histogram2dcontour": [
+                  {
+                    "type": "histogram2dcontour",
+                    "colorbar": {
+                      "outlinewidth": 0,
+                      "ticks": ""
+                    },
+                    "colorscale": [
+                      [
+                        0.0,
+                        "#0d0887"
+                      ],
+                      [
+                        0.1111111111111111,
+                        "#46039f"
+                      ],
+                      [
+                        0.2222222222222222,
+                        "#7201a8"
+                      ],
+                      [
+                        0.3333333333333333,
+                        "#9c179e"
+                      ],
+                      [
+                        0.4444444444444444,
+                        "#bd3786"
+                      ],
+                      [
+                        0.5555555555555556,
+                        "#d8576b"
+                      ],
+                      [
+                        0.6666666666666666,
+                        "#ed7953"
+                      ],
+                      [
+                        0.7777777777777778,
+                        "#fb9f3a"
+                      ],
+                      [
+                        0.8888888888888888,
+                        "#fdca26"
+                      ],
+                      [
+                        1.0,
+                        "#f0f921"
+                      ]
+                    ]
+                  }
+                ],
+                "choropleth": [
+                  {
+                    "type": "choropleth",
+                    "colorbar": {
+                      "outlinewidth": 0,
+                      "ticks": ""
+                    }
+                  }
+                ],
+                "histogram2d": [
+                  {
+                    "type": "histogram2d",
+                    "colorbar": {
+                      "outlinewidth": 0,
+                      "ticks": ""
+                    },
+                    "colorscale": [
+                      [
+                        0.0,
+                        "#0d0887"
+                      ],
+                      [
+                        0.1111111111111111,
+                        "#46039f"
+                      ],
+                      [
+                        0.2222222222222222,
+                        "#7201a8"
+                      ],
+                      [
+                        0.3333333333333333,
+                        "#9c179e"
+                      ],
+                      [
+                        0.4444444444444444,
+                        "#bd3786"
+                      ],
+                      [
+                        0.5555555555555556,
+                        "#d8576b"
+                      ],
+                      [
+                        0.6666666666666666,
+                        "#ed7953"
+                      ],
+                      [
+                        0.7777777777777778,
+                        "#fb9f3a"
+                      ],
+                      [
+                        0.8888888888888888,
+                        "#fdca26"
+                      ],
+                      [
+                        1.0,
+                        "#f0f921"
+                      ]
+                    ]
+                  }
+                ],
+                "heatmap": [
+                  {
+                    "type": "heatmap",
+                    "colorbar": {
+                      "outlinewidth": 0,
+                      "ticks": ""
+                    },
+                    "colorscale": [
+                      [
+                        0.0,
+                        "#0d0887"
+                      ],
+                      [
+                        0.1111111111111111,
+                        "#46039f"
+                      ],
+                      [
+                        0.2222222222222222,
+                        "#7201a8"
+                      ],
+                      [
+                        0.3333333333333333,
+                        "#9c179e"
+                      ],
+                      [
+                        0.4444444444444444,
+                        "#bd3786"
+                      ],
+                      [
+                        0.5555555555555556,
+                        "#d8576b"
+                      ],
+                      [
+                        0.6666666666666666,
+                        "#ed7953"
+                      ],
+                      [
+                        0.7777777777777778,
+                        "#fb9f3a"
+                      ],
+                      [
+                        0.8888888888888888,
+                        "#fdca26"
+                      ],
+                      [
+                        1.0,
+                        "#f0f921"
+                      ]
+                    ]
+                  }
+                ],
+                "heatmapgl": [
+                  {
+                    "type": "heatmapgl",
+                    "colorbar": {
+                      "outlinewidth": 0,
+                      "ticks": ""
+                    },
+                    "colorscale": [
+                      [
+                        0.0,
+                        "#0d0887"
+                      ],
+                      [
+                        0.1111111111111111,
+                        "#46039f"
+                      ],
+                      [
+                        0.2222222222222222,
+                        "#7201a8"
+                      ],
+                      [
+                        0.3333333333333333,
+                        "#9c179e"
+                      ],
+                      [
+                        0.4444444444444444,
+                        "#bd3786"
+                      ],
+                      [
+                        0.5555555555555556,
+                        "#d8576b"
+                      ],
+                      [
+                        0.6666666666666666,
+                        "#ed7953"
+                      ],
+                      [
+                        0.7777777777777778,
+                        "#fb9f3a"
+                      ],
+                      [
+                        0.8888888888888888,
+                        "#fdca26"
+                      ],
+                      [
+                        1.0,
+                        "#f0f921"
+                      ]
+                    ]
+                  }
+                ],
+                "contourcarpet": [
+                  {
+                    "type": "contourcarpet",
+                    "colorbar": {
+                      "outlinewidth": 0,
+                      "ticks": ""
+                    }
+                  }
+                ],
+                "contour": [
+                  {
+                    "type": "contour",
+                    "colorbar": {
+                      "outlinewidth": 0,
+                      "ticks": ""
+                    },
+                    "colorscale": [
+                      [
+                        0.0,
+                        "#0d0887"
+                      ],
+                      [
+                        0.1111111111111111,
+                        "#46039f"
+                      ],
+                      [
+                        0.2222222222222222,
+                        "#7201a8"
+                      ],
+                      [
+                        0.3333333333333333,
+                        "#9c179e"
+                      ],
+                      [
+                        0.4444444444444444,
+                        "#bd3786"
+                      ],
+                      [
+                        0.5555555555555556,
+                        "#d8576b"
+                      ],
+                      [
+                        0.6666666666666666,
+                        "#ed7953"
+                      ],
+                      [
+                        0.7777777777777778,
+                        "#fb9f3a"
+                      ],
+                      [
+                        0.8888888888888888,
+                        "#fdca26"
+                      ],
+                      [
+                        1.0,
+                        "#f0f921"
+                      ]
+                    ]
+                  }
+                ],
+                "surface": [
+                  {
+                    "type": "surface",
+                    "colorbar": {
+                      "outlinewidth": 0,
+                      "ticks": ""
+                    },
+                    "colorscale": [
+                      [
+                        0.0,
+                        "#0d0887"
+                      ],
+                      [
+                        0.1111111111111111,
+                        "#46039f"
+                      ],
+                      [
+                        0.2222222222222222,
+                        "#7201a8"
+                      ],
+                      [
+                        0.3333333333333333,
+                        "#9c179e"
+                      ],
+                      [
+                        0.4444444444444444,
+                        "#bd3786"
+                      ],
+                      [
+                        0.5555555555555556,
+                        "#d8576b"
+                      ],
+                      [
+                        0.6666666666666666,
+                        "#ed7953"
+                      ],
+                      [
+                        0.7777777777777778,
+                        "#fb9f3a"
+                      ],
+                      [
+                        0.8888888888888888,
+                        "#fdca26"
+                      ],
+                      [
+                        1.0,
+                        "#f0f921"
+                      ]
+                    ]
+                  }
+                ],
+                "mesh3d": [
+                  {
+                    "type": "mesh3d",
+                    "colorbar": {
+                      "outlinewidth": 0,
+                      "ticks": ""
+                    }
+                  }
+                ],
+                "scatter": [
+                  {
+                    "fillpattern": {
+                      "fillmode": "overlay",
+                      "size": 10,
+                      "solidity": 0.2
+                    },
+                    "type": "scatter"
+                  }
+                ],
+                "parcoords": [
+                  {
+                    "type": "parcoords",
+                    "line": {
+                      "colorbar": {
+                        "outlinewidth": 0,
+                        "ticks": ""
+                      }
+                    }
+                  }
+                ],
+                "scatterpolargl": [
+                  {
+                    "type": "scatterpolargl",
+                    "marker": {
+                      "colorbar": {
+                        "outlinewidth": 0,
+                        "ticks": ""
+                      }
+                    }
+                  }
+                ],
+                "bar": [
+                  {
+                    "error_x": {
+                      "color": "#2a3f5f"
+                    },
+                    "error_y": {
+                      "color": "#2a3f5f"
+                    },
+                    "marker": {
+                      "line": {
+                        "color": "#E5ECF6",
+                        "width": 0.5
+                      },
+                      "pattern": {
+                        "fillmode": "overlay",
+                        "size": 10,
+                        "solidity": 0.2
+                      }
+                    },
+                    "type": "bar"
+                  }
+                ],
+                "scattergeo": [
+                  {
+                    "type": "scattergeo",
+                    "marker": {
+                      "colorbar": {
+                        "outlinewidth": 0,
+                        "ticks": ""
+                      }
+                    }
+                  }
+                ],
+                "scatterpolar": [
+                  {
+                    "type": "scatterpolar",
+                    "marker": {
+                      "colorbar": {
+                        "outlinewidth": 0,
+                        "ticks": ""
+                      }
+                    }
+                  }
+                ],
+                "histogram": [
+                  {
+                    "marker": {
+                      "pattern": {
+                        "fillmode": "overlay",
+                        "size": 10,
+                        "solidity": 0.2
+                      }
+                    },
+                    "type": "histogram"
+                  }
+                ],
+                "scattergl": [
+                  {
+                    "type": "scattergl",
+                    "marker": {
+                      "colorbar": {
+                        "outlinewidth": 0,
+                        "ticks": ""
+                      }
+                    }
+                  }
+                ],
+                "scatter3d": [
+                  {
+                    "type": "scatter3d",
+                    "line": {
+                      "colorbar": {
+                        "outlinewidth": 0,
+                        "ticks": ""
+                      }
+                    },
+                    "marker": {
+                      "colorbar": {
+                        "outlinewidth": 0,
+                        "ticks": ""
+                      }
+                    }
+                  }
+                ],
+                "scattermapbox": [
+                  {
+                    "type": "scattermapbox",
+                    "marker": {
+                      "colorbar": {
+                        "outlinewidth": 0,
+                        "ticks": ""
+                      }
+                    }
+                  }
+                ],
+                "scatterternary": [
+                  {
+                    "type": "scatterternary",
+                    "marker": {
+                      "colorbar": {
+                        "outlinewidth": 0,
+                        "ticks": ""
+                      }
+                    }
+                  }
+                ],
+                "scattercarpet": [
+                  {
+                    "type": "scattercarpet",
+                    "marker": {
+                      "colorbar": {
+                        "outlinewidth": 0,
+                        "ticks": ""
+                      }
+                    }
+                  }
+                ],
+                "carpet": [
+                  {
+                    "aaxis": {
+                      "endlinecolor": "#2a3f5f",
+                      "gridcolor": "white",
+                      "linecolor": "white",
+                      "minorgridcolor": "white",
+                      "startlinecolor": "#2a3f5f"
+                    },
+                    "baxis": {
+                      "endlinecolor": "#2a3f5f",
+                      "gridcolor": "white",
+                      "linecolor": "white",
+                      "minorgridcolor": "white",
+                      "startlinecolor": "#2a3f5f"
+                    },
+                    "type": "carpet"
+                  }
+                ],
+                "table": [
+                  {
+                    "cells": {
+                      "fill": {
+                        "color": "#EBF0F8"
+                      },
+                      "line": {
+                        "color": "white"
+                      }
+                    },
+                    "header": {
+                      "fill": {
+                        "color": "#C8D4E3"
+                      },
+                      "line": {
+                        "color": "white"
+                      }
+                    },
+                    "type": "table"
+                  }
+                ],
+                "barpolar": [
+                  {
+                    "marker": {
+                      "line": {
+                        "color": "#E5ECF6",
+                        "width": 0.5
+                      },
+                      "pattern": {
+                        "fillmode": "overlay",
+                        "size": 10,
+                        "solidity": 0.2
+                      }
+                    },
+                    "type": "barpolar"
+                  }
+                ],
+                "pie": [
+                  {
+                    "automargin": true,
+                    "type": "pie"
+                  }
+                ]
+              },
+              "layout": {
+                "autotypenumbers": "strict",
+                "colorway": [
+                  "#636efa",
+                  "#EF553B",
+                  "#00cc96",
+                  "#ab63fa",
+                  "#FFA15A",
+                  "#19d3f3",
+                  "#FF6692",
+                  "#B6E880",
+                  "#FF97FF",
+                  "#FECB52"
+                ],
+                "font": {
+                  "color": "#2a3f5f"
+                },
+                "hovermode": "closest",
+                "hoverlabel": {
+                  "align": "left"
+                },
+                "paper_bgcolor": "white",
+                "plot_bgcolor": "#E5ECF6",
+                "polar": {
+                  "bgcolor": "#E5ECF6",
+                  "angularaxis": {
+                    "gridcolor": "white",
+                    "linecolor": "white",
+                    "ticks": ""
+                  },
+                  "radialaxis": {
+                    "gridcolor": "white",
+                    "linecolor": "white",
+                    "ticks": ""
+                  }
+                },
+                "ternary": {
+                  "bgcolor": "#E5ECF6",
+                  "aaxis": {
+                    "gridcolor": "white",
+                    "linecolor": "white",
+                    "ticks": ""
+                  },
+                  "baxis": {
+                    "gridcolor": "white",
+                    "linecolor": "white",
+                    "ticks": ""
+                  },
+                  "caxis": {
+                    "gridcolor": "white",
+                    "linecolor": "white",
+                    "ticks": ""
+                  }
+                },
+                "coloraxis": {
+                  "colorbar": {
+                    "outlinewidth": 0,
+                    "ticks": ""
+                  }
+                },
+                "colorscale": {
+                  "sequential": [
+                    [
+                      0.0,
+                      "#0d0887"
+                    ],
+                    [
+                      0.1111111111111111,
+                      "#46039f"
+                    ],
+                    [
+                      0.2222222222222222,
+                      "#7201a8"
+                    ],
+                    [
+                      0.3333333333333333,
+                      "#9c179e"
+                    ],
+                    [
+                      0.4444444444444444,
+                      "#bd3786"
+                    ],
+                    [
+                      0.5555555555555556,
+                      "#d8576b"
+                    ],
+                    [
+                      0.6666666666666666,
+                      "#ed7953"
+                    ],
+                    [
+                      0.7777777777777778,
+                      "#fb9f3a"
+                    ],
+                    [
+                      0.8888888888888888,
+                      "#fdca26"
+                    ],
+                    [
+                      1.0,
+                      "#f0f921"
+                    ]
+                  ],
+                  "sequentialminus": [
+                    [
+                      0.0,
+                      "#0d0887"
+                    ],
+                    [
+                      0.1111111111111111,
+                      "#46039f"
+                    ],
+                    [
+                      0.2222222222222222,
+                      "#7201a8"
+                    ],
+                    [
+                      0.3333333333333333,
+                      "#9c179e"
+                    ],
+                    [
+                      0.4444444444444444,
+                      "#bd3786"
+                    ],
+                    [
+                      0.5555555555555556,
+                      "#d8576b"
+                    ],
+                    [
+                      0.6666666666666666,
+                      "#ed7953"
+                    ],
+                    [
+                      0.7777777777777778,
+                      "#fb9f3a"
+                    ],
+                    [
+                      0.8888888888888888,
+                      "#fdca26"
+                    ],
+                    [
+                      1.0,
+                      "#f0f921"
+                    ]
+                  ],
+                  "diverging": [
+                    [
+                      0,
+                      "#8e0152"
+                    ],
+                    [
+                      0.1,
+                      "#c51b7d"
+                    ],
+                    [
+                      0.2,
+                      "#de77ae"
+                    ],
+                    [
+                      0.3,
+                      "#f1b6da"
+                    ],
+                    [
+                      0.4,
+                      "#fde0ef"
+                    ],
+                    [
+                      0.5,
+                      "#f7f7f7"
+                    ],
+                    [
+                      0.6,
+                      "#e6f5d0"
+                    ],
+                    [
+                      0.7,
+                      "#b8e186"
+                    ],
+                    [
+                      0.8,
+                      "#7fbc41"
+                    ],
+                    [
+                      0.9,
+                      "#4d9221"
+                    ],
+                    [
+                      1,
+                      "#276419"
+                    ]
+                  ]
+                },
+                "xaxis": {
+                  "gridcolor": "white",
+                  "linecolor": "white",
+                  "ticks": "",
+                  "title": {
+                    "standoff": 15
+                  },
+                  "zerolinecolor": "white",
+                  "automargin": true,
+                  "zerolinewidth": 2
+                },
+                "yaxis": {
+                  "gridcolor": "white",
+                  "linecolor": "white",
+                  "ticks": "",
+                  "title": {
+                    "standoff": 15
+                  },
+                  "zerolinecolor": "white",
+                  "automargin": true,
+                  "zerolinewidth": 2
+                },
+                "scene": {
+                  "xaxis": {
+                    "backgroundcolor": "#E5ECF6",
+                    "gridcolor": "white",
+                    "linecolor": "white",
+                    "showbackground": true,
+                    "ticks": "",
+                    "zerolinecolor": "white",
+                    "gridwidth": 2
+                  },
+                  "yaxis": {
+                    "backgroundcolor": "#E5ECF6",
+                    "gridcolor": "white",
+                    "linecolor": "white",
+                    "showbackground": true,
+                    "ticks": "",
+                    "zerolinecolor": "white",
+                    "gridwidth": 2
+                  },
+                  "zaxis": {
+                    "backgroundcolor": "#E5ECF6",
+                    "gridcolor": "white",
+                    "linecolor": "white",
+                    "showbackground": true,
+                    "ticks": "",
+                    "zerolinecolor": "white",
+                    "gridwidth": 2
+                  }
+                },
+                "shapedefaults": {
+                  "line": {
+                    "color": "#2a3f5f"
+                  }
+                },
+                "annotationdefaults": {
+                  "arrowcolor": "#2a3f5f",
+                  "arrowhead": 0,
+                  "arrowwidth": 1
+                },
+                "geo": {
+                  "bgcolor": "white",
+                  "landcolor": "#E5ECF6",
+                  "subunitcolor": "white",
+                  "showland": true,
+                  "showlakes": true,
+                  "lakecolor": "white"
+                },
+                "title": {
+                  "x": 0.05
+                },
+                "mapbox": {
+                  "style": "light"
+                }
+              }
+            },
+            "xaxis": {
+              "anchor": "y",
+              "domain": [
+                0.0,
+                0.44
+              ],
+              "title": {
+                "text": "Number of Connections"
+              }
+            },
+            "yaxis": {
+              "anchor": "x",
+              "domain": [
+                0.575,
+                1.0
+              ]
+            },
+            "xaxis2": {
+              "anchor": "y2",
+              "domain": [
+                0.56,
+                1.0
+              ],
+              "title": {
+                "text": "PageRank Score"
+              }
+            },
+            "yaxis2": {
+              "anchor": "x2",
+              "domain": [
+                0.575,
+                1.0
+              ]
+            },
+            "annotations": [
+              {
+                "font": {
+                  "size": 16
+                },
+                "showarrow": false,
+                "text": "Top Entities by Connections",
+                "x": 0.22,
+                "xanchor": "center",
+                "xref": "paper",
+                "y": 1.0,
+                "yanchor": "bottom",
+                "yref": "paper"
+              },
+              {
+                "font": {
+                  "size": 16
+                },
+                "showarrow": false,
+                "text": "Top Entities by PageRank",
+                "x": 0.78,
+                "xanchor": "center",
+                "xref": "paper",
+                "y": 1.0,
+                "yanchor": "bottom",
+                "yref": "paper"
+              },
+              {
+                "font": {
+                  "size": 16
+                },
+                "showarrow": false,
+                "text": "Community Distribution",
+                "x": 0.22,
+                "xanchor": "center",
+                "xref": "paper",
+                "y": 0.425,
+                "yanchor": "bottom",
+                "yref": "paper"
+              },
+              {
+                "font": {
+                  "size": 16
+                },
+                "showarrow": false,
+                "text": "Network Statistics",
+                "x": 0.78,
+                "xanchor": "center",
+                "xref": "paper",
+                "y": 0.425,
+                "yanchor": "bottom",
+                "yref": "paper"
+              }
+            ],
+            "font": {
+              "family": "Arial",
+              "size": 12,
+              "color": "#2c3e50"
+            },
+            "title": {
+              "font": {
+                "size": 20,
+                "color": "#2c3e50"
+              },
+              "text": "Network Analysis Dashboard",
+              "x": 0.5,
+              "xanchor": "center"
+            },
+            "margin": {
+              "l": 20,
+              "r": 20,
+              "t": 80,
+              "b": 20
+            },
+            "height": 800,
+            "showlegend": false,
+            "plot_bgcolor": "#f8f9fa",
+            "paper_bgcolor": "white"
+          }
+        },
+        "stats": {
+          "total_entities": 47,
+          "total_relationships": 53,
+          "num_communities": 21,
+          "avg_degree": 2.25531914893617,
+          "density": 0.04902867715078631
+        }
+      }
+    }
+  },
+  "stats": {
+    "total_documents": 1,
+    "total_entities": 0,
+    "num_communities": 21,
+    "avg_degree": 2.25531914893617
+  },
+  "analysis_id": "e334c352-5a24-4021-a507-52c3c2555f5a",
+  "analysis_type": "enhanced_network"
+}

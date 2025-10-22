@@ -1,0 +1,127 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script src="lib/bindings/utils.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+        
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 100%;
+                 height: 600px;
+                 background-color: #1a1a1a;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+
+             
+
+             
+        </style>
+    </head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"color": "#FF6B6B", "font": {"color": "white"}, "id": "Grice", "label": "Grice", "shape": "dot", "size": 10, "title": "Type: PERSON\u003cbr\u003eImportance: 0.016"}, {"color": "#FF6B6B", "font": {"color": "white"}, "id": "\u03a3\u03b5\u03c1 \u039a\u03cc\u03b4\u03c1\u03b9\u03b3\u03ba\u03c4\u03bf\u03bd", "label": "\u03a3\u03b5\u03c1 \u039a\u03cc\u03b4\u03c1\u03b9\u03b3\u03ba\u03c4\u03bf\u03bd", "shape": "dot", "size": 10, "title": "Type: PERSON\u003cbr\u003eImportance: 0.016"}, {"color": "#FF6B6B", "font": {"color": "white"}, "id": "\u039d\u03cc\u03b1\u03bc", "label": "\u039d\u03cc\u03b1\u03bc", "shape": "dot", "size": 10, "title": "Type: PERSON\u003cbr\u003eImportance: 0.017"}, {"color": "#FF6B6B", "font": {"color": "white"}, "id": "\u03a0\u03c5\u03c1\u03c3\u03bf\u03cd", "label": "\u03a0\u03c5\u03c1\u03c3\u03bf\u03cd", "shape": "dot", "size": 10, "title": "Type: PERSON\u003cbr\u003eImportance: 0.016"}, {"color": "#FF6B6B", "font": {"color": "white"}, "id": "\u0393\u03ba\u03c1\u03ac\u03b9\u03c2", "label": "\u0393\u03ba\u03c1\u03ac\u03b9\u03c2", "shape": "dot", "size": 10, "title": "Type: PERSON\u003cbr\u003eImportance: 0.016"}, {"color": "#96CEB4", "font": {"color": "white"}, "id": "\u0391\u03b8\u03b7\u03bd\u03ce\u03bd", "label": "\u0391\u03b8\u03b7\u03bd\u03ce\u03bd", "shape": "dot", "size": 10, "title": "Type: GPE\u003cbr\u003eImportance: 0.016"}, {"color": "#96CEB4", "font": {"color": "white"}, "id": "\u0392\u03c1\u03b5\u03c4\u03b1\u03bd\u03af\u03b1\u03c2", "label": "\u0392\u03c1\u03b5\u03c4\u03b1\u03bd\u03af\u03b1\u03c2", "shape": "dot", "size": 10, "title": "Type: GPE\u003cbr\u003eImportance: 0.016"}, {"color": "#96CEB4", "font": {"color": "white"}, "id": "\u0392\u03b1\u03bb\u03ba\u03b1\u03bd\u03af\u03c9\u03bd", "label": "\u0392\u03b1\u03bb\u03ba\u03b1\u03bd\u03af\u03c9\u03bd", "shape": "dot", "size": 10, "title": "Type: GPE\u003cbr\u003eImportance: 0.016"}, {"color": "#FF6B6B", "font": {"color": "white"}, "id": "\u0395\u03bb\u03cd\u03c4\u03b7", "label": "\u0395\u03bb\u03cd\u03c4\u03b7", "shape": "dot", "size": 10, "title": "Type: PERSON\u003cbr\u003eImportance: 0.016"}, {"color": "#FF6B6B", "font": {"color": "white"}, "id": "\u0391\u03ca\u03bd\u03c3\u03c4\u03ac\u03b9\u03bd", "label": "\u0391\u03ca\u03bd\u03c3\u03c4\u03ac\u03b9\u03bd", "shape": "dot", "size": 10, "title": "Type: PERSON\u003cbr\u003eImportance: 0.018"}, {"color": "#4ECDC4", "font": {"color": "white"}, "id": "\u0395\u0394\u0395\u0395", "label": "\u0395\u0394\u0395\u0395", "shape": "dot", "size": 10, "title": "Type: ORG\u003cbr\u003eImportance: 0.019"}, {"color": "#96CEB4", "font": {"color": "white"}, "id": "\u039a\u03b1\u03b2\u03ac\u03bb\u03b1\u03c2", "label": "\u039a\u03b1\u03b2\u03ac\u03bb\u03b1\u03c2", "shape": "dot", "size": 10, "title": "Type: GPE\u003cbr\u003eImportance: 0.020"}, {"color": "#96CEB4", "font": {"color": "white"}, "id": "\u039a\u03bf\u03c5\u03c4\u03c3\u03ac", "label": "\u039a\u03bf\u03c5\u03c4\u03c3\u03ac", "shape": "dot", "size": 10, "title": "Type: GPE\u003cbr\u003eImportance: 0.016"}, {"color": "#FF6B6B", "font": {"color": "white"}, "id": "\u039c\u03b7\u03c4\u03c3\u03bf\u03c4\u03ac\u03ba\u03b7", "label": "\u039c\u03b7\u03c4\u03c3\u03bf\u03c4\u03ac\u03ba\u03b7", "shape": "dot", "size": 10, "title": "Type: PERSON\u003cbr\u003eImportance: 0.016"}, {"color": "#FF6B6B", "font": {"color": "white"}, "id": "\u03a4\u03c3\u03af\u03c0\u03c1\u03b1", "label": "\u03a4\u03c3\u03af\u03c0\u03c1\u03b1", "shape": "dot", "size": 10, "title": "Type: PERSON\u003cbr\u003eImportance: 0.016"}, {"color": "#FF6B6B", "font": {"color": "white"}, "id": "\u03bb\u03cd\u03b3\u03b9\u03b6\u03b1", "label": "\u03bb\u03cd\u03b3\u03b9\u03b6\u03b1", "shape": "dot", "size": 10, "title": "Type: PERSON\u003cbr\u003eImportance: 0.016"}, {"color": "#96CEB4", "font": {"color": "white"}, "id": "\u039e\u03ac\u03bd\u03b8\u03b7", "label": "\u039e\u03ac\u03bd\u03b8\u03b7", "shape": "dot", "size": 10, "title": "Type: GPE\u003cbr\u003eImportance: 0.017"}, {"color": "#4ECDC4", "font": {"color": "white"}, "id": "\u0395\u039b\u039a\u0395 \u039a\u03b1\u03b2\u03ac\u03bb\u03b1\u03c2", "label": "\u0395\u039b\u039a\u0395 \u039a\u03b1\u03b2\u03ac\u03bb\u03b1\u03c2", "shape": "dot", "size": 10, "title": "Type: ORG\u003cbr\u003eImportance: 0.016"}, {"color": "#96CEB4", "font": {"color": "white"}, "id": "\u03b1\u03bd\u03b7\u03c6\u03cc\u03c1\u03b9\u03b6\u03b1", "label": "\u03b1\u03bd\u03b7\u03c6\u03cc\u03c1\u03b9\u03b6\u03b1", "shape": "dot", "size": 10, "title": "Type: GPE\u003cbr\u003eImportance: 0.016"}, {"color": "#96CEB4", "font": {"color": "white"}, "id": "\u03c0\u03b1\u03bd\u03b5\u03c0\u03b9\u03c3\u03c4\u03ae\u03bc\u03b9\u03bf", "label": "\u03c0\u03b1\u03bd\u03b5\u03c0\u03b9\u03c3\u03c4\u03ae\u03bc\u03b9\u03bf", "shape": "dot", "size": 10, "title": "Type: GPE\u003cbr\u003eImportance: 0.023"}, {"color": "#FF6B6B", "font": {"color": "white"}, "id": "\u03a0\u03b1\u03bd\u03b1\u03b3\u03b9\u03ce\u03c4\u03bf\u03c5", "label": "\u03a0\u03b1\u03bd\u03b1\u03b3\u03b9\u03ce\u03c4\u03bf\u03c5", "shape": "dot", "size": 10, "title": "Type: PERSON\u003cbr\u003eImportance: 0.021"}, {"color": "#4ECDC4", "font": {"color": "white"}, "id": "\u0394\u0395\u03a0", "label": "\u0394\u0395\u03a0", "shape": "dot", "size": 10, "title": "Type: ORG\u003cbr\u003eImportance: 0.019"}, {"color": "#4ECDC4", "font": {"color": "white"}, "id": "\u03a8\u0391\u0395", "label": "\u03a8\u0391\u0395", "shape": "dot", "size": 10, "title": "Type: ORG\u003cbr\u003eImportance: 0.019"}, {"color": "#4ECDC4", "font": {"color": "white"}, "id": "\u039a\u03b1\u03bb\u03ce\u03c2", "label": "\u039a\u03b1\u03bb\u03ce\u03c2", "shape": "dot", "size": 10, "title": "Type: ORG\u003cbr\u003eImportance: 0.019"}, {"color": "#96CEB4", "font": {"color": "white"}, "id": "\u0392\u03b1\u03b8\u03b5\u03af\u03b1\u03c2 \u039c\u03ac\u03b8\u03b7\u03c3\u03b7\u03c2", "label": "\u0392\u03b1\u03b8\u03b5\u03af\u03b1\u03c2 \u039c\u03ac\u03b8\u03b7\u03c3\u03b7\u03c2", "shape": "dot", "size": 10, "title": "Type: GPE\u003cbr\u003eImportance: 0.016"}, {"color": "#4ECDC4", "font": {"color": "white"}, "id": "\u03a6\u0395\u039a", "label": "\u03a6\u0395\u039a", "shape": "dot", "size": 10, "title": "Type: ORG\u003cbr\u003eImportance: 0.020"}, {"color": "#FF6B6B", "font": {"color": "white"}, "id": "\u039a. \u03a0\u03b1\u03bd\u03b1\u03b3\u03b9\u03ce\u03c4\u03bf\u03c5", "label": "\u039a. \u03a0\u03b1\u03bd\u03b1\u03b3\u03b9\u03ce\u03c4\u03bf\u03c5", "shape": "dot", "size": 10, "title": "Type: PERSON\u003cbr\u003eImportance: 0.016"}, {"color": "#FF6B6B", "font": {"color": "white"}, "id": "\u03a3\u03b1\u03c1\u03c4\u03b9\u03ba\u03af\u03b4\u03b7\u03c2", "label": "\u03a3\u03b1\u03c1\u03c4\u03b9\u03ba\u03af\u03b4\u03b7\u03c2", "shape": "dot", "size": 10, "title": "Type: PERSON\u003cbr\u003eImportance: 0.018"}, {"color": "#FF6B6B", "font": {"color": "white"}, "id": "\u039a\u03bf\u03cd\u03bb\u03bf\u03b3\u03bb\u03bf\u03c5", "label": "\u039a\u03bf\u03cd\u03bb\u03bf\u03b3\u03bb\u03bf\u03c5", "shape": "dot", "size": 10, "title": "Type: PERSON\u003cbr\u003eImportance: 0.016"}, {"color": "#FF6B6B", "font": {"color": "white"}, "id": "\u03a3\u03af\u03c3\u03ba\u03bf", "label": "\u03a3\u03af\u03c3\u03ba\u03bf", "shape": "dot", "size": 10, "title": "Type: PERSON\u003cbr\u003eImportance: 0.018"}, {"color": "#96CEB4", "font": {"color": "white"}, "id": "\u039a\u03b1\u03b2\u03ac\u03bb\u03b1", "label": "\u039a\u03b1\u03b2\u03ac\u03bb\u03b1", "shape": "dot", "size": 10, "title": "Type: GPE\u003cbr\u003eImportance: 0.018"}, {"color": "#FF6B6B", "font": {"color": "white"}, "id": "\u039a\u03bf\u03bc\u03c0\u03cc\u03c4\u03b7\u03c2", "label": "\u039a\u03bf\u03bc\u03c0\u03cc\u03c4\u03b7\u03c2", "shape": "dot", "size": 10, "title": "Type: PERSON\u003cbr\u003eImportance: 0.016"}, {"color": "#FF6B6B", "font": {"color": "white"}, "id": "\u03a4\u03b9\u03b9\u03b9\u03b9\u03b9\u03b9\u03b9\u03b9", "label": "\u03a4\u03b9\u03b9\u03b9\u03b9\u03b9\u03b9\u03b9\u03b9", "shape": "dot", "size": 10, "title": "Type: PERSON\u003cbr\u003eImportance: 0.016"}, {"color": "#96CEB4", "font": {"color": "white"}, "id": "\u03be\u03b5\u03c2", "label": "\u03be\u03b5\u03c2", "shape": "dot", "size": 10, "title": "Type: GPE\u003cbr\u003eImportance: 0.017"}, {"color": "#FF6B6B", "font": {"color": "white"}, "id": "\u039c\u03c0\u03ad\u03c3\u03b1", "label": "\u039c\u03c0\u03ad\u03c3\u03b1", "shape": "dot", "size": 10, "title": "Type: PERSON\u003cbr\u003eImportance: 0.016"}, {"color": "#96CEB4", "font": {"color": "white"}, "id": "\u0391\u03c6\u03b5\u03bb\u03ae", "label": "\u0391\u03c6\u03b5\u03bb\u03ae", "shape": "dot", "size": 10, "title": "Type: GPE\u003cbr\u003eImportance: 0.016"}, {"color": "#FF6B6B", "font": {"color": "white"}, "id": "\u03a4\u03bf\u03c5", "label": "\u03a4\u03bf\u03c5", "shape": "dot", "size": 10, "title": "Type: PERSON\u003cbr\u003eImportance: 0.040"}, {"color": "#FF6B6B", "font": {"color": "white"}, "id": "\u03a3\u03c4\u03b1\u03cd\u03c1\u03bf\u03c2 \u03a4\u03c3\u03b9\u03ce\u03bb\u03b7\u03c2", "label": "\u03a3\u03c4\u03b1\u03cd\u03c1\u03bf\u03c2 \u03a4\u03c3\u03b9\u03ce\u03bb\u03b7\u03c2", "shape": "dot", "size": 10, "title": "Type: PERSON\u003cbr\u003eImportance: 0.016"}, {"color": "#4ECDC4", "font": {"color": "white"}, "id": "\u03c0\u03b1\u03bd\u03b5\u03c0\u03b9\u03c3\u03c4\u03b7\u03bc\u03af\u03bf\u03c5,", "label": "\u03c0\u03b1\u03bd\u03b5\u03c0\u03b9\u03c3\u03c4\u03b7\u03bc\u03af\u03bf\u03c5,", "shape": "dot", "size": 10, "title": "Type: ORG\u003cbr\u003eImportance: 0.016"}, {"color": "#96CEB4", "font": {"color": "white"}, "id": "Webex", "label": "Webex", "shape": "dot", "size": 10, "title": "Type: GPE\u003cbr\u003eImportance: 0.016"}, {"color": "#FF6B6B", "font": {"color": "white"}, "id": "\u039c\u03b1\u03c1\u03af\u03b1", "label": "\u039c\u03b1\u03c1\u03af\u03b1", "shape": "dot", "size": 10, "title": "Type: PERSON\u003cbr\u003eImportance: 0.017"}, {"color": "#96CEB4", "font": {"color": "white"}, "id": "\u03a0\u03bf\u03bb\u03c5\u03c4\u03b5\u03c7\u03bd\u03b5\u03af\u03bf", "label": "\u03a0\u03bf\u03bb\u03c5\u03c4\u03b5\u03c7\u03bd\u03b5\u03af\u03bf", "shape": "dot", "size": 10, "title": "Type: GPE\u003cbr\u003eImportance: 0.016"}, {"color": "#FF6B6B", "font": {"color": "white"}, "id": "\u03a4\u03bf\u03cd\u03c1\u03b9\u03bd\u03b3\u03ba", "label": "\u03a4\u03bf\u03cd\u03c1\u03b9\u03bd\u03b3\u03ba", "shape": "dot", "size": 10, "title": "Type: PERSON\u003cbr\u003eImportance: 0.016"}, {"color": "#4ECDC4", "font": {"color": "white"}, "id": "\u03a0\u03b1\u03bd\u03b5\u03c0\u03b9\u03c3\u03c4\u03b7\u03bc\u03af\u03bf\u03c5.", "label": "\u03a0\u03b1\u03bd\u03b5\u03c0\u03b9\u03c3\u03c4\u03b7\u03bc\u03af\u03bf\u03c5.", "shape": "dot", "size": 10, "title": "Type: ORG\u003cbr\u003eImportance: 0.016"}, {"color": "#96CEB4", "font": {"color": "white"}, "id": "\u03a0\u03b1\u03bd\u03b5\u03c0\u03b9\u03c3\u03c4\u03ae\u03bc\u03b9\u03bf", "label": "\u03a0\u03b1\u03bd\u03b5\u03c0\u03b9\u03c3\u03c4\u03ae\u03bc\u03b9\u03bf", "shape": "dot", "size": 10, "title": "Type: GPE\u003cbr\u003eImportance: 0.023"}, {"color": "#FF6B6B", "font": {"color": "white"}, "id": "\u03bb\u03bf\u03b3\u03b9\u03ba\u03bf\u03bb\u03cc\u03b3\u03bf\u03c5\u03c2", "label": "\u03bb\u03bf\u03b3\u03b9\u03ba\u03bf\u03bb\u03cc\u03b3\u03bf\u03c5\u03c2", "shape": "dot", "size": 10, "title": "Type: PERSON\u003cbr\u003eImportance: 0.016"}, {"color": "#96CEB4", "font": {"color": "white"}, "id": "\u03a0\u03bf\u03bb\u03c9\u03bd\u03af\u03b1", "label": "\u03a0\u03bf\u03bb\u03c9\u03bd\u03af\u03b1", "shape": "dot", "size": 10, "title": "Type: GPE\u003cbr\u003eImportance: 0.016"}, {"color": "#FF6B6B", "font": {"color": "white"}, "id": "\u03a4\u03c3\u03bf\u03bc\u03c3\u03ba\u03b9\u03b1\u03bd\u03cc\u03c2", "label": "\u03a4\u03c3\u03bf\u03bc\u03c3\u03ba\u03b9\u03b1\u03bd\u03cc\u03c2", "shape": "dot", "size": 10, "title": "Type: PERSON\u003cbr\u003eImportance: 0.016"}, {"color": "#96CEB4", "font": {"color": "white"}, "id": "\u03a0\u03bf\u03bb\u03c9\u03bd\u03ae", "label": "\u03a0\u03bf\u03bb\u03c9\u03bd\u03ae", "shape": "dot", "size": 10, "title": "Type: GPE\u003cbr\u003eImportance: 0.016"}, {"color": "#96CEB4", "font": {"color": "white"}, "id": "\u0395\u03bb\u03bb\u03ac\u03b4\u03b1", "label": "\u0395\u03bb\u03bb\u03ac\u03b4\u03b1", "shape": "dot", "size": 10, "title": "Type: GPE\u003cbr\u003eImportance: 0.019"}, {"color": "#FF6B6B", "font": {"color": "white"}, "id": "\u039d\u03c4\u03b5\u03c1\u03b9\u03bd\u03c4\u03ac\u03b4\u03b5\u03c2", "label": "\u039d\u03c4\u03b5\u03c1\u03b9\u03bd\u03c4\u03ac\u03b4\u03b5\u03c2", "shape": "dot", "size": 10, "title": "Type: PERSON\u003cbr\u003eImportance: 0.017"}, {"color": "#FF6B6B", "font": {"color": "white"}, "id": "\u039c\u03b1\u03bb\u03ac\u03ba\u03b1\u03c2", "label": "\u039c\u03b1\u03bb\u03ac\u03ba\u03b1\u03c2", "shape": "dot", "size": 10, "title": "Type: PERSON\u003cbr\u003eImportance: 0.019"}, {"color": "#4ECDC4", "font": {"color": "white"}, "id": "\u039a\u03b1\u03c0\u03b9\u03c4\u03b1\u03bb\u03b9\u03c3\u03bc\u03cc\u03c2", "label": "\u039a\u03b1\u03c0\u03b9\u03c4\u03b1\u03bb\u03b9\u03c3\u03bc\u03cc\u03c2", "shape": "dot", "size": 10, "title": "Type: ORG\u003cbr\u003eImportance: 0.016"}, {"color": "#4ECDC4", "font": {"color": "white"}, "id": "ERA Chair", "label": "ERA Chair", "shape": "dot", "size": 10, "title": "Type: ORG\u003cbr\u003eImportance: 0.016"}, {"color": "#96CEB4", "font": {"color": "white"}, "id": "\u0395\u03c5\u03c1\u03ce\u03c0\u03b7", "label": "\u0395\u03c5\u03c1\u03ce\u03c0\u03b7", "shape": "dot", "size": 10, "title": "Type: GPE\u003cbr\u003eImportance: 0.016"}, {"color": "#FF6B6B", "font": {"color": "white"}, "id": "\u039b\u03bf\u03c5\u03ba\u03af\u03b1", "label": "\u039b\u03bf\u03c5\u03ba\u03af\u03b1", "shape": "dot", "size": 10, "title": "Type: PERSON\u003cbr\u003eImportance: 0.025"}, {"color": "#ffffff", "font": {"color": "white"}, "id": "L", "label": "L", "shape": "dot", "size": 10, "title": "Type: \u039e\u03ac\u03bd\u03b8\u03b7\u003cbr\u003eImportance: 0.016"}, {"color": "#ffffff", "font": {"color": "white"}, "id": "O", "label": "O", "shape": "dot", "size": 10, "title": "Type: \u039e\u03ac\u03bd\u03b8\u03b7\u003cbr\u003eImportance: 0.016"}, {"color": "#ffffff", "font": {"color": "white"}, "id": "C", "label": "C", "shape": "dot", "size": 10, "title": "Type: \u039e\u03ac\u03bd\u03b8\u03b7\u003cbr\u003eImportance: 0.016"}, {"color": "#ffffff", "font": {"color": "white"}, "id": "R", "label": "R", "shape": "dot", "size": 10, "title": "Type: \u0395\u0394\u0395\u0395\u003cbr\u003eImportance: 0.016"}, {"color": "#ffffff", "font": {"color": "white"}, "id": "G", "label": "G", "shape": "dot", "size": 10, "title": "Type: \u0395\u0394\u0395\u0395\u003cbr\u003eImportance: 0.016"}]);
+                  edges = new vis.DataSet([{"color": "#888888", "from": "\u039d\u03cc\u03b1\u03bc", "title": "located_in", "to": "\u03a0\u03c5\u03c1\u03c3\u03bf\u03cd"}, {"color": "#888888", "from": "\u039d\u03cc\u03b1\u03bc", "title": "located_in", "to": "\u0393\u03ba\u03c1\u03ac\u03b9\u03c2"}, {"color": "#888888", "from": "\u03a0\u03c5\u03c1\u03c3\u03bf\u03cd", "title": "located_in", "to": "\u0393\u03ba\u03c1\u03ac\u03b9\u03c2"}, {"color": "#888888", "from": "\u0391\u03b8\u03b7\u03bd\u03ce\u03bd", "title": "located_in", "to": "\u0392\u03c1\u03b5\u03c4\u03b1\u03bd\u03af\u03b1\u03c2"}, {"color": "#888888", "from": "\u0392\u03b1\u03bb\u03ba\u03b1\u03bd\u03af\u03c9\u03bd", "title": "located_in", "to": "\u0395\u03bb\u03cd\u03c4\u03b7"}, {"color": "#888888", "from": "\u039c\u03b7\u03c4\u03c3\u03bf\u03c4\u03ac\u03ba\u03b7", "title": "located_in", "to": "\u03a4\u03c3\u03af\u03c0\u03c1\u03b1"}, {"color": "#888888", "from": "\u03a0\u03b1\u03bd\u03b1\u03b3\u03b9\u03ce\u03c4\u03bf\u03c5", "title": "located_in", "to": "\u039a\u03bf\u03bc\u03c0\u03cc\u03c4\u03b7\u03c2"}, {"color": "#888888", "from": "\u03a0\u03b1\u03bd\u03b1\u03b3\u03b9\u03ce\u03c4\u03bf\u03c5", "title": "located_in", "to": "\u03a4\u03b9\u03b9\u03b9\u03b9\u03b9\u03b9\u03b9\u03b9"}, {"color": "#888888", "from": "\u039a\u03bf\u03bc\u03c0\u03cc\u03c4\u03b7\u03c2", "title": "located_in", "to": "\u03a4\u03b9\u03b9\u03b9\u03b9\u03b9\u03b9\u03b9\u03b9"}, {"color": "#888888", "from": "ERA Chair", "title": "located_in", "to": "\u0395\u03c5\u03c1\u03ce\u03c0\u03b7"}, {"color": "#cccccc", "from": "Grice", "title": "Co-occurrence\u003cbr\u003e\u039f \u03bc\u03b5\u03b3\u03ac\u03bb\u03bf\u03c2 \u03c0\u03c1\u03b1\u03b3\u03bc\u03b1\u03c4\u03bf\u03bb\u03cc\u03b3\u03bf\u03c2 Grice \u03ae\u03c4\u03b1\u03bd \u03bc\u03b5\u03b3\u03ac\u03bb\u03bf\u03c2 \u03b3\u03b9\u03b1 \u03c0\u03bf\u03bb...", "to": "\u03a3\u03b5\u03c1 \u039a\u03cc\u03b4\u03c1\u03b9\u03b3\u03ba\u03c4\u03bf\u03bd", "width": 1}, {"color": "#cccccc", "from": "\u03bb\u03cd\u03b3\u03b9\u03b6\u03b1", "title": "Co-occurrence\u003cbr\u003e\u0388\u03c7\u03b5\u03b9 \u03bc\u03cc\u03bd\u03bf \u03c0\u03c1\u03bf\u03bd\u03cc\u03bc\u03b9\u03bf, \u03bc\u03b9\u03ba\u03c1\u03bf\u03b1\u03c3\u03c4\u03b9\u03c3\u03bc\u03cc \u03ba\u03b1\u03b9 \u03bc\u03b1\u03bb\u03b1\u03ba\u03af\u03b1 \u03c3\u03c4\u03bf\u03bd ...", "to": "\u039e\u03ac\u03bd\u03b8\u03b7", "width": 1}, {"color": "#cccccc", "from": "\u03b1\u03bd\u03b7\u03c6\u03cc\u03c1\u03b9\u03b6\u03b1", "title": "Co-occurrence\u003cbr\u003e\u0395\u03b3\u03ce \u03b5\u03bd\u03c4\u03c9\u03bc\u03b5\u03c4\u03b1\u03be\u03cd \u03b5\u03af\u03c7\u03b1 \u03ae\u03b4\u03b7 \u03bc\u03c0\u03b5\u03b9 \u03c3\u03c4\u03bf \u03c4\u03b1\u03be\u03af \u03ba\u03b1\u03b9 \u03b1\u03bd\u03b7\u03c6\u03cc\u03c1\u03b9\u03b6...", "to": "\u03c0\u03b1\u03bd\u03b5\u03c0\u03b9\u03c3\u03c4\u03ae\u03bc\u03b9\u03bf", "width": 1}, {"color": "#cccccc", "from": "\u03a3\u03af\u03c3\u03ba\u03bf", "title": "Co-occurrence\u003cbr\u003e\u03a4\u03b5\u03bb\u03b9\u03ba\u03ac, \u03ad\u03bc\u03b1\u03b8\u03b1 \u03cc\u03c4\u03b9 \u03cc\u03bb\u03b1 \u03c4\u03b1 \u03c4\u03b7\u03bb\u03ad\u03c6\u03c9\u03bd\u03b1 \u03c0\u03bf\u03c5 \u03b5\u03b3\u03ba\u03b1\u03c4\u03ad\u03c3\u03c4\u03b7\u03c3\u03b5 ...", "to": "\u039a\u03b1\u03b2\u03ac\u03bb\u03b1", "width": 1}, {"color": "#cccccc", "from": "\u03a0\u03b1\u03bd\u03b1\u03b3\u03b9\u03ce\u03c4\u03bf\u03c5", "title": "Co-occurrence\u003cbr\u003e\u03b8\u03b5\u03c9\u03c1\u03b5\u03af\u03c4\u03b1\u03b9 \u03ba\u03b1\u03bb\u03cc \u03b2\u03b9\u03bf\u03b3\u03c1\u03b1\u03c6\u03b9\u03ba\u03cc \u03ba\u03b1\u03b9 \u03bc\u03b5 \u03b5\u03af\u03c0\u03b1\u03bd\u03b5 \u00ab\u03b1, \u03ba. \u03a0\u03b1\u03bd...", "to": "\u03a0\u03bf\u03bb\u03c5\u03c4\u03b5\u03c7\u03bd\u03b5\u03af\u03bf", "width": 1}, {"color": "#cccccc", "from": "\u03a0\u03b1\u03bd\u03b5\u03c0\u03b9\u03c3\u03c4\u03ae\u03bc\u03b9\u03bf", "title": "Co-occurrence\u003cbr\u003e\u039c\u03b9\u03b1 \u03b1\u03b3\u03b1\u03c0\u03b7\u03bc\u03ad\u03bd\u03b7 \u03c3\u03c5\u03bd\u03ac\u03b4\u03b5\u03bb\u03c6\u03bf\u03c2 \u03c0\u03bf\u03c5 \u03b5\u03af\u03c7\u03b5 \u03ba\u03b1\u03bb\u03cc record \u03c3\u03c4\u03bf ...", "to": "\u03a0\u03b1\u03bd\u03b5\u03c0\u03b9\u03c3\u03c4\u03ae\u03bc\u03b9\u03bf", "width": 1}, {"color": "#cccccc", "from": "\u03a0\u03bf\u03bb\u03c9\u03bd\u03af\u03b1", "title": "Co-occurrence\u003cbr\u003e\u039c\u03cc\u03bd\u03bf \u03b1\u03c5\u03c4\u03ae\u03bd \u03b7 \u03ba\u03c5\u03c1\u03af\u03b1 \u03b1\u03c0\u03cc \u03c4\u03b7\u03bd \u03a0\u03bf\u03bb\u03c9\u03bd\u03af\u03b1 \u03bc\u03bf\u03c5 \u03b5\u03af\u03c0\u03b5 \u03bd\u03b1 \u03bc\u03b7\u03bd...", "to": "\u03a4\u03c3\u03bf\u03bc\u03c3\u03ba\u03b9\u03b1\u03bd\u03cc\u03c2", "width": 1}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {"physics": {"enabled": true, "stabilization": {"iterations": 100}, "barnesHut": {"gravitationalConstant": -2000, "centralGravity": 0.3, "springLength": 95, "springConstant": 0.04, "damping": 0.09}}};
+
+                  
+
+
+                  
+
+                  network = new vis.Network(container, data, options);
+
+                  
+
+                  
+
+                  
+
+
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    </body>
+</html>

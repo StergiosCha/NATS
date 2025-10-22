@@ -1,0 +1,187 @@
+{
+  "entities": {
+    "vatsnies.txt": {
+      "entities": {
+        "Βαλκανίων": "GPE",
+        "Ελλάδα": "GPE",
+        "Βαλκάνια": "GPE",
+        "Αθήνας": "GPE",
+        "Γιώργο": "PERSON",
+        "Γιώργος": "PERSON",
+        "Κωστίκας": "PERSON",
+        "Αφγανιστάν": "GPE",
+        "Περσία": "GPE",
+        "Μαύρης Θάλασσας": "LOC",
+        "Γιωρίκας": "PERSON",
+        "Νεπέ": "LOC",
+        "Που": "ORG",
+        "Κώστα": "PERSON",
+        "Γιωργάκης": "PERSON",
+        "Γιωργάκη": "PERSON",
+        "Λάζος": "PERSON",
+        "μαστόρι": "PERSON",
+        "Κωστίκα": "PERSON",
+        "Κώστας": "PERSON",
+        "ντέσκτοπ": "PERSON",
+        "ιιιιιιιιι": "ORG",
+        "Μπραντ Πιτ": "PERSON",
+        "Δαμιανός": "PERSON",
+        "Ν. Λάρισας": "PERSON",
+        "νυχτούλα": "PERSON",
+        "συνεχίσανε": "GPE",
+        "Χαρτοπετσέτα": "PERSON",
+        "πέλφε δίλιτρη": "GPE",
+        "δίλιτρη Πέλφε": "ORG",
+        "Σάββας": "PERSON",
+        "Πανίκας": "PERSON",
+        "Παναγιώτης": "PERSON",
+        "IΣΟΥΖΟΥ": "ORG",
+        "Νικολάκης": "PERSON",
+        "Νότια Βαλκάνια": "GPE",
+        "Νικολάκη": "PERSON",
+        "MDMA": "ORG",
+        "Φοίνικας": "PERSON",
+        "διώρου": "PERSON",
+        "μπαργουμάνα": "PERSON",
+        "Εδιμβούργου": "GPE",
+        "ξαναγαμώντας": "ORG",
+        "P": "Μπραντ Πιτ",
+        "E": "Μπραντ Πιτ",
+        "R": "Μπραντ Πιτ",
+        "S": "Μπραντ Πιτ",
+        "O": "Μπραντ Πιτ",
+        "N": "Μπραντ Πιτ",
+        "L": "Θεσσαλονίκη",
+        "C": "Θεσσαλονίκη",
+        "G": "ΜΟΝΟ"
+      },
+      "entity_counts": {
+        "GPE": 11,
+        "PERSON": 75,
+        "LOC": 2,
+        "ORG": 6,
+        "Μπραντ Πιτ": 6,
+        "Θεσσαλονίκη": 2,
+        "ΜΟΝΟ": 1
+      },
+      "importance_scores": {
+        "Βαλκανίων": 0.019230769230769232,
+        "Ελλάδα": 0.021380782052888094,
+        "Βαλκάνια": 0.021272025376319663,
+        "Αθήνας": 0.019230769230769232,
+        "Γιώργο": 0.019230769230769232,
+        "Γιώργος": 0.020446329572199405,
+        "Κωστίκας": 0.019230769230769232,
+        "Αφγανιστάν": 0.019230769230769232,
+        "Περσία": 0.019230769230769232,
+        "Μαύρης Θάλασσας": 0.019230769230769232,
+        "Γιωρίκας": 0.019230769230769232,
+        "Νεπέ": 0.019230769230769232,
+        "Που": 0.06391287207717067,
+        "Κώστα": 0.019230769230769232,
+        "Γιωργάκης": 0.023820872863615058,
+        "Γιωργάκη": 0.021884236203640176,
+        "Λάζος": 0.019230769230769232,
+        "μαστόρι": 0.019230769230769232,
+        "Κωστίκα": 0.019230769230769232,
+        "Κώστας": 0.02165933310353679,
+        "ντέσκτοπ": 0.019230769230769232,
+        "ιιιιιιιιι": 0.019230769230769232,
+        "Μπραντ Πιτ": 0.019230769230769232,
+        "Δαμιανός": 0.019230769230769232,
+        "Ν. Λάρισας": 0.019230769230769232,
+        "νυχτούλα": 0.019230769230769232,
+        "συνεχίσανε": 0.019230769230769232,
+        "Χαρτοπετσέτα": 0.019230769230769232,
+        "πέλφε δίλιτρη": 0.019230769230769232,
+        "δίλιτρη Πέλφε": 0.019230769230769232,
+        "Σάββας": 0.023978450848481048,
+        "Πανίκας": 0.019230769230769232,
+        "Παναγιώτης": 0.019230769230769232,
+        "IΣΟΥΖΟΥ": 0.019230769230769232,
+        "Νικολάκης": 0.023724861506722136,
+        "Νότια Βαλκάνια": 0.019230769230769232,
+        "Νικολάκη": 0.02238832149703001,
+        "MDMA": 0.019230769230769232,
+        "Φοίνικας": 0.019230769230769232,
+        "διώρου": 0.019230769230769232,
+        "μπαργουμάνα": 0.019230769230769232,
+        "Εδιμβούργου": 0.019230769230769232,
+        "ξαναγαμώντας": 0.019230769230769232,
+        "P": 0.019230769230769232,
+        "E": 0.019230769230769232,
+        "R": 0.019230769230769232,
+        "S": 0.019230769230769232,
+        "O": 0.019230769230769232,
+        "N": 0.019230769230769232,
+        "L": 0.019230769230769232,
+        "C": 0.019230769230769232,
+        "G": 0.019230769230769232
+      },
+      "relationships": [
+        [
+          "ντέσκτοπ",
+          "ιιιιιιιιι",
+          "located_in"
+        ],
+        [
+          "Κώστας",
+          "Γιωργάκη",
+          "located_in"
+        ],
+        [
+          "Κώστα",
+          "Γιωργάκη",
+          "located_in"
+        ],
+        [
+          "Μπραντ Πιτ",
+          "Δαμιανός",
+          "located_in"
+        ],
+        [
+          "Νικολάκης",
+          "Νότια Βαλκάνια",
+          "located_in"
+        ],
+        [
+          "Νικολάκης",
+          "Νικολάκη",
+          "located_in"
+        ],
+        [
+          "Νότια Βαλκάνια",
+          "Νικολάκη",
+          "located_in"
+        ],
+        [
+          "διώρου",
+          "μπαργουμάνα",
+          "located_in"
+        ],
+        [
+          "Νικολάκη",
+          "Νικολάκη",
+          "located_in"
+        ]
+      ],
+      "network_path": "enhanced_network_2.html",
+      "visualizations": {
+        "entity_plot": "{\"data\":[{\"labels\":[\"GPE\",\"PERSON\",\"LOC\",\"ORG\",\"\\u039c\\u03c0\\u03c1\\u03b1\\u03bd\\u03c4 \\u03a0\\u03b9\\u03c4\",\"\\u0398\\u03b5\\u03c3\\u03c3\\u03b1\\u03bb\\u03bf\\u03bd\\u03af\\u03ba\\u03b7\",\"\\u039c\\u039f\\u039d\\u039f\"],\"name\":\"Entity Types\",\"values\":[10,25,2,6,6,2,1],\"type\":\"pie\",\"domain\":{\"x\":[0.0,0.45],\"y\":[0.625,1.0]}},{\"name\":\"Importance Score\",\"x\":[\"\\u03a0\\u03bf\\u03c5\",\"\\u03a3\\u03ac\\u03b2\\u03b2\\u03b1\\u03c2\",\"\\u0393\\u03b9\\u03c9\\u03c1\\u03b3\\u03ac\\u03ba\\u03b7\\u03c2\",\"\\u039d\\u03b9\\u03ba\\u03bf\\u03bb\\u03ac\\u03ba\\u03b7\\u03c2\",\"\\u039d\\u03b9\\u03ba\\u03bf\\u03bb\\u03ac\\u03ba\\u03b7\",\"\\u0393\\u03b9\\u03c9\\u03c1\\u03b3\\u03ac\\u03ba\\u03b7\",\"\\u039a\\u03ce\\u03c3\\u03c4\\u03b1\\u03c2\",\"\\u0395\\u03bb\\u03bb\\u03ac\\u03b4\\u03b1\",\"\\u0392\\u03b1\\u03bb\\u03ba\\u03ac\\u03bd\\u03b9\\u03b1\",\"\\u0393\\u03b9\\u03ce\\u03c1\\u03b3\\u03bf\\u03c2\"],\"y\":[0.06391287207717067,0.023978450848481048,0.023820872863615058,0.023724861506722136,0.02238832149703001,0.021884236203640176,0.02165933310353679,0.021380782052888094,0.021272025376319663,0.020446329572199405],\"type\":\"bar\",\"xaxis\":\"x\",\"yaxis\":\"y\"},{\"name\":\"Count\",\"x\":[\"GPE\",\"PERSON\",\"LOC\",\"ORG\",\"\\u039c\\u03c0\\u03c1\\u03b1\\u03bd\\u03c4 \\u03a0\\u03b9\\u03c4\",\"\\u0398\\u03b5\\u03c3\\u03c3\\u03b1\\u03bb\\u03bf\\u03bd\\u03af\\u03ba\\u03b7\",\"\\u039c\\u039f\\u039d\\u039f\"],\"y\":[10,25,2,6,6,2,1],\"type\":\"bar\",\"xaxis\":\"x2\",\"yaxis\":\"y2\"},{\"domain\":{\"x\":[0.55,1.0],\"y\":[0.0,0.375]},\"mode\":\"number+delta\",\"title\":{\"text\":\"Total Entities\"},\"value\":52,\"type\":\"indicator\"}],\"layout\":{\"template\":{\"data\":{\"histogram2dcontour\":[{\"type\":\"histogram2dcontour\",\"colorbar\":{\"outlinewidth\":0,\"ticks\":\"\"},\"colorscale\":[[0.0,\"#0d0887\"],[0.1111111111111111,\"#46039f\"],[0.2222222222222222,\"#7201a8\"],[0.3333333333333333,\"#9c179e\"],[0.4444444444444444,\"#bd3786\"],[0.5555555555555556,\"#d8576b\"],[0.6666666666666666,\"#ed7953\"],[0.7777777777777778,\"#fb9f3a\"],[0.8888888888888888,\"#fdca26\"],[1.0,\"#f0f921\"]]}],\"choropleth\":[{\"type\":\"choropleth\",\"colorbar\":{\"outlinewidth\":0,\"ticks\":\"\"}}],\"histogram2d\":[{\"type\":\"histogram2d\",\"colorbar\":{\"outlinewidth\":0,\"ticks\":\"\"},\"colorscale\":[[0.0,\"#0d0887\"],[0.1111111111111111,\"#46039f\"],[0.2222222222222222,\"#7201a8\"],[0.3333333333333333,\"#9c179e\"],[0.4444444444444444,\"#bd3786\"],[0.5555555555555556,\"#d8576b\"],[0.6666666666666666,\"#ed7953\"],[0.7777777777777778,\"#fb9f3a\"],[0.8888888888888888,\"#fdca26\"],[1.0,\"#f0f921\"]]}],\"heatmap\":[{\"type\":\"heatmap\",\"colorbar\":{\"outlinewidth\":0,\"ticks\":\"\"},\"colorscale\":[[0.0,\"#0d0887\"],[0.1111111111111111,\"#46039f\"],[0.2222222222222222,\"#7201a8\"],[0.3333333333333333,\"#9c179e\"],[0.4444444444444444,\"#bd3786\"],[0.5555555555555556,\"#d8576b\"],[0.6666666666666666,\"#ed7953\"],[0.7777777777777778,\"#fb9f3a\"],[0.8888888888888888,\"#fdca26\"],[1.0,\"#f0f921\"]]}],\"contourcarpet\":[{\"type\":\"contourcarpet\",\"colorbar\":{\"outlinewidth\":0,\"ticks\":\"\"}}],\"contour\":[{\"type\":\"contour\",\"colorbar\":{\"outlinewidth\":0,\"ticks\":\"\"},\"colorscale\":[[0.0,\"#0d0887\"],[0.1111111111111111,\"#46039f\"],[0.2222222222222222,\"#7201a8\"],[0.3333333333333333,\"#9c179e\"],[0.4444444444444444,\"#bd3786\"],[0.5555555555555556,\"#d8576b\"],[0.6666666666666666,\"#ed7953\"],[0.7777777777777778,\"#fb9f3a\"],[0.8888888888888888,\"#fdca26\"],[1.0,\"#f0f921\"]]}],\"surface\":[{\"type\":\"surface\",\"colorbar\":{\"outlinewidth\":0,\"ticks\":\"\"},\"colorscale\":[[0.0,\"#0d0887\"],[0.1111111111111111,\"#46039f\"],[0.2222222222222222,\"#7201a8\"],[0.3333333333333333,\"#9c179e\"],[0.4444444444444444,\"#bd3786\"],[0.5555555555555556,\"#d8576b\"],[0.6666666666666666,\"#ed7953\"],[0.7777777777777778,\"#fb9f3a\"],[0.8888888888888888,\"#fdca26\"],[1.0,\"#f0f921\"]]}],\"mesh3d\":[{\"type\":\"mesh3d\",\"colorbar\":{\"outlinewidth\":0,\"ticks\":\"\"}}],\"scatter\":[{\"fillpattern\":{\"fillmode\":\"overlay\",\"size\":10,\"solidity\":0.2},\"type\":\"scatter\"}],\"parcoords\":[{\"type\":\"parcoords\",\"line\":{\"colorbar\":{\"outlinewidth\":0,\"ticks\":\"\"}}}],\"scatterpolargl\":[{\"type\":\"scatterpolargl\",\"marker\":{\"colorbar\":{\"outlinewidth\":0,\"ticks\":\"\"}}}],\"bar\":[{\"error_x\":{\"color\":\"#2a3f5f\"},\"error_y\":{\"color\":\"#2a3f5f\"},\"marker\":{\"line\":{\"color\":\"#E5ECF6\",\"width\":0.5},\"pattern\":{\"fillmode\":\"overlay\",\"size\":10,\"solidity\":0.2}},\"type\":\"bar\"}],\"scattergeo\":[{\"type\":\"scattergeo\",\"marker\":{\"colorbar\":{\"outlinewidth\":0,\"ticks\":\"\"}}}],\"scatterpolar\":[{\"type\":\"scatterpolar\",\"marker\":{\"colorbar\":{\"outlinewidth\":0,\"ticks\":\"\"}}}],\"histogram\":[{\"marker\":{\"pattern\":{\"fillmode\":\"overlay\",\"size\":10,\"solidity\":0.2}},\"type\":\"histogram\"}],\"scattergl\":[{\"type\":\"scattergl\",\"marker\":{\"colorbar\":{\"outlinewidth\":0,\"ticks\":\"\"}}}],\"scatter3d\":[{\"type\":\"scatter3d\",\"line\":{\"colorbar\":{\"outlinewidth\":0,\"ticks\":\"\"}},\"marker\":{\"colorbar\":{\"outlinewidth\":0,\"ticks\":\"\"}}}],\"scattermap\":[{\"type\":\"scattermap\",\"marker\":{\"colorbar\":{\"outlinewidth\":0,\"ticks\":\"\"}}}],\"scattermapbox\":[{\"type\":\"scattermapbox\",\"marker\":{\"colorbar\":{\"outlinewidth\":0,\"ticks\":\"\"}}}],\"scatterternary\":[{\"type\":\"scatterternary\",\"marker\":{\"colorbar\":{\"outlinewidth\":0,\"ticks\":\"\"}}}],\"scattercarpet\":[{\"type\":\"scattercarpet\",\"marker\":{\"colorbar\":{\"outlinewidth\":0,\"ticks\":\"\"}}}],\"carpet\":[{\"aaxis\":{\"endlinecolor\":\"#2a3f5f\",\"gridcolor\":\"white\",\"linecolor\":\"white\",\"minorgridcolor\":\"white\",\"startlinecolor\":\"#2a3f5f\"},\"baxis\":{\"endlinecolor\":\"#2a3f5f\",\"gridcolor\":\"white\",\"linecolor\":\"white\",\"minorgridcolor\":\"white\",\"startlinecolor\":\"#2a3f5f\"},\"type\":\"carpet\"}],\"table\":[{\"cells\":{\"fill\":{\"color\":\"#EBF0F8\"},\"line\":{\"color\":\"white\"}},\"header\":{\"fill\":{\"color\":\"#C8D4E3\"},\"line\":{\"color\":\"white\"}},\"type\":\"table\"}],\"barpolar\":[{\"marker\":{\"line\":{\"color\":\"#E5ECF6\",\"width\":0.5},\"pattern\":{\"fillmode\":\"overlay\",\"size\":10,\"solidity\":0.2}},\"type\":\"barpolar\"}],\"pie\":[{\"automargin\":true,\"type\":\"pie\"}]},\"layout\":{\"autotypenumbers\":\"strict\",\"colorway\":[\"#636efa\",\"#EF553B\",\"#00cc96\",\"#ab63fa\",\"#FFA15A\",\"#19d3f3\",\"#FF6692\",\"#B6E880\",\"#FF97FF\",\"#FECB52\"],\"font\":{\"color\":\"#2a3f5f\"},\"hovermode\":\"closest\",\"hoverlabel\":{\"align\":\"left\"},\"paper_bgcolor\":\"white\",\"plot_bgcolor\":\"#E5ECF6\",\"polar\":{\"bgcolor\":\"#E5ECF6\",\"angularaxis\":{\"gridcolor\":\"white\",\"linecolor\":\"white\",\"ticks\":\"\"},\"radialaxis\":{\"gridcolor\":\"white\",\"linecolor\":\"white\",\"ticks\":\"\"}},\"ternary\":{\"bgcolor\":\"#E5ECF6\",\"aaxis\":{\"gridcolor\":\"white\",\"linecolor\":\"white\",\"ticks\":\"\"},\"baxis\":{\"gridcolor\":\"white\",\"linecolor\":\"white\",\"ticks\":\"\"},\"caxis\":{\"gridcolor\":\"white\",\"linecolor\":\"white\",\"ticks\":\"\"}},\"coloraxis\":{\"colorbar\":{\"outlinewidth\":0,\"ticks\":\"\"}},\"colorscale\":{\"sequential\":[[0.0,\"#0d0887\"],[0.1111111111111111,\"#46039f\"],[0.2222222222222222,\"#7201a8\"],[0.3333333333333333,\"#9c179e\"],[0.4444444444444444,\"#bd3786\"],[0.5555555555555556,\"#d8576b\"],[0.6666666666666666,\"#ed7953\"],[0.7777777777777778,\"#fb9f3a\"],[0.8888888888888888,\"#fdca26\"],[1.0,\"#f0f921\"]],\"sequentialminus\":[[0.0,\"#0d0887\"],[0.1111111111111111,\"#46039f\"],[0.2222222222222222,\"#7201a8\"],[0.3333333333333333,\"#9c179e\"],[0.4444444444444444,\"#bd3786\"],[0.5555555555555556,\"#d8576b\"],[0.6666666666666666,\"#ed7953\"],[0.7777777777777778,\"#fb9f3a\"],[0.8888888888888888,\"#fdca26\"],[1.0,\"#f0f921\"]],\"diverging\":[[0,\"#8e0152\"],[0.1,\"#c51b7d\"],[0.2,\"#de77ae\"],[0.3,\"#f1b6da\"],[0.4,\"#fde0ef\"],[0.5,\"#f7f7f7\"],[0.6,\"#e6f5d0\"],[0.7,\"#b8e186\"],[0.8,\"#7fbc41\"],[0.9,\"#4d9221\"],[1,\"#276419\"]]},\"xaxis\":{\"gridcolor\":\"white\",\"linecolor\":\"white\",\"ticks\":\"\",\"title\":{\"standoff\":15},\"zerolinecolor\":\"white\",\"automargin\":true,\"zerolinewidth\":2},\"yaxis\":{\"gridcolor\":\"white\",\"linecolor\":\"white\",\"ticks\":\"\",\"title\":{\"standoff\":15},\"zerolinecolor\":\"white\",\"automargin\":true,\"zerolinewidth\":2},\"scene\":{\"xaxis\":{\"backgroundcolor\":\"#E5ECF6\",\"gridcolor\":\"white\",\"linecolor\":\"white\",\"showbackground\":true,\"ticks\":\"\",\"zerolinecolor\":\"white\",\"gridwidth\":2},\"yaxis\":{\"backgroundcolor\":\"#E5ECF6\",\"gridcolor\":\"white\",\"linecolor\":\"white\",\"showbackground\":true,\"ticks\":\"\",\"zerolinecolor\":\"white\",\"gridwidth\":2},\"zaxis\":{\"backgroundcolor\":\"#E5ECF6\",\"gridcolor\":\"white\",\"linecolor\":\"white\",\"showbackground\":true,\"ticks\":\"\",\"zerolinecolor\":\"white\",\"gridwidth\":2}},\"shapedefaults\":{\"line\":{\"color\":\"#2a3f5f\"}},\"annotationdefaults\":{\"arrowcolor\":\"#2a3f5f\",\"arrowhead\":0,\"arrowwidth\":1},\"geo\":{\"bgcolor\":\"white\",\"landcolor\":\"#E5ECF6\",\"subunitcolor\":\"white\",\"showland\":true,\"showlakes\":true,\"lakecolor\":\"white\"},\"title\":{\"x\":0.05},\"mapbox\":{\"style\":\"light\"}}},\"xaxis\":{\"anchor\":\"y\",\"domain\":[0.55,1.0]},\"yaxis\":{\"anchor\":\"x\",\"domain\":[0.625,1.0]},\"xaxis2\":{\"anchor\":\"y2\",\"domain\":[0.0,0.45]},\"yaxis2\":{\"anchor\":\"x2\",\"domain\":[0.0,0.375]},\"annotations\":[{\"font\":{\"size\":16},\"showarrow\":false,\"text\":\"Entity Types\",\"x\":0.225,\"xanchor\":\"center\",\"xref\":\"paper\",\"y\":1.0,\"yanchor\":\"bottom\",\"yref\":\"paper\"},{\"font\":{\"size\":16},\"showarrow\":false,\"text\":\"Top Entities by Importance\",\"x\":0.775,\"xanchor\":\"center\",\"xref\":\"paper\",\"y\":1.0,\"yanchor\":\"bottom\",\"yref\":\"paper\"},{\"font\":{\"size\":16},\"showarrow\":false,\"text\":\"Entity Distribution\",\"x\":0.225,\"xanchor\":\"center\",\"xref\":\"paper\",\"y\":0.375,\"yanchor\":\"bottom\",\"yref\":\"paper\"},{\"font\":{\"size\":16},\"showarrow\":false,\"text\":\"Entity Network Stats\",\"x\":0.775,\"xanchor\":\"center\",\"xref\":\"paper\",\"y\":0.375,\"yanchor\":\"bottom\",\"yref\":\"paper\"}],\"title\":{\"text\":\"Entity Analysis Dashboard\"},\"height\":600}}",
+        "stats": {
+          "total_entities": 52,
+          "unique_types": 7,
+          "avg_importance": 0.020618469092190585
+        }
+      }
+    }
+  },
+  "stats": {
+    "total_documents": 1,
+    "total_entities": 52,
+    "num_communities": 0,
+    "avg_degree": 0
+  },
+  "analysis_id": "557c38c9-2dbb-44dc-83f7-8d4d5ee8382e",
+  "analysis_type": "enhanced_ner"
+}
