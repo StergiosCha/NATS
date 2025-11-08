@@ -1,147 +1,198 @@
-# wsgi.py 
-from flask import Flask, render_template, request, jsonify
-import os
-import spacy
-from pyvis.network import Network
-from gensim.models.doc2vec import Doc2Vec, TaggedDocument
-import numpy as np
-from sklearn.decomposition import PCA
-from sklearn.manifold import TSNE
-import plotly.express as px
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 
-app = Flask(__name__, template_folder='app/templates')
+from flask import Flask, request, jsonify, send_from_directory
+from flask_cors import CORS
+import os
+import uuid
+import json
+from werkzeug.utils import secure_filename
+
+# Import our enhanced analyzers
+from app.models.doc_embeddings import EnhancedDocEmbeddingAnalyzer
+from app.models.ner_analyzer import EnhancedNERAnalyzer
+from app.models.network_analyzer import EnhancedNetworkAnalyzer
+
+# Initialize Flask app
+app = Flask(__name__)
+CORS(app)
+
+# Initialize analyzers
+doc_analyzer = EnhancedDocEmbeddingAnalyzer()
+ner_analyzer = EnhancedNERAnalyzer()
+network_analyzer = EnhancedNetworkAnalyzer()
+
+# Configuration
+app.config['UPLOAD_FOLDER'] = 'uploads'
+app.config['RESULTS_FOLDER'] = 'results'
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
 
-# Load spaCy with minimal components
-nlp = spacy.load('el_core_news_md', disable=['tagger', 'parser', 'attribute_ruler', 'lemmatizer'])
-nlp.add_pipe('sentencizer')
+# Create directories
+os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
+os.makedirs(app.config['RESULTS_FOLDER'], exist_ok=True)
+os.makedirs('static/networks', exist_ok=True)
+
+@app.route('/test')
+def test_viz():
+    return send_from_directory('.', 'test_viz.html')
+
+@app.route('/simple')
+def simple_test():
+    return send_from_directory('.', 'simple_test.html')
 
 @app.route('/')
 def home():
-   return render_template('upload.html')
+    return send_from_directory('frontend/build', 'index.html')
 
-@app.route('/upload', methods=['POST'])
-def upload_files():
-   try:
-       if 'files' not in request.files:
-           return jsonify({'error': 'No files provided'}), 400
+@app.route('/static/<path:filename>')
+def serve_static(filename):
+    return send_from_directory('frontend/build/static', filename)
 
-       files = request.files.getlist('files')
-       analysis_type = request.form.get('analysis_type', 'NER')
+@app.route('/manifest.json')
+def serve_manifest():
+    return send_from_directory('frontend/build', 'manifest.json')
 
-       # Create static directory for NER
-       static_dir = os.path.join(app.root_path, 'static', 'networks')
-       os.makedirs(static_dir, exist_ok=True)
-       
-       if analysis_type == 'NER':
-           texts = {}
-           for file in files:
-               if file and file.filename:
-                   try:
-                       text = file.read().decode('utf-8')
-                       doc = nlp(text[:5000])
-                       
-                       net = Network(height='500px', width='100%', bgcolor='#222222', font_color='white')
-                       
-                       entities = {}
-                       for ent in doc.ents:
-                           if ent.label_ in ['PERSON', 'ORG', 'LOC', 'GPE', 'DATE']:
-                               entities[ent.text] = ent.label_
-                       
-                       for entity, type_ in entities.items():
-                           color = '#ffffff'
-                           if type_ == 'PERSON':
-                               color = '#ffff44'
-                           elif type_ == 'ORG':
-                               color = '#4444ff'
-                           elif type_ in ['LOC', 'GPE']:
-                               color = '#44ff44'
-                           elif type_ == 'DATE':
-                               color = '#ff44ff'
-                               
-                           net.add_node(entity, 
-                                      label=entity,
-                                      color=color,
-                                      title=f"Type: {type_}")
-                       
-                       for sent in doc.sents:
-                           sent_ents = [ent for ent in sent.ents if ent.text in entities]
-                           for i, ent1 in enumerate(sent_ents):
-                               for ent2 in sent_ents[i+1:]:
-                                   net.add_edge(ent1.text, ent2.text)
-                       
-                       # Save network file
-                       network_file = f'network_{len(texts)}.html'
-                       network_path = os.path.join(static_dir, network_file)
-                       net.save_graph(network_path)
-                       
-                       texts[file.filename] = {
-                           'network_path': f'networks/{network_file}'
-                       }
-                       
-                   except Exception as e:
-                       print(f"Error processing {file.filename}: {str(e)}")
-                       continue
-           
-           return render_template('results.html', 
-                               files=texts, 
-                               analysis_type='NER')
-       else:
-           # Doc2Vec processing
-           documents = []
-           filenames = []
-           reduction_type = request.form.get('reduction_type', 'pca')
-           
-           for file in files:
-               if file and file.filename:
-                   try:
-                       text = file.read().decode('utf-8')
-                       doc = nlp(text[:3000])  # Process smaller chunk
-                       tokens = [token.text for token in doc 
-                               if not token.is_punct and not token.is_space]
-                       
-                       if tokens:
-                           documents.append(TaggedDocument(words=tokens, tags=[file.filename]))
-                           filenames.append(file.filename)
-                   except Exception as e:
-                       print(f"Error processing {file.filename}: {str(e)}")
-                       continue
+@app.route('/favicon.ico')
+def serve_favicon():
+    return send_from_directory('frontend/build', 'favicon.ico')
 
-           if len(documents) < 2:
-               return jsonify({'error': 'Need at least 2 documents'}), 400
+@app.route('/api/health')
+def health_check():
+    return jsonify({'status': 'healthy', 'service': 'NATS'})
 
-           # Train Doc2Vec with minimal parameters
-           model = Doc2Vec(documents, vector_size=10, min_count=1, epochs=5, workers=1)
-           vectors = np.array([model.dv[fname] for fname in filenames])
+@app.route('/api/analyze', methods=['POST'])
+def analyze_files():
+    try:
+        if 'files' not in request.files:
+            return jsonify({'error': 'No files provided'}), 400
 
-           # Dimension reduction
-           if reduction_type == 'pca':
-               reducer = PCA(n_components=2)
-           else:
-               reducer = TSNE(n_components=2, perplexity=2)
-               
-           coords = reducer.fit_transform(vectors)
-           
-           fig = px.scatter(x=coords[:, 0], y=coords[:, 1], 
-                          text=filenames,
-                          title=f"Document Embeddings ({reduction_type.upper()})")
-           fig.update_traces(textposition='top center')
+        files = request.files.getlist('files')
+        analysis_type = request.form.get('analysis_type', 'enhanced_ner')
+        embedding_type = request.form.get('embedding_type', 'sentence_transformer')
+        reduction_method = request.form.get('reduction_method', 'pca')
 
-           texts = {
-               'all_docs': {
-                   'plot': fig.to_json(),
-                   'reduction_type': reduction_type
-               }
-           }
-                   
-           return render_template('results.html', 
-                               files=texts, 
-                               analysis_type='Doc2Vec',
-                               reduction_type=reduction_type)
-   
-   except Exception as e:
-       print(f"Upload error: {str(e)}")
-       return jsonify({'error': f'Upload failed: {str(e)}'}), 500
+        analysis_id = str(uuid.uuid4())
+        
+        texts = {}
+        for file in files:
+            if file and file.filename:
+                try:
+                    text = file.read().decode('utf-8')
+                    texts[secure_filename(file.filename)] = text
+                except Exception as e:
+                    print(f"Error processing {file.filename}: {str(e)}")
+                    continue
+        
+        if not texts:
+            return jsonify({'error': 'No valid text files uploaded'}), 400
+
+        results = {}
+        
+        if analysis_type == 'enhanced_ner' or analysis_type == 'comprehensive':
+            ner_results = {}
+            for filename, text in texts.items():
+                result = ner_analyzer.process_text(text, 'static/networks')
+                ner_results[filename] = result
+            results['entities'] = ner_results
+
+        if analysis_type == 'enhanced_embeddings' or analysis_type == 'comprehensive':
+            embeddings_result = doc_analyzer.create_comprehensive_visualization(
+                texts, embedding_type, reduction_method
+            )
+            # Flatten embeddings result to top level
+            if 'scatter_plot' in embeddings_result:
+                results['scatter_plot'] = embeddings_result['scatter_plot']
+            if 'features_chart' in embeddings_result:
+                results['features_chart'] = embeddings_result['features_chart']
+            if 'similarity_heatmap' in embeddings_result:
+                results['similarity_heatmap'] = embeddings_result['similarity_heatmap']
+            if 'clusters' in embeddings_result:
+                results['clusters'] = embeddings_result['clusters']
+            results['embeddings'] = embeddings_result
+
+        if analysis_type == 'enhanced_network' or analysis_type == 'comprehensive':
+            network_results = {}
+            for filename, text in texts.items():
+                result = network_analyzer.create_network(text, 'static/networks')
+                network_results[filename] = result
+            results['network'] = network_results
+
+        stats = {
+            'total_documents': len(texts),
+            'total_entities': sum(len(r.get('entities', {})) for r in results.get('entities', {}).values()),
+            'num_communities': len(set().union(*[r.get('communities', {}).values() for r in results.get('network', {}).values()])),
+            'avg_degree': 0
+        }
+        
+        if results.get('network'):
+            all_centrality = []
+            for r in results['network'].values():
+                if 'centrality' in r:
+                    all_centrality.extend([c['degree'] for c in r['centrality'].values()])
+            if all_centrality:
+                stats['avg_degree'] = sum(all_centrality) / len(all_centrality)
+
+        results['stats'] = stats
+        results['analysis_id'] = analysis_id
+        results['analysis_type'] = analysis_type
+
+        def convert_plotly_in_dict(d):
+            if isinstance(d, dict):
+                for key, value in d.items():
+                    if isinstance(value, dict) and 'type' in value and value['type'] == 'plotly':
+                        if 'data' in value and hasattr(value['data'], 'to_json'):
+                            value['data'] = json.loads(value['data'].to_json())
+                        if 'layout' in value and hasattr(value['layout'], 'to_json'):
+                            value['layout'] = json.loads(value['layout'].to_json())
+                    else:
+                        convert_plotly_in_dict(value)
+            elif isinstance(d, list):
+                for item in d:
+                    convert_plotly_in_dict(item)
+        
+        convert_plotly_in_dict(results)
+
+        results_path = os.path.join(app.config['RESULTS_FOLDER'], f'{analysis_id}.json')
+        with open(results_path, 'w', encoding='utf-8') as f:
+            json.dump(results, f, ensure_ascii=False, indent=2)
+
+        return jsonify({'analysis_id': analysis_id, 'results': results})
+
+    except Exception as e:
+        print(f"Analysis error: {str(e)}")
+        return jsonify({'error': f'Analysis failed: {str(e)}'}), 500
+
+
+@app.route('/api/results/<analysis_id>', methods=['GET'])
+def get_results(analysis_id):
+    try:
+        results_path = os.path.join(app.config['RESULTS_FOLDER'], f'{analysis_id}.json')
+        if not os.path.exists(results_path):
+            return jsonify({'error': 'Analysis not found'}), 404
+        
+        with open(results_path, 'r', encoding='utf-8') as f:
+            results = json.load(f)
+        
+        return jsonify(results)
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/api/download/<analysis_id>', methods=['GET'])
+def download_results(analysis_id):
+    try:
+        format_type = request.args.get('format', 'json')
+        results_path = os.path.join(app.config['RESULTS_FOLDER'], f'{analysis_id}.json')
+        
+        if not os.path.exists(results_path):
+            return jsonify({'error': 'Analysis not found'}), 404
+        
+        if format_type == 'json':
+            return send_from_directory(app.config['RESULTS_FOLDER'], f'{analysis_id}.json', as_attachment=True)
+        else:
+            return jsonify({'error': 'Only JSON format supported'}), 400
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
 
 if __name__ == '__main__':
-   app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 10000)))
+    app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 5000)))
+

@@ -1,4 +1,52 @@
+# Python
 __pycache__/
-*.pyc
+*.py[cod]
+*$py.class
+*.so
+.Python
 venv/
+env/
+ENV/
+*.egg-info/
+dist/
+build/
+
+# Flask
+instance/
+.webassets-cache
+
+# Environment
 .env
+.env.local
+
+# Test files
+test.txt
+long_doc.txt
+novel.txt
+short_story.txt
+
+# Results and uploads
+results/
+uploads/
+static/networks/*.html
+
+# Frontend
+frontend/node_modules/
+frontend/build/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Backup files
+*.bak
+*~
