@@ -65,7 +65,7 @@ class EnhancedNERAnalyzer:
     def __init__(self):
         """Initialize enhanced NER with better Greek language support"""
         try:
-            self.nlp = spacy.load('el_core_news_md')
+            self.nlp = spacy.load('el_core_news_sm')
         except OSError:
             print("Greek model not available, using English model")
             self.nlp = spacy.load('en_core_web_sm')

@@ -5,7 +5,7 @@ from typing import Dict, List, Optional
 
 class TextPreprocessor:
     def __init__(self):
-        self.nlp = spacy.load('el_core_news_md')  # Greek language model
+        self.nlp = spacy.load('el_core_news_sm')  # Greek language model
         self.texts = {}
         
     def load_text(self, file_path: str) -> Optional[str]:
