@@ -76,7 +76,7 @@ class EnhancedNetworkAnalyzer:
     def __init__(self):
         """Initialize enhanced network analyzer"""
         try:
-            self.nlp = spacy.load("el_core_news_sm", disable=['tok2vec', 'tagger', 'parser', 'attribute_ruler'])
+            self.nlp = spacy.load("el_core_news_md", disable=['tok2vec', 'tagger', 'parser', 'attribute_ruler'])
         except:
             self.nlp = spacy.load("en_core_web_sm", disable=['tok2vec', 'tagger', 'parser', 'attribute_ruler', 'lemmatizer'])
         

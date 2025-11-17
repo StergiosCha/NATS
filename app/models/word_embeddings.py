@@ -11,7 +11,7 @@ class WordEmbeddingsAnalyzer:
         self.window = window
         self.min_count = min_count
         self.epochs = epochs
-        self.nlp = spacy.load('el_core_news_sm', disable=['tagger', 'parser', 'attribute_ruler', 'lemmatizer'])
+        self.nlp = spacy.load('el_core_news_md', disable=['tagger', 'parser', 'attribute_ruler', 'lemmatizer'])
         self.dimension_reducer = DimensionReducer()
         
     def analyze_text(self, text: str) -> Dict[str, Any]:

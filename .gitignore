@@ -50,8 +50,3 @@ Thumbs.db
 # Backup files
 *.bak
 *~
-
-# Optimization backups
-*-original.txt
-*-original.py
-*.bak

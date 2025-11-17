@@ -10,6 +10,7 @@ try:
     UMAP_AVAILABLE = True
 except:
     UMAP_AVAILABLE = False
+    print("UMAP not available - using PCA/t-SNE only")
 import plotly.express as px
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
@@ -22,49 +23,23 @@ from collections import Counter
 
 try:
     import textstat
+    textstat.flesch_reading_ease("test")
     TEXTSTAT_AVAILABLE = True
-except:
+except (ImportError, Exception):
     TEXTSTAT_AVAILABLE = False
-
-# Global cache for lazy loading
-_MODEL_CACHE = {}
-
-def get_spacy_model():
-    """Lazy load spaCy model"""
-    if 'spacy' not in _MODEL_CACHE:
-        _MODEL_CACHE['spacy'] = spacy.load('el_core_news_sm', 
-                                           disable=['tagger', 'parser', 'attribute_ruler', 'lemmatizer'])
-        _MODEL_CACHE['spacy'].add_pipe('sentencizer')
-    return _MODEL_CACHE['spacy']
-
-def get_sentence_transformer():
-    """Lazy load sentence transformer"""
-    if 'sentence_transformer' not in _MODEL_CACHE:
-        try:
-            # Use smaller, multilingual model
-            _MODEL_CACHE['sentence_transformer'] = SentenceTransformer('paraphrase-multilingual-MiniLM-L12-v2')
-        except:
-            _MODEL_CACHE['sentence_transformer'] = SentenceTransformer('all-MiniLM-L6-v2')
-    return _MODEL_CACHE['sentence_transformer']
 
 class EnhancedDocEmbeddingAnalyzer:
     def __init__(self):
-        """Initialize with lazy loading"""
+        """Initialize with multiple embedding models and preprocessing tools"""
+        self.nlp = spacy.load('el_core_news_md', disable=['tagger', 'parser', 'attribute_ruler', 'lemmatizer'])
+        self.nlp.add_pipe('sentencizer')
+        
+        try:
+            self.sentence_model = SentenceTransformer('paraphrase-multilingual-MiniLM-L12-v2')
+        except:
+            self.sentence_model = SentenceTransformer('all-MiniLM-L6-v2')
+        
         self.vector_size = 100
-        self._nlp = None
-        self._sentence_model = None
-    
-    @property
-    def nlp(self):
-        if self._nlp is None:
-            self._nlp = get_spacy_model()
-        return self._nlp
-    
-    @property
-    def sentence_model(self):
-        if self._sentence_model is None:
-            self._sentence_model = get_sentence_transformer()
-        return self._sentence_model
     
     def preprocess_text(self, text: str) -> str:
         """Preprocess text for better embedding quality"""
@@ -105,15 +80,16 @@ class EnhancedDocEmbeddingAnalyzer:
         }
     
     def create_embeddings(self, texts: Dict[str, str]) -> Dict[str, np.ndarray]:
-        """Create sentence transformer embeddings"""
+        """Create sentence transformer embeddings - clean and simple"""
         embeddings = {}
         
         for filename, text in texts.items():
+            # Process full text, no artificial balancing
             sentences = [sent.text for sent in self.nlp(text).sents if len(sent.text.strip()) > 10]
             
             if sentences:
-                # Limit to 100 sentences for memory
-                embeddings_array = self.sentence_model.encode(sentences[:100], show_progress_bar=False)
+                # Use all sentences for accurate representation
+                embeddings_array = self.sentence_model.encode(sentences[:100])  # Cap at 100 sentences for memory
                 embeddings[filename] = np.mean(embeddings_array, axis=0)
         
         return embeddings
@@ -169,9 +145,11 @@ class EnhancedDocEmbeddingAnalyzer:
                                 clusters: np.ndarray, features: Dict[str, Dict]) -> go.Figure:
         """Create clean, interactive scatter plot"""
         
+        # Color palette for clusters
         colors = ['#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', '#FFEAA7', 
                  '#DDA0DD', '#98D8C8', '#F7DC6F', '#BB8FCE', '#85C1E9']
         
+        # Prepare hover data
         hover_text = []
         for fname in filenames:
             feat = features[fname]
@@ -182,8 +160,10 @@ class EnhancedDocEmbeddingAnalyzer:
             text += f"Lexical Diversity: {feat['lexical_diversity']:.2f}"
             hover_text.append(text)
         
+        # Create figure
         fig = go.Figure()
         
+        # Add scatter points by cluster for better legend
         unique_clusters = sorted(set(clusters))
         for cluster_id in unique_clusters:
             mask = clusters == cluster_id
@@ -244,13 +224,15 @@ class EnhancedDocEmbeddingAnalyzer:
     def create_features_chart(self, filenames: List[str], features: Dict[str, Dict]) -> go.Figure:
         """Create clean features comparison chart"""
         
+        # Prepare data
         word_counts = [features[f]['word_count'] for f in filenames]
         sentence_counts = [features[f]['sentence_count'] for f in filenames]
         readability = [features[f]['readability_score'] for f in filenames]
-        diversity = [features[f]['lexical_diversity'] * 100 for f in filenames]
+        diversity = [features[f]['lexical_diversity'] * 100 for f in filenames]  # Scale to 0-100
         
         fig = go.Figure()
         
+        # Add traces
         fig.add_trace(go.Bar(
             name='Words (÷100)',
             x=filenames,
@@ -318,9 +300,11 @@ class EnhancedDocEmbeddingAnalyzer:
     def create_similarity_heatmap(self, embedding_matrix: np.ndarray, filenames: List[str]) -> go.Figure:
         """Create clean similarity heatmap"""
         
+        # Calculate cosine similarity
         from sklearn.metrics.pairwise import cosine_similarity
         similarity_matrix = cosine_similarity(embedding_matrix)
         
+        # Create custom hover text
         hover_text = []
         for i, fname1 in enumerate(filenames):
             row = []
@@ -368,8 +352,10 @@ class EnhancedDocEmbeddingAnalyzer:
                                          reduction_method: str = 'pca') -> Dict[str, Any]:
         """Create comprehensive visualization with clean, separated plots"""
         
+        # Extract features
         features = {filename: self.extract_text_features(text) for filename, text in texts.items()}
         
+        # Create embeddings (simplified - no artificial balancing)
         embeddings = self.create_embeddings(texts)
         
         if not embeddings:
@@ -378,14 +364,18 @@ class EnhancedDocEmbeddingAnalyzer:
         filenames = list(embeddings.keys())
         embedding_matrix = np.array([embeddings[fname] for fname in filenames])
         
+        # Reduce dimensions
         coords = self.reduce_dimensions(embedding_matrix, reduction_method)
         
+        # Cluster documents
         clusters = self.cluster_embeddings(embedding_matrix)
         
+        # Create three separate, clean visualizations
         scatter_plot = self.create_main_scatter_plot(coords, filenames, clusters, features)
         features_chart = self.create_features_chart(filenames, features)
         similarity_heatmap = self.create_similarity_heatmap(embedding_matrix, filenames)
         
+        # Return as parsed dicts, not JSON strings
         return {
             'scatter_plot': json.loads(scatter_plot.to_json()),
             'features_chart': json.loads(features_chart.to_json()),
