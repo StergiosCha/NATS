@@ -7,6 +7,7 @@ import os
 import uuid
 import json
 from werkzeug.utils import secure_filename
+import argparse
 
 # Import our enhanced analyzers
 from app.models.doc_embeddings import EnhancedDocEmbeddingAnalyzer
@@ -14,7 +15,7 @@ from app.models.ner_analyzer import EnhancedNERAnalyzer
 from app.models.network_analyzer import EnhancedNetworkAnalyzer
 
 # Initialize Flask app
-app = Flask(__name__)
+app = Flask(__name__, static_url_path='/static')
 CORS(app)
 
 # Initialize analyzers
@@ -32,6 +33,8 @@ os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
 os.makedirs(app.config['RESULTS_FOLDER'], exist_ok=True)
 os.makedirs('static/networks', exist_ok=True)
 
+# --- ROUTES ---
+
 @app.route('/test')
 def test_viz():
     return send_from_directory('.', 'test_viz.html')
@@ -40,21 +43,17 @@ def test_viz():
 def simple_test():
     return send_from_directory('.', 'simple_test.html')
 
+# Explicitly serve network visualizations
+@app.route('/static/networks/<path:filename>')
+def serve_networks(filename):
+    # Use absolute path to ensure we find the file
+    network_dir = os.path.join(os.getcwd(), 'static', 'networks')
+    print(f"Serving network file: {filename} from {network_dir}") # Debug print
+    return send_from_directory(network_dir, filename)
+
 @app.route('/')
 def home():
-    return send_from_directory('frontend/build', 'index.html')
-
-@app.route('/static/<path:filename>')
-def serve_static(filename):
-    return send_from_directory('frontend/build/static', filename)
-
-@app.route('/manifest.json')
-def serve_manifest():
-    return send_from_directory('frontend/build', 'manifest.json')
-
-@app.route('/favicon.ico')
-def serve_favicon():
-    return send_from_directory('frontend/build', 'favicon.ico')
+    return 'NATS Backend is Running'
 
 @app.route('/api/health')
 def health_check():
@@ -114,6 +113,16 @@ def analyze_files():
             network_results = {}
             for filename, text in texts.items():
                 result = network_analyzer.create_network(text, 'static/networks')
+                
+                # --- FIX: Send FULL ABSOLUTE URL ---
+                if 'network_path' in result:
+                    fname = os.path.basename(result['network_path'])
+                    # Hardcoded to match our port 8052
+                    # IMPORTANT: This must match the port the server is running on
+                    result['network_path'] = f"http://localhost:8052/static/networks/{fname}"
+                    print(f"Generated network URL: {result['network_path']}") # Debug print
+                # -----------------------------------
+                
                 network_results[filename] = result
             results['network'] = network_results
 
@@ -194,5 +203,7 @@ def download_results(analysis_id):
         return jsonify({'error': str(e)}), 500
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 5000)))
-
+    # Hardcoded port 8052 as requested
+    PORT = 8052
+    print(f"Starting server on port {PORT}...")
+    app.run(host='0.0.0.0', port=PORT)
