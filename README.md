@@ -185,6 +185,28 @@ The project includes:
 - **Security**: Input validation and secure file handling
 - **Backup**: Result persistence and recovery
 
+## 📂 Project Structure & Branches
+
+This repository maintains two primary branches:
+
+*   **`main`**: The stable, fully-featured version for local development. Uses standard models and full memory resources.
+*   **`render-optimized`**: A lightweight version optimized for Render.com's Free Tier (512MB RAM). Features lazy loading and smaller AI models.
+
+**To switch between versions:**
+
+```bash
+# Switch to optimized version
+git checkout render-optimized
+
+# Switch back to stable local version
+git checkout main
+```
+
+*   `app/`: Main backend application code.
+*   `frontend/`: React frontend application.
+*   `wsgi.py`: Entry point for the Flask application.
+*   `run_app.sh`: Helper script to set up the environment and run the backend.
+
 ## Troubleshooting
 
 ### Common Issues
