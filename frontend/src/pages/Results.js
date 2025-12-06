@@ -19,14 +19,14 @@ const ResultsPage = () => {
       setLoading(false);
       return;
     }
-    
+
     fetchResults();
   }, [analysisId]);
 
   const fetchResults = async () => {
     setLoading(true);
     setError(null);
-    
+
     try {
       const data = await apiClient.getResults(analysisId);
       setResults(data);
@@ -43,7 +43,7 @@ const ResultsPage = () => {
   const downloadResults = async (format = 'json') => {
     try {
       const blob = await apiClient.downloadResults(analysisId, format);
-      
+
       const url = window.URL.createObjectURL(blob);
       const link = document.createElement('a');
       link.href = url;
@@ -52,7 +52,7 @@ const ResultsPage = () => {
       link.click();
       link.remove();
       window.URL.revokeObjectURL(url);
-      
+
       toast.success(`Results downloaded as ${format.toUpperCase()}`);
     } catch (error) {
       toast.error('Failed to download results');
@@ -122,7 +122,7 @@ const ResultsPage = () => {
           <h1 className="text-3xl font-bold text-gray-900">Analysis Results</h1>
           <p className="text-gray-600">Analysis ID: {analysisId}</p>
         </div>
-        
+
         <div className="flex items-center gap-3">
           <button
             onClick={() => downloadResults('json')}
@@ -150,11 +150,10 @@ const ResultsPage = () => {
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`flex items-center py-2 px-1 border-b-2 font-medium text-sm transition-colors ${
-                  activeTab === tab.id
-                    ? 'border-blue-500 text-blue-600'
-                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-                }`}
+                className={`flex items-center py-2 px-1 border-b-2 font-medium text-sm transition-colors ${activeTab === tab.id
+                  ? 'border-blue-500 text-blue-600'
+                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                  }`}
               >
                 <Icon className="w-4 h-4 mr-2" />
                 {tab.label}
@@ -174,21 +173,21 @@ const ResultsPage = () => {
               </div>
               <div className="text-sm text-gray-600">Documents Analyzed</div>
             </div>
-            
+
             <div className="card text-center">
               <div className="text-2xl font-bold text-green-600 mb-2">
                 {results?.stats?.total_entities || 0}
               </div>
               <div className="text-sm text-gray-600">Entities Found</div>
             </div>
-            
+
             <div className="card text-center">
               <div className="text-2xl font-bold text-purple-600 mb-2">
                 {results?.stats?.num_communities || 0}
               </div>
               <div className="text-sm text-gray-600">Communities</div>
             </div>
-            
+
             <div className="card text-center">
               <div className="text-2xl font-bold text-orange-600 mb-2">
                 {results?.stats?.avg_degree?.toFixed(2) || '0.00'}
@@ -211,7 +210,7 @@ const ResultsPage = () => {
                       autosize: true,
                       margin: { l: 60, r: 180, t: 80, b: 60 }
                     }}
-                    config={{ 
+                    config={{
                       responsive: true,
                       displayModeBar: true,
                       displaylogo: false,
@@ -262,7 +261,7 @@ const ResultsPage = () => {
                 </div>
               </div>
             )}
-            
+
             {results?.clusters && (
               <div className="card">
                 <h3 className="text-lg font-semibold mb-4">Document Clusters</h3>
@@ -286,20 +285,22 @@ const ResultsPage = () => {
             {results?.entities && Object.entries(results.entities).map(([filename, entityData]) => (
               <div key={filename}>
                 <h2 className="text-2xl font-bold mb-4">{filename}</h2>
-                
+
                 {entityData.network_path && (
                   <div className="card mb-6">
                     <h3 className="text-lg font-semibold mb-4">Entity Network</h3>
                     <div className="h-[700px]">
                       <iframe
-                        src={`http://localhost:5001/static/networks/${entityData.network_path}`}
+                        src={entityData.network_path.startsWith('http')
+                          ? entityData.network_path
+                          : `${process.env.REACT_APP_API_URL || 'http://localhost:8052'}/static/networks/${entityData.network_path}`}
                         className="w-full h-full border-0 rounded-lg"
                         title={`Entity Network ${filename}`}
                       />
                     </div>
                   </div>
                 )}
-                
+
                 {entityData.visualizations?.analytics_plot && (
                   <div className="card mb-6">
                     <h3 className="text-lg font-semibold mb-4">Entity Analysis Dashboard</h3>
@@ -317,14 +318,14 @@ const ResultsPage = () => {
                     </div>
                   </div>
                 )}
-                
+
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                   {entityData.entity_counts && (
                     <div className="card">
                       <h4 className="font-semibold mb-3">Entity Types</h4>
                       <div className="space-y-2 max-h-96 overflow-y-auto">
                         {Object.entries(entityData.entity_counts)
-                          .sort(([,a], [,b]) => b - a)
+                          .sort(([, a], [, b]) => b - a)
                           .map(([type, count]) => (
                             <div key={type} className="flex justify-between items-center">
                               <span className="text-sm font-medium">{type}</span>
@@ -334,13 +335,13 @@ const ResultsPage = () => {
                       </div>
                     </div>
                   )}
-                  
+
                   {entityData.importance_scores && (
                     <div className="card">
                       <h4 className="font-semibold mb-3">Top Entities by Importance</h4>
                       <div className="space-y-2 max-h-96 overflow-y-auto">
                         {Object.entries(entityData.importance_scores)
-                          .sort(([,a], [,b]) => b - a)
+                          .sort(([, a], [, b]) => b - a)
                           .slice(0, 15)
                           .map(([entity, score]) => (
                             <div key={entity} className="flex justify-between items-center">
@@ -385,13 +386,15 @@ const ResultsPage = () => {
             {results?.network && Object.entries(results.network).map(([filename, networkData]) => (
               <div key={filename}>
                 <h2 className="text-2xl font-bold mb-6">{filename}</h2>
-                
+
                 {networkData.network_path && (
                   <div className="card mb-6">
                     <h3 className="text-lg font-semibold mb-4">Network Graph</h3>
                     <div className="h-[800px]">
                       <iframe
-                        src={`http://localhost:5001/static/networks/${networkData.network_path}`}
+                        src={networkData.network_path.startsWith('http')
+                          ? networkData.network_path
+                          : `${process.env.REACT_APP_API_URL || 'http://localhost:8052'}/static/networks/${networkData.network_path}`}
                         className="w-full h-full border-0 rounded-lg"
                         title={`Network ${filename}`}
                       />
@@ -466,6 +469,9 @@ const ResultsPage = () => {
 };
 
 export default ResultsPage;
+
+
+
 
 
 

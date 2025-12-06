@@ -2,8 +2,8 @@ import axios from 'axios';
 
 // Create axios instance with base configuration
 const API = axios.create({
-  baseURL: process.env.REACT_APP_API_URL || 'http://localhost:5000',
-  timeout: 120000, // 2 minutes for large file processing
+  baseURL: process.env.REACT_APP_API_URL || 'http://localhost:8052',
+  timeout: 300000, // 5 minutes for large file processing
   headers: {
     'Content-Type': 'application/json',
   },
@@ -37,7 +37,7 @@ API.interceptors.response.use(
     if (error.response) {
       // Server responded with error status
       const { status, data } = error.response;
-      
+
       switch (status) {
         case 400:
           console.error('[API Error 400] Bad Request:', data.error || data.message);
@@ -58,7 +58,7 @@ API.interceptors.response.use(
       // Something else happened
       console.error('[API Error]', error.message);
     }
-    
+
     return Promise.reject(error);
   }
 );
@@ -83,19 +83,19 @@ const apiClient = {
   // Get analysis results with retry
   getResults: async (analysisId, retries = 3) => {
     let lastError;
-    
+
     for (let i = 0; i < retries; i++) {
       try {
         const response = await API.get(`/api/results/${analysisId}`);
         return response.data;
       } catch (error) {
         lastError = error;
-        
+
         // Don't retry on 404 or 400 errors
         if (error.response && [400, 404].includes(error.response.status)) {
           throw error;
         }
-        
+
         // Wait before retrying (exponential backoff)
         if (i < retries - 1) {
           const delay = Math.min(1000 * Math.pow(2, i), 5000);
@@ -103,7 +103,7 @@ const apiClient = {
         }
       }
     }
-    
+
     throw lastError;
   },
 

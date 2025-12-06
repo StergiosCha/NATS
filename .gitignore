@@ -2,51 +2,31 @@
 __pycache__/
 *.py[cod]
 *$py.class
-*.so
-.Python
 venv/
-env/
-ENV/
-*.egg-info/
+venv_311/
+.env
+
+# Distribution / packaging
 dist/
 build/
+*.egg-info/
 
-# Flask
-instance/
-.webassets-cache
-
-# Environment
-.env
-.env.local
-
-# Test files
-test.txt
-long_doc.txt
-novel.txt
-short_story.txt
-
-# Results and uploads
-results/
-uploads/
-static/networks/*.html
+# Jupyter Notebook
+.ipynb_checkpoints
 
 # Frontend
 frontend/node_modules/
 frontend/build/
+frontend/.env
+frontend/.DS_Store
 
-# IDE
-.vscode/
-.idea/
-*.swp
-*.swo
+# User data
+uploads/
+results/
+static/networks/
 
-# OS
+# System
 .DS_Store
-Thumbs.db
-
-# Logs
-*.log
-
-# Backup files
-*.bak
-*~
+.idea/
+.vscode/
+*.swp

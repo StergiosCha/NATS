@@ -75,7 +75,12 @@ def find_similar_entity(new_entity, existing_entities, entity_type, threshold=0.
 class EnhancedNetworkAnalyzer:
     def __init__(self):
         """Initialize enhanced network analyzer"""
-        self._nlp = None
+        try:
+            self.nlp = spacy.load("el_core_news_md", disable=['tok2vec', 'tagger', 'parser', 'attribute_ruler'])
+        except:
+            self.nlp = spacy.load("en_core_web_sm", disable=['tok2vec', 'tagger', 'parser', 'attribute_ruler', 'lemmatizer'])
+        
+        self.nlp.add_pipe('sentencizer')
         
         self.entity_colors = {
             'PERSON': '#FF6B6B',
@@ -84,21 +89,11 @@ class EnhancedNetworkAnalyzer:
             'GPE': '#96CEB4',
             'MISC': '#FCF3CF'
         }
-
-    def get_nlp(self):
-        if self._nlp is None:
-            print("Loading Spacy model for Network Analyzer...")
-            try:
-                self._nlp = spacy.load("el_core_news_md", disable=['tok2vec', 'tagger', 'parser', 'attribute_ruler'])
-            except:
-                self._nlp = spacy.load("en_core_web_sm", disable=['tok2vec', 'tagger', 'parser', 'attribute_ruler', 'lemmatizer'])
-            self._nlp.add_pipe('sentencizer')
-        return self._nlp
     
     def process_text_in_chunks(self, text: str, chunk_size: int = 50000):
         """Process long text in chunks to avoid memory/timeout issues"""
         if len(text) <= chunk_size:
-            return self.get_nlp()(text)
+            return self.nlp(text)
         
         print(f"Processing text in chunks: {len(text):,} chars, chunk size: {chunk_size:,}", flush=True)
         
@@ -135,7 +130,7 @@ class EnhancedNetworkAnalyzer:
         
         for i, chunk in enumerate(chunks):
             print(f"Processing chunk {i+1}/{len(chunks)}...", flush=True)
-            chunk_doc = self.get_nlp()(chunk)
+            chunk_doc = self.nlp(chunk)
             all_ents.extend(chunk_doc.ents)
             all_sents.extend(chunk_doc.sents)
         
@@ -155,7 +150,7 @@ class EnhancedNetworkAnalyzer:
         if len(text) > 50000:
             doc = self.process_text_in_chunks(text, chunk_size=50000)
         else:
-            doc = self.get_nlp()(text)
+            doc = self.nlp(text)
         
         entities = {}
         entity_sentences = defaultdict(list)
